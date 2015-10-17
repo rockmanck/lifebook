@@ -1,14 +1,14 @@
 <component name="ArtifactManager">
-  <artifact type="war" name="Gradle : LifeBook:life-book : life-book-1.0.war">
-    <output-path>$PROJECT_DIR$/out/artifacts/life-book</output-path>
+  <artifact type="war" name="Gradle : LifeBook:lifebook : lifebook-1.0.war">
+    <output-path>$PROJECT_DIR$/build/classes/artifacts/lifebook</output-path>
     <properties id="gradle-properties">
       <options external-project-path="$PROJECT_DIR$" />
     </properties>
-    <root id="archive" name="life-book-1.0.war">
-      <element id="javaee-facet-resources" facet="life-book/web/Web Gradle : life-book-1.0.war" />
+    <root id="archive" name="lifebook-1.0.war">
+      <element id="javaee-facet-resources" facet="lifebook/web/Web Gradle : lifebook-1.0.war" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="life-book" />
+          <element id="module-output" name="lifebook" />
           <element id="dir-copy" path="$PROJECT_DIR$/build/resources/main" />
         </element>
         <element id="directory" name="lib">
@@ -26,7 +26,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/out/artifacts/life-book/exploded/life-book-1.0.war/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/build/classes/artifacts/lifebook/exploded/lifebook-1.0.war/META-INF/MANIFEST.MF" />
       </element>
     </root>
   </artifact>

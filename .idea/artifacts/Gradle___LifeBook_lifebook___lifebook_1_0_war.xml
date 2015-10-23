@@ -12,15 +12,6 @@
           <element id="dir-copy" path="$PROJECT_DIR$/build/resources/main" />
         </element>
         <element id="directory" name="lib">
-          <element id="library" level="project" name="Gradle: org.postgresql:postgresql:9.4-1204-jdbc42" />
-          <element id="library" level="project" name="Gradle: com.typesafe:config:1.3.0" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-webmvc:4.2.1.RELEASE" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-beans:4.2.1.RELEASE" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-context:4.2.1.RELEASE" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-core:4.2.1.RELEASE" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-expression:4.2.1.RELEASE" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-web:4.2.1.RELEASE" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-aop:4.2.1.RELEASE" />
           <element id="library" level="project" name="Gradle: commons-logging:commons-logging:1.2" />
           <element id="library" level="project" name="Gradle: aopalliance:aopalliance:1.0" />
           <element id="library" level="project" name="Gradle: ch.qos.logback:logback-classic:1.1.3" />
@@ -30,10 +21,19 @@
           <element id="library" level="project" name="Gradle: javax.mail:mail:1.4.7" />
           <element id="library" level="project" name="Gradle: javax.activation:activation:1.1" />
           <element id="library" level="project" name="Gradle: org.apache.commons:commons-lang3:3.4" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-jdbc:4.2.1.RELEASE" />
-          <element id="library" level="project" name="Gradle: org.springframework:spring-tx:4.2.1.RELEASE" />
-          <element id="library" level="project" name="Gradle: org.apache.commons:commons-dbcp2:2.1.1" />
-          <element id="library" level="project" name="Gradle: org.apache.commons:commons-pool2:2.4.2" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.postgresql/postgresql/9.4-1204-jdbc42/aae989d89b2f9b10900044d85881e3a65137b1a7/postgresql-9.4-1204-jdbc42.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.typesafe/config/1.3.0/f533aa6ea13e443b50e639d070986c42d03efc35/config-1.3.0.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-webmvc/4.2.1.RELEASE/6f8db100285e16eff3e413d2fba4f3557c09a07a/spring-webmvc-4.2.1.RELEASE.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-jdbc/4.2.1.RELEASE/a30e0b1e2bce0928788abb42e8bae2eb71698aeb/spring-jdbc-4.2.1.RELEASE.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-dbcp2/2.1.1/c4f4a76171671ccf293be8995a498eab7fa8ed24/commons-dbcp2-2.1.1.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-beans/4.2.1.RELEASE/6d39786b9f7b2a79897a0a83495f30002d9f8de3/spring-beans-4.2.1.RELEASE.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-context/4.2.1.RELEASE/5bf6dec08e77755c2ec913fde1b8e29083e70a76/spring-context-4.2.1.RELEASE.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-core/4.2.1.RELEASE/97a7ff5ec8a070722d0809098a9964347130466c/spring-core-4.2.1.RELEASE.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-expression/4.2.1.RELEASE/f6f34581b94a03bf39c5c88d1286bee76afe90a7/spring-expression-4.2.1.RELEASE.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-web/4.2.1.RELEASE/e37e34274768989bae9470b6eaffe51e09bd1e44/spring-web-4.2.1.RELEASE.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-tx/4.2.1.RELEASE/f05b4465be1aab3493e83cb529f191cb7834b222/spring-tx-4.2.1.RELEASE.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.commons/commons-pool2/2.4.2/e5f4f28f19d57716fbc3989d7a357ebf1e454fea/commons-pool2-2.4.2.jar" />
+          <element id="file-copy" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework/spring-aop/4.2.1.RELEASE/e5e199d175497a895dcdc7e3531e32fea6fbbbee/spring-aop-4.2.1.RELEASE.jar" />
         </element>
       </element>
       <element id="directory" name="META-INF">

@@ -6,7 +6,8 @@ CREATE TABLE public."Users"
    "LastName" character varying(100),
    "Email" character varying(150),
    "Password" character varying(64),
-   CONSTRAINT "User_pk" PRIMARY KEY ("Id", "Login")
+   CONSTRAINT "User_pk" PRIMARY KEY ("Id", "Login"),
+   CONSTRAINT "Users_Id_uk" UNIQUE ("Id")
 )
 WITH (
   OIDS = FALSE

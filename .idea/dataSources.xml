@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="331964842">
+  <component name="DataSourceManagerImpl" format="xml" hash="1846774434">
     <data-source source="LOCAL" name="PostgreSQL - lifebook@localhost" uuid="1bb8abec-4728-49cc-8439-3cd78351d336">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://localhost:5432/lifebook</jdbc-url>
-      <libraries />
     </data-source>
   </component>
 </project>

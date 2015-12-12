@@ -1,4 +1,4 @@
-package ua.lifebook.jdbc;
+package ua.lifebook.db;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 

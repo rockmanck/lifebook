@@ -6,25 +6,33 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import ua.lifebook.jdbc.LifeBookJdbc;
+import ua.lifebook.db.LifeBookJdbc;
+import ua.lifebook.db.replication.ReplicationManager;
 import ua.lifebook.notification.MailManager;
 
 @Configuration
 @ComponentScan("ua.lifebook")
 public class AppConfig {
-	private final Config config = new ConfigurationHolder().getConfig();
+	public static final Config config = new ConfigurationHolder().getConfig().getConfig("lb");
 
     @Bean public MailManager mailManager() {
-        return new MailManager(sender(), config.getString("lb.transport.mailSender.from"));
+        return new MailManager(sender(), config.getString("transport.mailSender.from"));
     }
 
     @Bean public LifeBookJdbc lifeBookJdbc() {
         final LifeBookJdbc jdbc = new LifeBookJdbc();
-        final Config db = this.config.getConfig("lb.db");
+        final Config db = config.getConfig("db");
         final BasicDataSource dataSource = new BasicDataSource();
         dataSource.setUsername(db.getString("username"));
+        dataSource.setPassword(db.getString("password"));
+        dataSource.setUrl(db.getString("url"));
         jdbc.setDataSource(dataSource);
         return jdbc;
+    }
+
+    @Bean public ReplicationManager replicationManager() {
+        final Config replication = config.getConfig("replication");
+        return new ReplicationManager(replication.getBoolean("isPrimary"), replication.getString("storage"));
     }
 
     private JavaMailSenderImpl sender() {

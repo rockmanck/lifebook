@@ -12,7 +12,7 @@ import java.nio.file.Paths;
 
 public final class ConfigurationHolder {
     private static final Logger logger = LoggerFactory.getLogger(ConfigurationHolder.class);
-    public static final Path EXTERNAL_CONFIG_PATH = Paths.get("/etc/lifebook");
+    public static final Path EXTERNAL_CONFIG_PATH = Paths.get("/etc/lbconf");
     public static final String APP_NAME_PARAM = "app.name";
 
     private final Config config = loadConfig();

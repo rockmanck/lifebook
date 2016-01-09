@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("ua.lifebook.web")
+@ComponentScan("ua.lifebook.web.controllers")
 public class WebConfig extends WebMvcConfigurerAdapter {
     @Override public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
         configurer.enable();

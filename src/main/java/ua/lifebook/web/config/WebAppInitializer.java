@@ -5,6 +5,7 @@ import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import ua.lifebook.config.AppConfig;
+import ua.lifebook.web.GatewayFilter;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -31,9 +32,9 @@ public class WebAppInitializer implements WebApplicationInitializer {
         // Register and map the dispatcher servlet
         final ServletRegistration.Dynamic dispatcher = container.addServlet("dispatcher", new DispatcherServlet(dispatcherServlet));
         dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping("/*");
+        dispatcher.addMapping("*.html");
 
         // Add Gateway filter
-//        container.addFilter("gateway", GatewayFilter.class).addMappingForUrlPatterns(null, false, "/*");
+        container.addFilter("gateway", GatewayFilter.class).addMappingForUrlPatterns(null, false, "/*");
     }
 }

@@ -1,0 +1,1 @@
+SELECT COALESCE("Id", -1) AS Id FROM "Users" WHERE "Login" = '$login' AND "Password" = '$password'

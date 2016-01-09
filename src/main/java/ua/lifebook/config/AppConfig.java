@@ -9,6 +9,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import ua.lifebook.db.LifeBookJdbc;
 import ua.lifebook.db.replication.ReplicationManager;
 import ua.lifebook.notification.MailManager;
+import ua.lifebook.web.Authorization;
 
 @Configuration
 @ComponentScan("ua.lifebook")
@@ -26,6 +27,7 @@ public class AppConfig {
         dataSource.setUsername(db.getString("username"));
         dataSource.setPassword(db.getString("password"));
         dataSource.setUrl(db.getString("url"));
+        dataSource.setDriverClassName(db.getString("driver"));
         jdbc.setDataSource(dataSource);
         return jdbc;
     }
@@ -35,9 +37,13 @@ public class AppConfig {
         return new ReplicationManager(replication.getBoolean("isPrimary"), replication.getString("storage"));
     }
 
+    @Bean public Authorization authorization() {
+        return new Authorization(lifeBookJdbc());
+    }
+
     private JavaMailSenderImpl sender() {
         final JavaMailSenderImpl sender = new JavaMailSenderImpl();
-        final Config sendConf = config.getConfig("lb.transport.mailSender");
+        final Config sendConf = config.getConfig("transport.mailSender");
         sender.setHost(sendConf.getString("host"));
         sender.setPort(sendConf.getInt("port"));
         sender.setUsername(sendConf.getString("username"));

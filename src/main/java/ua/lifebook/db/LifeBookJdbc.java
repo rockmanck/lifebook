@@ -1,8 +1,10 @@
 package ua.lifebook.db;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import ua.lifebook.admin.Language;
 import ua.lifebook.admin.User;
 import ua.lifebook.db.sqlbuilder.DynamicSqlBuilder;
 
@@ -45,6 +47,8 @@ public class LifeBookJdbc extends JdbcTemplate {
         user.setLogin(rs.getString("login"));
         user.setAdmin(rs.getBoolean("isAdmin"));
         user.setPassword(rs.getString("password"));
+        final String lang = rs.getString("language");
+        user.setLanguage(!StringUtils.isEmpty(lang) ? Language.byCode(lang) : Language.EN);
         return user;
     }
 }

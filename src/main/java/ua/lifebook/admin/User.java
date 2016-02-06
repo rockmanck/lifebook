@@ -12,6 +12,7 @@ public class User {
     private String email;
     private String password;
     private boolean admin;
+    private Language language;
 
     public Integer getId() {
         return id;
@@ -67,5 +68,13 @@ public class User {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 }

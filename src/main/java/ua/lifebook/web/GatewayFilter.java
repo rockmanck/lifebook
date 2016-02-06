@@ -2,6 +2,7 @@ package ua.lifebook.web;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import ua.lifebook.admin.Language;
 import ua.lifebook.admin.User;
 
 import javax.servlet.Filter;
@@ -15,7 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
 public class GatewayFilter implements Filter {
@@ -27,6 +31,8 @@ public class GatewayFilter implements Filter {
         rulesAllowedLinks.add(e -> e.startsWith("/img/"));
         rulesAllowedLinks.add(e -> e.startsWith("/js/"));
     }
+
+    private static final Map<Language, ResourceBundle> bundles = new HashMap<>();
 
     @Override public void init(FilterConfig config) throws ServletException {
         final ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
@@ -52,9 +58,12 @@ public class GatewayFilter implements Filter {
                 return;
             }
 
+            setLocale(request, response, Language.EN);
             request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
             return;
         }
+
+        setLocale(request, response, user.getLanguage());
 
         if (requestURI.startsWith("/admin") && !user.isAdmin()) {
             response.sendRedirect("/");
@@ -62,6 +71,13 @@ public class GatewayFilter implements Filter {
         }
 
         chain.doFilter(request, response);
+    }
+
+    private void setLocale(HttpServletRequest request, HttpServletResponse response, Language language) throws UnsupportedEncodingException {
+        if (!bundles.containsKey(language)) {
+            bundles.put(language, ResourceBundle.getBundle("MessagesBundle", language.getLocale(), language.getEncodingControl()));
+        }
+        request.getSession().setAttribute("i18n", bundles.get(language));
     }
 
     private boolean isNewLogin(HttpServletRequest request) {

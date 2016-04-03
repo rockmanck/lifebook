@@ -3,13 +3,13 @@ package ua.lifebook.web;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.lifebook.admin.User;
-import ua.lifebook.db.LifeBookJdbc;
+import ua.lifebook.db.UsersJdbc;
 
 public class Authorization {
-    private final LifeBookJdbc jdbc;
+    private final UsersJdbc jdbc;
 
     @Autowired
-    public Authorization(LifeBookJdbc jdbc) {
+    public Authorization(UsersJdbc jdbc) {
         this.jdbc = jdbc;
     }
 

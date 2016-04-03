@@ -1,4 +1,4 @@
-package ua.lifebook.db.replication;
+package ua.lifebook.db.repository;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

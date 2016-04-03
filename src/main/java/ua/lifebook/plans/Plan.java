@@ -1,30 +1,22 @@
 package ua.lifebook.plans;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import ua.lifebook.admin.User;
-import ua.lifebook.db.replication.Serial;
-import ua.lifebook.db.replication.Table;
+import ua.lifebook.db.repository.Identifiable;
+import ua.lifebook.db.repository.Table;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Table("Plans")
-public class Plan {
-    @Serial("Id")
-    private Integer id;
+public class Plan extends Identifiable {
     private String title;
-    private LocalDate dueDate;
-    private boolean repeated;
+    @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm")
+    private LocalDateTime dueDate;
+    private RepeatType repeated;
     private String comments;
     private PlanStatus status;
     private Category category;
     private User user;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getTitle() {
         return title;
@@ -34,19 +26,19 @@ public class Plan {
         this.title = title;
     }
 
-    public LocalDate getDueDate() {
+    public LocalDateTime getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public void setDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
     }
 
-    public boolean isRepeated() {
+    public RepeatType getRepeated() {
         return repeated;
     }
 
-    public void setRepeated(boolean repeated) {
+    public void setRepeated(RepeatType repeated) {
         this.repeated = repeated;
     }
 

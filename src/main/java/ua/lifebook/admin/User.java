@@ -1,7 +1,7 @@
 package ua.lifebook.admin;
 
-import ua.lifebook.db.replication.Serial;
-import ua.lifebook.db.replication.Table;
+import ua.lifebook.db.repository.Serial;
+import ua.lifebook.db.repository.Table;
 
 @Table("Users")
 public class User {

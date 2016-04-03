@@ -65,5 +65,14 @@
     <orderEntry type="library" exported="" name="Gradle: org.apache.velocity:velocity:1.7" level="project" />
     <orderEntry type="library" exported="" name="Gradle: commons-collections:commons-collections:3.2.1" level="project" />
     <orderEntry type="library" exported="" name="Gradle: commons-lang:commons-lang:2.4" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library name="Gradle: RockmanUtils">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/RockmanUtils.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

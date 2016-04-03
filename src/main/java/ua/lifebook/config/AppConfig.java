@@ -6,10 +6,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import ua.lifebook.db.LifeBookJdbc;
-import ua.lifebook.db.replication.ReplicationManager;
+import ua.lifebook.db.PlansJdbc;
+import ua.lifebook.db.UsersJdbc;
+import ua.lifebook.db.repository.ReplicationManager;
 import ua.lifebook.notification.MailManager;
 import ua.lifebook.web.Authorization;
+
+import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan("ua.lifebook")
@@ -20,16 +23,12 @@ public class AppConfig {
         return new MailManager(sender(), config.getString("transport.mailSender.from"));
     }
 
-    @Bean public LifeBookJdbc lifeBookJdbc() {
-        final LifeBookJdbc jdbc = new LifeBookJdbc();
-        final Config db = config.getConfig("db");
-        final BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setUsername(db.getString("username"));
-        dataSource.setPassword(db.getString("password"));
-        dataSource.setUrl(db.getString("url"));
-        dataSource.setDriverClassName(db.getString("driver"));
-        jdbc.setDataSource(dataSource);
-        return jdbc;
+    @Bean public PlansJdbc plansJdbc() {
+        return new PlansJdbc(getDataSource());
+    }
+
+    @Bean public UsersJdbc usersJdbc() {
+        return new UsersJdbc(getDataSource());
     }
 
     @Bean public ReplicationManager replicationManager() {
@@ -38,7 +37,7 @@ public class AppConfig {
     }
 
     @Bean public Authorization authorization() {
-        return new Authorization(lifeBookJdbc());
+        return new Authorization(usersJdbc());
     }
 
     private JavaMailSenderImpl sender() {
@@ -50,5 +49,15 @@ public class AppConfig {
         sender.setPassword(sendConf.getString("password"));
         sender.setDefaultEncoding(sendConf.getString("defaultEncoding"));
         return sender;
+    }
+
+    private DataSource getDataSource() {
+        final Config db = config.getConfig("db");
+        final BasicDataSource dataSource = new BasicDataSource();
+        dataSource.setUsername(db.getString("username"));
+        dataSource.setPassword(db.getString("password"));
+        dataSource.setUrl(db.getString("url"));
+        dataSource.setDriverClassName(db.getString("driver"));
+        return dataSource;
     }
 }

@@ -11,6 +11,11 @@
     <script src="<c:url value="/js/index.js"/>"></script>
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-datetimepicker.css"/>">
+    <link rel="stylesheet" href="<c:url value="/css/eventlist.css"/>">
+    <style>
+        .btn-glyphicon { padding:8px; background:#ffffff; margin-right:4px; }
+        .icon-btn { padding: 1px 15px 3px 2px; border-radius:50px;}
+    </style>
 </head>
 <body>
 <div class="container">
@@ -27,6 +32,7 @@
 
     <div class="tab-content">
         <div id="daily" class="tab-pane fade in active">
+            <c:set var="plans" value="${todayPlans}" scope="request"/>
             <jsp:include page="daily.jsp"/>
         </div>
         <div id="weekly" class="tab-pane fade">

@@ -1,0 +1,12 @@
+SELECT
+  p.id plan_id,
+  p.title,
+  p.repeated,
+  p.comments,
+  p.status,
+  p.due_time,
+  c.name category_name,
+  c.id category_id
+FROM plans p
+  LEFT JOIN category c ON c.id = p.category
+WHERE CAST(due_time AS DATE) = ? AND user_id = ?

@@ -1,4 +1,4 @@
-package ua.lifebook.db.replication;
+package ua.lifebook.db.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import ua.lifebook.plans.Plan;

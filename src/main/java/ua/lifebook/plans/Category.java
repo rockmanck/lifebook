@@ -1,16 +1,11 @@
 package ua.lifebook.plans;
 
-public class Category {
-    private Integer id;
+import ua.lifebook.db.repository.Identifiable;
+import ua.lifebook.db.repository.Table;
+
+@Table("Category")
+public class Category extends Identifiable {
     private String name;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

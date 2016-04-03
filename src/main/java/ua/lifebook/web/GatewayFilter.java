@@ -4,6 +4,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import ua.lifebook.admin.Language;
 import ua.lifebook.admin.User;
+import ua.lifebook.config.AppConfig;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -32,6 +33,7 @@ public class GatewayFilter implements Filter {
         rulesAllowedLinks.add(e -> e.startsWith("/js/"));
     }
 
+    private static final boolean devMode = AppConfig.config.getBoolean("devMode");
     private static final Map<Language, ResourceBundle> bundles = new HashMap<>();
 
     @Override public void init(FilterConfig config) throws ServletException {
@@ -58,12 +60,12 @@ public class GatewayFilter implements Filter {
                 return;
             }
 
-            setLocale(request, response, Language.EN);
+            setLocale(request, Language.EN);
             request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
             return;
         }
 
-        setLocale(request, response, user.getLanguage());
+        setLocale(request, user.getLanguage());
 
         if (requestURI.startsWith("/admin") && !user.isAdmin()) {
             response.sendRedirect("/");
@@ -73,8 +75,8 @@ public class GatewayFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    private void setLocale(HttpServletRequest request, HttpServletResponse response, Language language) throws UnsupportedEncodingException {
-        if (!bundles.containsKey(language)) {
+    private void setLocale(HttpServletRequest request, Language language) throws UnsupportedEncodingException {
+        if (!bundles.containsKey(language) || devMode) {
             bundles.put(language, ResourceBundle.getBundle("MessagesBundle", language.getLocale(), language.getEncodingControl()));
         }
         request.getSession().setAttribute("i18n", bundles.get(language));

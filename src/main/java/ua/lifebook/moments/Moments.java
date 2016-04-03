@@ -1,7 +1,7 @@
 package ua.lifebook.moments;
 
-import ua.lifebook.db.replication.Serial;
-import ua.lifebook.db.replication.Table;
+import ua.lifebook.db.repository.Serial;
+import ua.lifebook.db.repository.Table;
 
 import java.time.LocalDate;
 

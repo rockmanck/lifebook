@@ -9,4 +9,4 @@ SELECT
   c.id category_id
 FROM plans p
   LEFT JOIN category c ON c.id = p.category
-WHERE p.id = ?
+WHERE CAST(due_time AS DATE) BETWEEN ? AND ? AND user_id = ?

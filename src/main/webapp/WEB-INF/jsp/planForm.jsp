@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<div class="modal fade" id="planModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -15,14 +14,15 @@
                 <!-- content goes here -->
                 <form:form action="/plan/save.html" method="post">
                     <input type="hidden" value="${plan.id}" name="id">
+                    <input type="hidden" value="${plan.rawDueDate}" id="planTimeRaw">
                     <div class="form-group">
                         <label for="title">${i18n.getString("planTitleLabel")}</label>
-                        <input type="text" class="form-control" id="title" name="title">
+                        <input type="text" class="form-control" id="title" name="title" value="${plan.title}">
                     </div>
                     <div class="form-group">
                         <label for="planTime">${i18n.getString("planTimeLabel")}</label>
                         <div class='input-group date' id='planTime'>
-                            <input type='text' class="form-control" name="dueDate"/>
+                            <input type='text' class="form-control" name="dueDate" value="${plan.dueDate}"/>
                             <span class="input-group-addon">
                                 <span class="glyphicon glyphicon-time"></span>
                             </span>
@@ -41,14 +41,8 @@
                     </div>
                     <div class="form-group">
                         <label for="planDescription">${i18n.getString("planCommentsLabel")}</label>
-                        <textarea name="comments" id="planDescription" rows="20" cols="78" style="resize: none;"></textarea>
+                        <textarea name="comments" id="planDescription" rows="20" cols="78" style="resize: none;">${plan.comments}</textarea>
                     </div>
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox"> Check me out
-                        </label>
-                    </div>
-                    <button type="button" class="btn btn-default" id="planEditSubmit">Submit</button>
                 </form:form>
 
             </div>
@@ -61,10 +55,9 @@
                         <button type="button" id="delImage" class="btn btn-default btn-hover-red" data-dismiss="modal" role="button">Delete</button>
                     </div>
                     <div class="btn-group" role="group">
-                        <button type="button" id="saveImage" class="btn btn-default btn-hover-green" data-action="save" role="button">Save</button>
+                        <button type="button" class="btn btn-default btn-hover-green" data-action="save" role="button" onclick="Plan.save();">Save</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>

@@ -5,10 +5,17 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtils {
+    private static final ThreadLocal<DateTimeFormatter> formatter = new ThreadLocal<DateTimeFormatter>(){
+        @Override protected DateTimeFormatter initialValue() {
+            return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        }
+    };
+
     public static Date localDateTimeToDate(LocalDateTime dateTime) {
         if (dateTime == null) return null;
         return Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
@@ -56,5 +63,9 @@ public class DateUtils {
 
         final Instant instant = date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant();
         return Date.from(instant);
+    }
+
+    public static String format(LocalDateTime dateTime) {
+        return formatter.get().format(dateTime);
     }
 }

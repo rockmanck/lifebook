@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import ua.lifebook.admin.User;
 import ua.lifebook.db.repository.Identifiable;
 import ua.lifebook.db.repository.Table;
+import ua.lifebook.utils.DateUtils;
 
 import java.time.LocalDateTime;
 
@@ -28,6 +29,10 @@ public class Plan extends Identifiable {
 
     public LocalDateTime getDueDate() {
         return dueDate;
+    }
+
+    public String getRawDueDate() {
+        return dueDate != null ? DateUtils.format(dueDate) : "";
     }
 
     public void setDueDate(LocalDateTime dueDate) {

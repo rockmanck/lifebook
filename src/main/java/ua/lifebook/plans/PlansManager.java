@@ -23,7 +23,20 @@ public class PlansManager {
     }
 
     public List<Plan> getPlans(LocalDate date, User user) {
-        return plansJdbc.getPlans(DateUtils.localDateToDate(date), user);
+        return getPlans(date, date, user);
+    }
+
+    public List<Plan> getWeekPlans(LocalDate date, User user) {
+        final LocalDate end = date.plusWeeks(1);
+        return getPlans(date, end, user);
+    }
+
+    public Plan getPlan(int id) {
+        return plansJdbc.getPlan(id);
+    }
+
+    private List<Plan> getPlans(LocalDate start, LocalDate end, User user) {
+        return plansJdbc.getPlans(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end), user);
     }
 
 //    private void merge(Plan source, Plan target) {

@@ -9,6 +9,8 @@
     <script src="<c:url value="/js/bootstrap.js"/>"></script>
     <script src="<c:url value="/js/bootstrap-datetimepicker.js"/>"></script>
     <script src="<c:url value="/js/index.js"/>"></script>
+    <script src="<c:url value="/js/plan.js"/>"></script>
+    <link rel="shortcut icon" type="image/png" href="<c:url value="/img/lb-favicon.png"/>"/>
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-datetimepicker.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/eventlist.css"/>">
@@ -36,12 +38,18 @@
             <jsp:include page="daily.jsp"/>
         </div>
         <div id="weekly" class="tab-pane fade">
-
+            <c:set var="wplans" value="${weekPlans}" scope="request"/>
+            <jsp:include page="weekly.jsp"/>
         </div>
         <div id="search" class="tab-pane fade">
 
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="planModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <jsp:include page="planForm.jsp"/>
+</div>
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 package ua.lifebook.db;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ua.lifebook.admin.User;
 import ua.lifebook.db.repository.Repository;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -44,18 +46,26 @@ public class PlansJdbc extends JdbcTemplate {
     }
 
     public Plan getPlan(Integer id) {
-        // TODO get plan by id
-        return new Plan();
+        final String sql = sqlBuilder.sql("GetPlan").build();
+        try {
+            return queryForObject(sql, (rs, rowNum) -> plan(rs), id);
+        } catch (EmptyResultDataAccessException e) {
+            return new Plan();
+        }
     }
 
-    public List<Plan> getPlans(Date date, User user) {
-        final String sql = sqlBuilder.sql("GetPlan").build();
+    /**
+     * Returns all plan for specified date and user. Sorts collection by due time.
+     */
+    public List<Plan> getPlans(Date start, Date end, User user) {
+        final String sql = sqlBuilder.sql("GetPlans").build();
         final List<Plan> result = new ArrayList<>();
         query(sql, rs -> {
             final Plan plan = plan(rs);
             plan.setUser(user);
             result.add(plan);
-        }, date, user.getId());
+        }, start, end, user.getId());
+        Collections.sort(result, (o1, o2) -> o1.getDueDate().compareTo(o2.getDueDate()));
         return result;
     }
 

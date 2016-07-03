@@ -7,7 +7,16 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span><span class="sr-only">Close</span></button>
-                <h3 class="modal-title" id="lineModalLabel">${i18n.getString("newPlanTitle")}</h3>
+                <h3 class="modal-title" id="lineModalLabel">
+                    <c:choose>
+                        <c:when test="${empty plan.id}">
+                            ${i18n.getString("newPlanTitle")}
+                        </c:when>
+                        <c:otherwise>
+                            ${i18n.getString("editPlanTitle")}
+                        </c:otherwise>
+                    </c:choose>
+                </h3>
             </div>
             <div class="modal-body">
 
@@ -15,6 +24,7 @@
                 <form:form action="/plan/save.html" method="post">
                     <input type="hidden" value="${plan.id}" name="id">
                     <input type="hidden" value="${plan.rawDueDate}" id="planTimeRaw">
+                    <input type="hidden" value="" id="viewType">
                     <div class="form-group">
                         <label for="title">${i18n.getString("planTitleLabel")}</label>
                         <input type="text" class="form-control" id="title" name="title" value="${plan.title}">

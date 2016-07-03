@@ -1,7 +1,10 @@
-package ua.lifebook.admin;
+package ua.lifebook.users;
 
 import ua.lifebook.db.repository.Serial;
 import ua.lifebook.db.repository.Table;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Table("Users")
 public class User {
@@ -13,6 +16,7 @@ public class User {
     private String password;
     private boolean admin;
     private Language language;
+    private Set<ViewOption> viewOptions = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -76,5 +80,13 @@ public class User {
 
     public void setLanguage(Language language) {
         this.language = language;
+    }
+
+    public void addViewOption(ViewOption option) {
+        viewOptions.add(option);
+    }
+
+    public Set<ViewOption> getViewOptions() {
+        return viewOptions;
     }
 }

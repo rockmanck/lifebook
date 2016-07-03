@@ -1,5 +1,6 @@
 package ua.lifebook.utils;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -10,9 +11,15 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtils {
-    private static final ThreadLocal<DateTimeFormatter> formatter = new ThreadLocal<DateTimeFormatter>(){
+    private static final ThreadLocal<DateTimeFormatter> dateTimeFormatter = new ThreadLocal<DateTimeFormatter>(){
         @Override protected DateTimeFormatter initialValue() {
             return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        }
+    };
+
+    private static final ThreadLocal<SimpleDateFormat> dateFormatter = new ThreadLocal<SimpleDateFormat>(){
+        @Override protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy-MM-dd");
         }
     };
 
@@ -66,6 +73,10 @@ public class DateUtils {
     }
 
     public static String format(LocalDateTime dateTime) {
-        return formatter.get().format(dateTime);
+        return dateTimeFormatter.get().format(dateTime);
+    }
+
+    public static String format(Date date) {
+        return dateFormatter.get().format(date);
     }
 }

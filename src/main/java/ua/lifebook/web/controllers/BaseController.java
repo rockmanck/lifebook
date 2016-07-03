@@ -1,6 +1,6 @@
 package ua.lifebook.web.controllers;
 
-import ua.lifebook.admin.User;
+import ua.lifebook.users.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

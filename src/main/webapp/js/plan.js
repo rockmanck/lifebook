@@ -2,18 +2,19 @@ function PlanClass() {
 	var _self = this;
 	var sevenDays = 7 * 24 * 60 * 60 * 1000;
 
-	function loadPlanById(id) {
+	function loadPlanById(id, defaultDate, viewType) {
 		$.get('./plan/' + id + '/edit.html', function (data) {
 			var form = $('#planModal');
 			form.html(data);
-			updateDueDate(form);
-			form.modal('show')
+			updateDueDate(form, defaultDate);
+			form.modal({backdrop: 'static'});
+			form.find('#viewType').val(viewType);
 		});
 	}
 
-	function updateDueDate(form) {
+	function updateDueDate(form, defaultDate) {
 		var dueDate = form.find('#planTimeRaw').val();
-		var date = dueDate != '' ? new Date(dueDate) : new Date();
+		var date = dueDate != '' ? new Date(dueDate) : defaultDate;
 		form.find('#planTime').datetimepicker({
 			minDate: new Date() - sevenDays,
 			sideBySide: true,
@@ -35,23 +36,34 @@ function PlanClass() {
 		});
 	};
 
-	this.edit = function(id) {
-		loadPlanById(id);
+	this.edit = function(id, viewType) {
+		loadPlanById(id, new Date(), viewType);
 	};
 
-	this.new = function() {
-		loadPlanById(-1);
+	this.new = function(datePickerId, viewType) {
+		var dateVal = $('#' + datePickerId).data('date');
+		loadPlanById(-1, new Date(dateVal), viewType);
 	};
 
 	this.save = function() {
 		var planModal = $('#planModal');
 		var form = planModal.find('form');
+		var viewType = parseInt(form.find('#viewType').val());
 		var data = form.serialize();
 		$.post(form.attr('action'), data).done(function () {
 			planModal.modal('hide');
-			_self.loadDailyPlans();
+			switch (viewType) {
+				case ViewType.DAILY: _self.loadDailyPlans(); break;
+				case ViewType.WEEKLY: _self.loadWeeklyPlans(); break;
+			}
 		});
-	}
+	};
+
+	this.done = function(id) {
+		$.post('./plan/' + id + '/done.html').done(function() {
+			animation.remove($('#plan' + id), 450);
+		});
+	};
 }
 
 var Plan = new PlanClass();

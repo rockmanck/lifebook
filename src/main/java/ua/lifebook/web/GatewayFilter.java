@@ -2,9 +2,9 @@ package ua.lifebook.web;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import ua.lifebook.admin.Language;
-import ua.lifebook.admin.User;
 import ua.lifebook.config.AppConfig;
+import ua.lifebook.users.Language;
+import ua.lifebook.users.User;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

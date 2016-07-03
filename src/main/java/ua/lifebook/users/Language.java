@@ -1,4 +1,4 @@
-package ua.lifebook.admin;
+package ua.lifebook.users;
 
 import ua.lifebook.i18n.EncodingControl;
 

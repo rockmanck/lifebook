@@ -4,9 +4,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import ua.lifebook.admin.Language;
-import ua.lifebook.admin.User;
 import ua.lifebook.db.sqlbuilder.DynamicSqlBuilder;
+import ua.lifebook.users.Language;
+import ua.lifebook.users.User;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;

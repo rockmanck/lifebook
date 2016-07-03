@@ -4,7 +4,7 @@
 <%--@elvariable id="plan" type="ua.lifebook.plans.Plan"--%>
 <ul class="event-list">
     <c:forEach var="plan" items="${plans}">
-        <li>
+        <li id="plan${plan.id}">
             <time datetime="${plan.dueDate}">
                 <span class="day">${plan.dueDate.dayOfMonth}</span>
                 <span class="month">${plan.dueDate.month}</span>
@@ -16,8 +16,8 @@
             </div>
             <div class="social">
                 <ul>
-                    <li class="plan-edit" onclick="Plan.edit(${plan.id});"><span class="plan-edit-button"></span></li>
-                    <li class="twitter" style="width:34%;"><a href="#twitter"><span class="fa fa-twitter"></span></a></li>
+                    <li class="plan-edit" onclick="Plan.edit(${plan.id}, ViewType.DAILY);"><span class="plan-edit-button"></span></li>
+                    <li class="plan-done" onclick="Plan.done(${plan.id});"><span class="plan-done-button"></span></li>
                     <li class="google-plus" style="width:33%;"><a href="#google-plus"><span>-</span></a></li>
                 </ul>
             </div>

@@ -9,7 +9,7 @@
     <div class="col-sm-4">
         <div id="datepicker-weekly"></div>
         <div style="margin-top: 8px; text-align: center;">
-            <a class="btn icon-btn btn-info" href="#" data-toggle="modal" onclick="Plan.new();">
+            <a class="btn icon-btn btn-info" href="#" data-toggle="modal" onclick="Plan.new('datepicker-weekly', ViewType.WEEKLY);">
                 <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
                 Add Plan
             </a>
@@ -18,5 +18,7 @@
                 Add Moment
             </a>
         </div>
+
+        <jsp:include page="./viewOptions.jsp"/>
     </div>
 </div>

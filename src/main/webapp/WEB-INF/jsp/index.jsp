@@ -10,6 +10,7 @@
     <script src="<c:url value="/js/bootstrap-datetimepicker.js"/>"></script>
     <script src="<c:url value="/js/index.js"/>"></script>
     <script src="<c:url value="/js/plan.js"/>"></script>
+    <script src="<c:url value="/js/animation.js"/>"></script>
     <link rel="shortcut icon" type="image/png" href="<c:url value="/img/lb-favicon.png"/>"/>
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-datetimepicker.css"/>">
@@ -27,9 +28,9 @@
     </div>
 
     <ul class="nav nav-tabs">
-        <li class="active"><a data-toggle="tab" href="#daily">Daily</a></li>
-        <li><a data-toggle="tab" href="#weekly">Weekly</a></li>
-        <li><a data-toggle="tab" href="#search">Search</a></li>
+        <li class="active"><a data-toggle="tab" href="#daily">${i18n.getString("daily")}</a></li>
+        <li><a data-toggle="tab" href="#weekly">${i18n.getString("weekly")}</a></li>
+        <li><a data-toggle="tab" href="#search">${i18n.getString("search")}</a></li>
     </ul>
 
     <div class="tab-content">

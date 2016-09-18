@@ -34,6 +34,10 @@ public class MailManager {
         this.from = from;
     }
 
+    public void sendMail(String to, String subject, String content) throws Exception {
+        sendMail(new String[] { to }, null, null, from, subject, content, null, MailType.HTML);
+    }
+
     public void sendMail(String to, String from, String subject, String content, MailType mailType) throws Exception {
         sendMail(new String[] { to }, null, null, from, subject, content, null, mailType);
     }
@@ -129,16 +133,13 @@ public class MailManager {
         mailSenderPoolCount++;
 
         new Thread(
-            new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        mailSender.send(message);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                    } finally {
-                        mailSenderPoolCount--;
-                    }
+            () -> {
+                try {
+                    mailSender.send(message);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                } finally {
+                    mailSenderPoolCount--;
                 }
             }
         ).start();

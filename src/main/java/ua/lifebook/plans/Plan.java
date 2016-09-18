@@ -18,6 +18,7 @@ public class Plan extends Identifiable {
     private PlanStatus status;
     private Category category;
     private User user;
+    private boolean isOutdated = false;
 
     public String getTitle() {
         return title;
@@ -77,5 +78,13 @@ public class Plan extends Identifiable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public boolean isOutdated() {
+        return isOutdated;
+    }
+
+    public void setOutdated(boolean outdated) {
+        isOutdated = outdated;
     }
 }

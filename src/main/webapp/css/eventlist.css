@@ -18,6 +18,26 @@ body {
     padding: 0px;
     margin: 0px 0px 10px;
 }
+.event-list > li.done {
+    opacity: 0.7;
+}
+
+.event-list > li.canceled {
+    opacity: 0.5;
+}
+
+.event-list > li.canceled > div.info {
+    text-decoration: line-through;
+}
+
+.event-list > li.canceled > time {
+    text-decoration: line-through;
+}
+
+.event-list > li > div.outdated {
+    background: #fff4f7;
+}
+
 .event-list > li > time {
     display: inline-block;
     width: 100%;
@@ -105,40 +125,33 @@ body {
     background-color: rgb(200, 200, 200);
 }
 
-.plan-edit {
+.plan-action {
     display: block;
     width: 98%;
     padding: 4px 0 0 10px !important;
 }
 
-.plan-edit:hover {
+.plan-action:hover {
     background-color: rgb(212, 236, 255) !important;
 }
 
-.plan-edit-button {
+.plan-action > span {
     display: block;
+    height: 24px;
+    width: 20px;
+    background-repeat: no-repeat;
+}
+
+.plan-action > span.edit-button {
     background-image: url("../img/edit.png");
-    background-repeat: no-repeat;
-    height: 24px;
-    width: 20px;
 }
 
-.plan-done {
-    display: block;
-    width: 98%;
-    padding: 4px 0 0 10px !important;
-}
-
-.plan-done:hover {
-    background-color: rgb(212, 236, 255) !important;
-}
-
-.plan-done-button {
-    display: block;
+.plan-action > span.done-button {
     background-image: url("../img/done.png");
-    background-repeat: no-repeat;
-    height: 24px;
-    width: 20px;
+}
+
+.plan-action > span.cancel-button {
+    background-image: url("../img/cancel.png");
 }
 
 .facebook a,

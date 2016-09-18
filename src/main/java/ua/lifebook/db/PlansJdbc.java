@@ -9,6 +9,7 @@ import ua.lifebook.plans.Plan;
 import ua.lifebook.plans.PlanStatus;
 import ua.lifebook.plans.RepeatType;
 import ua.lifebook.users.User;
+import ua.lifebook.users.ViewOption;
 import ua.lifebook.utils.DateUtils;
 
 import javax.sql.DataSource;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class PlansJdbc extends JdbcTemplate {
     private final DynamicSqlBuilder sqlBuilder = new DynamicSqlBuilder();
@@ -58,11 +60,16 @@ public class PlansJdbc extends JdbcTemplate {
      * Returns all plan for specified date and user. Sorts collection by due time.
      */
     public List<Plan> getPlans(Date start, Date end, User user) {
+        final Set<ViewOption> viewOptions = user.getUserSettings().getViewOptions();
         final String sql = sqlBuilder.sql("GetPlans")
             .param("startDate", DateUtils.format(start))
             .param("endDate", DateUtils.format(end))
             .param("userId", user.getId())
+            .param("show_outdated", viewOptions.contains(ViewOption.SHOW_OUTDATED))
+            .param("show_done", viewOptions.contains(ViewOption.SHOW_DONE))
+            .param("show_canceled", viewOptions.contains(ViewOption.SHOW_CANCELED))
             .build();
+
         final List<Plan> result = new ArrayList<>();
         query(sql, rs -> {
             final Plan plan = plan(rs);
@@ -83,6 +90,7 @@ public class PlansJdbc extends JdbcTemplate {
         final Timestamp due_time = rs.getTimestamp("due_time");
         plan.setDueDate(DateUtils.dateToLocalDateTime(due_time));
         plan.setRepeated(RepeatType.byCode(rs.getString("repeated")));
+        plan.setOutdated(rs.getBoolean("outdated"));
         return plan;
     }
 

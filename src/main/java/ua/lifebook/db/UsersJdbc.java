@@ -5,8 +5,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ua.lifebook.db.sqlbuilder.DynamicSqlBuilder;
+import ua.lifebook.users.DefaultTab;
 import ua.lifebook.users.Language;
 import ua.lifebook.users.User;
+import ua.lifebook.users.UserSettings;
+import ua.lifebook.users.ViewOption;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -39,7 +42,15 @@ public class UsersJdbc extends JdbcTemplate {
     }
 
     public User getUser(int id) {
-        return queryForObject("SELECT id AS userId, * FROM users WHERE id = " + id, ((rs, rowNum) -> getUser(rs)));
+        final String sql = sqlBuilder.sql("GetUser")
+            .param("id", id)
+            .build();
+        return queryForObject(sql, ((rs, rowNum) -> getUser(rs)));
+    }
+
+    public void updateUserSettings(String options, User user) {
+        final String defaultTab = user.getUserSettings().getDefaultTab().name();
+        update("UPDATE user_settings SET view_options = ?, default_tab = ? WHERE user_id = ?", options, defaultTab, user.getId());
     }
 
     private User getUser(ResultSet rs) throws SQLException {
@@ -51,6 +62,10 @@ public class UsersJdbc extends JdbcTemplate {
         user.setLogin(rs.getString("login"));
         user.setAdmin(rs.getBoolean("is_admin"));
         user.setPassword(rs.getString("password"));
+        final UserSettings userSettings = new UserSettings();
+        userSettings.setViewOptions(ViewOption.parse(rs.getString("view_options")));
+        userSettings.setDefaultTab(DefaultTab.valueOf(rs.getString("default_tab")));
+        user.setUserSettings(userSettings);
         final String lang = rs.getString("language");
         user.setLanguage(!StringUtils.isEmpty(lang) ? Language.byCode(lang) : Language.EN);
         return user;

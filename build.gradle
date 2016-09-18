@@ -27,6 +27,8 @@ dependencies {
     compile 'org.springframework:spring-context-support:4.1.5.RELEASE'
     compile 'org.springframework:spring-jdbc:4.2.1.RELEASE'
     compile 'taglibs:standard:1.1.2'
+    compile 'org.quartz-scheduler:quartz:2.2.1'
+    compile 'com.google.guava:guava:19.0'
 
     compile files('lib/RockmanUtils.jar')
 

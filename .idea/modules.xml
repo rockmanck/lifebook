@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/lifebook.iml" filepath="$PROJECT_DIR$/lifebook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lifebook.iml" filepath="$PROJECT_DIR$/.idea/modules/lifebook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lifebook_main.iml" filepath="$PROJECT_DIR$/.idea/modules/lifebook_main.iml" group="lifebook" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lifebook_test.iml" filepath="$PROJECT_DIR$/.idea/modules/lifebook_test.iml" group="lifebook" />
     </modules>
   </component>
 </project>

@@ -4,7 +4,7 @@
 <%--@elvariable id="plan" type="ua.lifebook.plans.Plan"--%>
 <div class="row">
     <div id="dailyList" class="col-sm-8">
-        <jsp:include page="plans/dailyList.jsp"/>
+        <jsp:include page="plans/list.jsp"/>
     </div>
     <div class="col-sm-4">
         <div id="datepicker-daily"></div>
@@ -19,6 +19,11 @@
             </a>
         </div>
 
-        <jsp:include page="./viewOptions.jsp"/>
+        <div class="panel panel-default" style="margin-top: 15px;">
+            <div class="panel-heading">View options</div>
+            <div class="panel-body" id="view-options-daily">
+                <jsp:include page="./viewOptions.jsp"/>
+            </div>
+        </div>
     </div>
 </div>

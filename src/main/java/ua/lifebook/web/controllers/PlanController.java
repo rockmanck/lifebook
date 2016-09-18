@@ -35,15 +35,15 @@ public class PlanController extends BaseController {
     @RequestMapping("/daily.html")
     public ModelAndView getDailyPlans(@RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy") LocalDate date, HttpServletRequest request) {
         final User user = user(request);
-        final List<Plan> plans = plansManager.getPlans(date, user);
-        return new ModelAndView("plans/dailyList").addObject("plans", plans);
+        final List<PlansByDay> dailyPlans = plansManager.getDailyPlans(date, user);
+        return new ModelAndView("plans/list").addObject("plans", dailyPlans);
     }
 
     @RequestMapping("/weekly.html")
     public ModelAndView getWeeklyPlans(@RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy") LocalDate date, HttpServletRequest request) {
         final User user = user(request);
         final List<PlansByDay> plansByDay = plansManager.getWeekPlans(date, user);
-        return new ModelAndView("plans/weeklyList").addObject("wplans", plansByDay);
+        return new ModelAndView("plans/list").addObject("plans", plansByDay);
     }
 
     @RequestMapping("/{id}/edit.html")
@@ -57,6 +57,12 @@ public class PlanController extends BaseController {
     @RequestMapping("/{id}/done.html")
     public void done(@PathVariable int id, HttpServletResponse response) throws IOException {
         plansManager.donePlan(id);
+        ok(response);
+    }
+
+    @RequestMapping("/{id}/cancel.html")
+    public void cancel(@PathVariable int id, HttpServletResponse response) throws IOException {
+        plansManager.cancelPlan(id);
         ok(response);
     }
 }

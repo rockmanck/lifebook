@@ -1,0 +1,7 @@
+SELECT u.id AS userId,
+    u.*,
+    COALESCE(s.view_options, '') AS view_options,
+    s.default_tab
+FROM users u
+    JOIN user_settings s ON s.user_id = u.id
+WHERE id = $id

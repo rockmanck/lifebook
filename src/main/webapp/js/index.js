@@ -1,6 +1,10 @@
+var UserSettings;
+var Loader;
+
 $(document).ready(function(){
 	$('.nav-tabs a').on('shown.bs.tab', function(event) {
-		var activeTab = $(event.target).attr("href");
+        var tab = $(event.target);
+        var activeTab = tab.attr("href");
 		switch (activeTab) {
 			case '#daily':
 				Plan.loadDailyPlans();
@@ -9,6 +13,7 @@ $(document).ready(function(){
 				Plan.loadWeeklyPlans();
 				break;
 		}
+        UserSettings.updateSelectedTab(tab.data('type'));
 
 		var y = $(event.relatedTarget).text();  // previous tab
 	});
@@ -34,6 +39,9 @@ $(document).ready(function(){
 		title.focus();
 		title.val(title.val());
 	});
+    
+    UserSettings = new UserSettingsClass();
+    Loader = new LoaderClass();
 });
 
 var ViewType = {

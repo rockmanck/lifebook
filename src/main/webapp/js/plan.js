@@ -24,14 +24,18 @@ function PlanClass() {
 
 	this.loadDailyPlans = function() {
 		var date = $('#datepicker-daily').data('date');
+        Loader.show();
 		$.get('./plan/daily.html?date=' + encodeURI(date), function (data) {
+            Loader.hide();
 			$('#dailyList').html(data);
 		});
 	};
 
 	this.loadWeeklyPlans = function() {
 		var date = $('#datepicker-weekly').data('date');
+        Loader.show();
 		$.get('./plan/weekly.html?date=' + encodeURI(date), function (data) {
+            Loader.hide();
 			$('#weeklyList').html(data);
 		});
 	};
@@ -61,9 +65,19 @@ function PlanClass() {
 
 	this.done = function(id) {
 		$.post('./plan/' + id + '/done.html').done(function() {
-			animation.remove($('#plan' + id), 450);
+            if (!UserSettings.showDone()) {
+                animation.remove($('#plan' + id), 450);
+            }
 		});
 	};
+
+    this.cancel = function(id) {
+        $.post('./plan/' + id + '/cancel.html').done(function() {
+            if (!UserSettings.showCanceled()) {
+                animation.remove($('#plan' + id), 450);
+            }
+        });
+    };
 }
 
 var Plan = new PlanClass();

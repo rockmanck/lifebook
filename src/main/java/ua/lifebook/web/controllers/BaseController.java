@@ -13,6 +13,10 @@ public abstract class BaseController {
         return (User) request.getSession().getAttribute("user");
     }
 
+    /**
+     * Writes to the response default ok message.
+     * @throws IOException if failed to write into response
+     */
     protected void ok(HttpServletResponse response) throws IOException {
         response.getWriter().write(OK);
     }

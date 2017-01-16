@@ -6,7 +6,8 @@ SELECT
   p.status,
   p.due_time,
   c.name category_name,
-  c.id category_id
+  c.id category_id,
+  0 AS outdated
 FROM plans p
   LEFT JOIN category c ON c.id = p.category
 WHERE p.id = ?

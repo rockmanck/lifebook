@@ -13,6 +13,7 @@ import ua.lifebook.users.User;
 import ua.lifebook.users.UserSettings;
 import ua.lifebook.users.UsersManager;
 import ua.lifebook.users.ViewOption;
+import ua.lifebook.web.utils.SessionKeys;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,7 +61,8 @@ public class MainController extends BaseController {
             .addObject("planStatuses", PlanStatus.values())
             .addObject("plans", plans)
             .addObject("userViewOptions", userViewOptions)
-            .addObject("defaultTab", userSettings.getDefaultTab().name());
+            .addObject("defaultTab", userSettings.getDefaultTab().name())
+            .addObject("user", user);
     }
 
     @RequestMapping("/updateUserSettings.html")
@@ -70,5 +72,11 @@ public class MainController extends BaseController {
                                   HttpServletResponse response) throws IOException {
         usersManager.updateSettings(viewOptions, defaultTab, user(request));
         ok(response);
+    }
+
+    @RequestMapping("/logout.html")
+    public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        request.getSession().removeAttribute(SessionKeys.USER);
+        response.sendRedirect("/");
     }
 }

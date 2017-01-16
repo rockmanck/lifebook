@@ -5,6 +5,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import ua.lifebook.config.AppConfig;
 import ua.lifebook.users.Language;
 import ua.lifebook.users.User;
+import ua.lifebook.web.utils.SessionKeys;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -52,7 +53,7 @@ public class GatewayFilter implements Filter {
             return;
         }
 
-        final User user = (User) request.getSession().getAttribute("user");
+        final User user = (User) request.getSession().getAttribute(SessionKeys.USER);
         if (user == null) {
             if (isNewLogin(request)) {
                 if (requestURI.contains("login")) response.sendRedirect("/");

@@ -1,0 +1,27 @@
+.btn-glyphicon { padding:8px; background:#ffffff; margin-right:4px; }
+.icon-btn { padding: 1px 15px 3px 2px; border-radius:50px;}
+
+#loading {
+    background: url("../img/loader.gif") center center no-repeat;
+    opacity: 0.5;
+    cursor: auto;
+    width: 100%;
+    height: 100%;
+    z-index: 15;
+
+    /* Positioning */
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#user-menu {
+    top: -45px;
+    right: -45px;
+    float: right;
+}
+
+#user-menu > button.btn-info {
+    background-color: #4fa8c4;
+    border-color: #4d819d;
+}

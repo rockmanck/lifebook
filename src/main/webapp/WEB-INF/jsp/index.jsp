@@ -17,31 +17,31 @@
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-datetimepicker.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/eventlist.css"/>">
-    <style>
-        .btn-glyphicon { padding:8px; background:#ffffff; margin-right:4px; }
-        .icon-btn { padding: 1px 15px 3px 2px; border-radius:50px;}
-
-        #loading {
-            background: url("<c:url value="/img/loader.gif"/>") center center no-repeat;
-            opacity: 0.5;
-            cursor: auto;
-            width: 100%;
-            height: 100%;
-            z-index: 15;
-
-            /* Positioning */
-            position: absolute;
-            left: 0;
-            top: 0;
-        }
-    </style>
+    <link rel="stylesheet" href="<c:url value="/css/index.css"/>">
 </head>
 <body>
 <div class="container">
+    <div class="alert alert-warning" id="implement-me" style="display: none;">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>Hi Dev!</strong> It is not implemented yet. Let's do it!
+    </div>
+
     <div id="loading" style="display: none;"></div>
     <div class="jumbotron">
         <h2>${i18n.getString("welcome")}</h2>
         <p>${i18n.getString("descriptionMain")}</p>
+
+        <div class="dropdown" id="user-menu">
+            <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
+                ${user.firstName} ${user.lastName}
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="#" onclick="animation.notImplemented();">Admin</a></li>
+                <li><a href="#" onclick="animation.notImplemented();">Change Password</a></li>
+                <li class="divider"></li>
+                <li><a href="/logout.html">Logout</a></li>
+            </ul>
+        </div>
     </div>
 
     <ul class="nav nav-tabs">

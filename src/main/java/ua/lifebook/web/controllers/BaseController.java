@@ -1,6 +1,7 @@
 package ua.lifebook.web.controllers;
 
 import ua.lifebook.users.User;
+import ua.lifebook.web.utils.SessionKeys;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,7 +11,7 @@ public abstract class BaseController {
     public static String OK = "ok";
 
     protected User user(HttpServletRequest request) {
-        return (User) request.getSession().getAttribute("user");
+        return (User) request.getSession().getAttribute(SessionKeys.USER);
     }
 
     /**

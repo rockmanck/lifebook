@@ -25,3 +25,33 @@
     background-color: #4fa8c4;
     border-color: #4d819d;
 }
+
+.plans-day-strip {
+    text-align: center;
+    color: #264e7c;
+    font-weight: bold;
+    font-size: 14pt;
+    border: solid 2px #3c3c3c;
+    background-color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+.plans-day-strip:hover {
+    background-color: #cce5ff;
+}
+
+.plans-day-strip.collapsed {
+    background-color: #63afff;
+    color: white;
+}
+
+.plans-day-strip.collapsed:hover {
+    background-color: #cce5ff;
+    color: #264e7c;
+}
+
+.plans-day-list {
+    padding: 0 2px 0 2px;
+}

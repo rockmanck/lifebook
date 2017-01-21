@@ -13,6 +13,7 @@
     <script src="<c:url value="/js/animation.js"/>"></script>
     <script src="<c:url value="/js/user-settings.js"/>"></script>
     <script src="<c:url value="/js/loader.js"/>"></script>
+    <script src="<c:url value="/js/plansListCollapse.js"/>"></script>
     <link rel="shortcut icon" type="image/png" href="<c:url value="/img/lb-favicon.png"/>"/>
     <link rel="stylesheet" href="<c:url value="/css/bootstrap.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-datetimepicker.css"/>">
@@ -59,11 +60,9 @@
     <c:set var="viewOptions" value="${userViewOptions}" scope="request"/>
     <div class="tab-content">
         <div id="daily" class="tab-pane fade <c:if test='${defaultTab eq "DAILY"}'>in active</c:if>">
-            <c:set var="dailyPlans" value="${plans}" scope="request"/>
             <jsp:include page="daily.jsp"/>
         </div>
         <div id="weekly" class="tab-pane fade <c:if test='${defaultTab eq "WEEKLY"}'>in active</c:if>">
-            <c:set var="weeklyPlans" value="${plans}" scope="request"/>
             <jsp:include page="weekly.jsp"/>
         </div>
         <div id="search" class="tab-pane fade <c:if test='${defaultTab eq "SEARCH"}'>in active</c:if>">

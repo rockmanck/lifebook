@@ -39,12 +39,14 @@ $(document).ready(function(){
 		title.focus();
 		title.val(title.val());
 	});
-    
+
     UserSettings = new UserSettingsClass();
     Loader = new LoaderClass();
+    PlansListCollapse.init(ViewType.DAILY);
+    PlansListCollapse.init(ViewType.WEEKLY);
 });
 
-var ViewType = {
+var ViewType = Object.freeze({
 	DAILY: 1,
 	WEEKLY: 2
-};
+});

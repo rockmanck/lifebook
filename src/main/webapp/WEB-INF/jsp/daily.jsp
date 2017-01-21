@@ -4,12 +4,13 @@
 <%--@elvariable id="plan" type="ua.lifebook.plans.Plan"--%>
 <div class="row">
     <div id="dailyList" class="col-sm-8">
+        <c:set var="viewType" value="ViewType.DAILY" scope="request"/>
         <jsp:include page="plans/list.jsp"/>
     </div>
     <div class="col-sm-4">
         <div id="datepicker-daily"></div>
         <div style="margin-top: 8px; text-align: center;">
-            <a class="btn icon-btn btn-info" href="#" data-toggle="modal" onclick="Plan.new('datepicker-daily', ViewType.DAILY);">
+            <a class="btn icon-btn btn-info" href="#" data-toggle="modal" onclick="Plan.new('datepicker-daily', ${viewType});">
                 <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
                 Add Plan
             </a>

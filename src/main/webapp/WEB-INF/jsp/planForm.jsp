@@ -20,7 +20,6 @@
             </div>
             <div class="modal-body">
 
-                <!-- content goes here -->
                 <form:form action="/plan/save.html" method="post">
                     <input type="hidden" value="${plan.id}" name="id">
                     <input type="hidden" value="${plan.rawDueDate}" id="planTimeRaw">

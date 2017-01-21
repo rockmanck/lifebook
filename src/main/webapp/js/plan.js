@@ -28,17 +28,19 @@ function PlanClass() {
 		$.get('./plan/daily.html?date=' + encodeURI(date), function (data) {
             Loader.hide();
 			$('#dailyList').html(data);
+			PlansListCollapse.init(ViewType.DAILY);
 		});
-	};
+    };
 
-	this.loadWeeklyPlans = function() {
-		var date = $('#datepicker-weekly').data('date');
+    this.loadWeeklyPlans = function() {
+        var date = $('#datepicker-weekly').data('date');
         Loader.show();
-		$.get('./plan/weekly.html?date=' + encodeURI(date), function (data) {
+        $.get('./plan/weekly.html?date=' + encodeURI(date), function (data) {
             Loader.hide();
 			$('#weeklyList').html(data);
+            PlansListCollapse.init(ViewType.WEEKLY);
 		});
-	};
+    };
 
 	this.edit = function(id, viewType) {
 		loadPlanById(id, new Date(), viewType);
@@ -63,21 +65,42 @@ function PlanClass() {
 		});
 	};
 
-	this.done = function(id) {
+	this.done = function(id, viewType, day) {
+	    var container = PlansContainer.getContainer(viewType);
+
 		$.post('./plan/' + id + '/done.html').done(function() {
             if (!UserSettings.showDone()) {
-                animation.remove($('#plan' + id), 450);
+                animation.remove(container.find('#plan-' + id), 450);
+                setTimeout(function() {
+                    PlansListCollapse.cleanup(viewType, day);
+                }, 460);
             }
 		});
 	};
 
-    this.cancel = function(id) {
+    this.cancel = function(id, viewType, day) {
+        var container = PlansContainer.getContainer(viewType);
+
         $.post('./plan/' + id + '/cancel.html').done(function() {
             if (!UserSettings.showCanceled()) {
-                animation.remove($('#plan' + id), 450);
+                animation.remove(container.find('#plan-' + id), 450);
+                setTimeout(function() {
+                    PlansListCollapse.cleanup(viewType, day);
+                }, 460);
             }
         });
     };
 }
 
+function PlansContainerResolver() {
+    this.getContainer = function(viewType) {
+        switch (viewType) {
+            case ViewType.DAILY: return $('#dailyList');
+            case ViewType.WEEKLY: return $('#weeklyList');
+        }
+        throw new Error('Failed to resolve view type: ' + viewType);
+    }
+}
+
+var PlansContainer = new PlansContainerResolver();
 var Plan = new PlanClass();

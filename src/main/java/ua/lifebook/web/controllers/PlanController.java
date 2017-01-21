@@ -36,14 +36,18 @@ public class PlanController extends BaseController {
     public ModelAndView getDailyPlans(@RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy") LocalDate date, HttpServletRequest request) {
         final User user = user(request);
         final List<PlansByDay> dailyPlans = plansManager.getDailyPlans(date, user);
-        return new ModelAndView("plans/list").addObject("plans", dailyPlans);
+        return new ModelAndView("plans/list")
+            .addObject("plans", dailyPlans)
+            .addObject("viewType", "ViewType.DAILY");
     }
 
     @RequestMapping("/weekly.html")
     public ModelAndView getWeeklyPlans(@RequestParam @DateTimeFormat(pattern = "MM/dd/yyyy") LocalDate date, HttpServletRequest request) {
         final User user = user(request);
         final List<PlansByDay> plansByDay = plansManager.getWeekPlans(date, user);
-        return new ModelAndView("plans/list").addObject("plans", plansByDay);
+        return new ModelAndView("plans/list")
+            .addObject("plans", plansByDay)
+            .addObject("viewType", "ViewType.WEEKLY");
     }
 
     @RequestMapping("/{id}/edit.html")

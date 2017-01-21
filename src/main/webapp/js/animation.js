@@ -32,7 +32,7 @@ function AnimationClass() {
 	    var me = this;
 		setTimeout(function() {
 		    me.hide(implementMe)
-        }, 5000)
+        }, 5000);
 	};
 }
 

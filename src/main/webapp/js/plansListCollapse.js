@@ -6,9 +6,9 @@ function PlansListCollapseClass() {
             var dayBar = $(this);
             var plansList = $(dayBar).next('div');
             if (dayBar.hasClass('expanded')) {
-                animation.hide(plansList);
+                animation.hide(plansList, 150);
             } else {
-                animation.show(plansList);
+                animation.show(plansList, 150);
             }
             dayBar.toggleClass('expanded');
             dayBar.toggleClass('collapsed');

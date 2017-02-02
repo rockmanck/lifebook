@@ -1,8 +1,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--@elvariable id="i18n" type="java.util.ResourceBundle"--%>
 <%--@elvariable id="plan" type="ua.lifebook.plans.Plan"--%>
-
+<c:set var="newlineWindows" value="<%= \"\r\n\" %>" />
+<c:set var="newline" value="<%= \"\n\" %>" />
 <c:forEach var="planByDay" items="${plans}">
     <div>
         <c:set var="day" value="${planByDay.getDay()}"/>
@@ -21,7 +23,7 @@
                     </time>
                     <div class="info<c:if test='${isOutdated}'> outdated</c:if>">
                         <h2 class="title">${plan.title}</h2>
-                        <p class="desc">${plan.comments}</p>
+                        <p class="desc">${fn:replace(fn:replace(plan.comments, newline, "<br/>"), newlineWindows, "<br/>")}</p>
                     </div>
                     <div class="social">
                         <ul>

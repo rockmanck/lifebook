@@ -3,7 +3,7 @@ package ua.lifebook.db.sqlbuilder;
 class CallerResolver {
 
     /**
-     * Gets class from which {@link com.pitchbook.import_tool.sql_builder.DynamicSqlBuilder#sql(String)}
+     * Gets class from which {@link ua.lifebook.db.sqlbuilder.DynamicSqlBuilder#sql(String)}
      * was called from stack trace
      * @return resulting {@link Class Class<?>} object
      * @throws ClassNotFoundException If the class was not found

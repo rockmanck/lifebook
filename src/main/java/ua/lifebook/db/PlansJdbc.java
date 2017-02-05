@@ -9,7 +9,7 @@ import ua.lifebook.plans.Plan;
 import ua.lifebook.plans.PlanStatus;
 import ua.lifebook.plans.RepeatType;
 import ua.lifebook.users.User;
-import ua.lifebook.users.ViewOption;
+import ua.lifebook.users.parameters.ViewOption;
 import ua.lifebook.utils.DateUtils;
 
 import javax.sql.DataSource;

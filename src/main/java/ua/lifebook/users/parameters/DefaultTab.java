@@ -1,4 +1,4 @@
-package ua.lifebook.users;
+package ua.lifebook.users.parameters;
 
 public enum DefaultTab {
     DAILY,

@@ -2,6 +2,8 @@ package ua.lifebook.users;
 
 import ua.lifebook.db.repository.Serial;
 import ua.lifebook.db.repository.Table;
+import ua.lifebook.users.parameters.Language;
+import ua.lifebook.users.parameters.UserSettings;
 
 @Table("Users")
 public class User {

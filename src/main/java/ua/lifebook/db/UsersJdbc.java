@@ -5,11 +5,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ua.lifebook.db.sqlbuilder.DynamicSqlBuilder;
-import ua.lifebook.users.DefaultTab;
-import ua.lifebook.users.Language;
 import ua.lifebook.users.User;
-import ua.lifebook.users.UserSettings;
-import ua.lifebook.users.ViewOption;
+import ua.lifebook.users.parameters.DefaultTab;
+import ua.lifebook.users.parameters.Language;
+import ua.lifebook.users.parameters.UserSettings;
+import ua.lifebook.users.parameters.ViewOption;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
@@ -25,7 +25,7 @@ public class UsersJdbc extends JdbcTemplate {
     /**
      * Tries to find user with such credentials. If not found returns null.
      */
-    public User loginUser(String login, String password) {
+    public User getUserByCreds(String login, String password) {
         final String sql = sqlBuilder.sql("GetUserId")
             .param("login", login)
             .param("password", password)

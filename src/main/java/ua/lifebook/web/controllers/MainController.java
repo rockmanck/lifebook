@@ -8,11 +8,11 @@ import org.springframework.web.servlet.ModelAndView;
 import ua.lifebook.plans.PlanStatus;
 import ua.lifebook.plans.PlansByDay;
 import ua.lifebook.plans.PlansManager;
-import ua.lifebook.users.DefaultTab;
 import ua.lifebook.users.User;
-import ua.lifebook.users.UserSettings;
 import ua.lifebook.users.UsersManager;
-import ua.lifebook.users.ViewOption;
+import ua.lifebook.users.parameters.DefaultTab;
+import ua.lifebook.users.parameters.UserSettings;
+import ua.lifebook.users.parameters.ViewOption;
 import ua.lifebook.web.utils.SessionKeys;
 
 import javax.servlet.http.HttpServletRequest;

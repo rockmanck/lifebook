@@ -10,7 +10,6 @@ import ua.lifebook.db.PlansJdbc;
 import ua.lifebook.db.UsersJdbc;
 import ua.lifebook.db.repository.ReplicationManager;
 import ua.lifebook.notification.MailManager;
-import ua.lifebook.web.Authorization;
 
 import javax.sql.DataSource;
 
@@ -34,10 +33,6 @@ public class AppConfig {
     @Bean public ReplicationManager replicationManager() {
         final Config replication = config.getConfig("replication");
         return new ReplicationManager(replication.getBoolean("isPrimary"), replication.getString("storage"));
-    }
-
-    @Bean public Authorization authorization() {
-        return new Authorization(usersJdbc());
     }
 
     private JavaMailSenderImpl sender() {

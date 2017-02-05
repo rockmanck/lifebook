@@ -1,4 +1,4 @@
-package ua.lifebook.users;
+package ua.lifebook.users.parameters;
 
 import java.util.HashSet;
 import java.util.Set;

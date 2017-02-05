@@ -3,8 +3,9 @@ package ua.lifebook.web;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import ua.lifebook.config.AppConfig;
-import ua.lifebook.users.Language;
 import ua.lifebook.users.User;
+import ua.lifebook.users.UsersManager;
+import ua.lifebook.users.parameters.Language;
 import ua.lifebook.web.utils.SessionKeys;
 
 import javax.servlet.Filter;
@@ -26,7 +27,7 @@ import java.util.function.Predicate;
 
 public class GatewayFilter implements Filter {
     private final String encoding = "utf8";
-    private Authorization authorization;
+    private UsersManager usersManager;
     private static final List<Predicate<String>> rulesAllowedLinks = new ArrayList<>();
     static {
         rulesAllowedLinks.add(e -> e.startsWith("/css/"));
@@ -39,7 +40,7 @@ public class GatewayFilter implements Filter {
 
     @Override public void init(FilterConfig config) throws ServletException {
         final ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
-        authorization = applicationContext.getBean(Authorization.class);
+        usersManager = applicationContext.getBean(UsersManager.class);
     }
 
     @Override public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
@@ -55,7 +56,7 @@ public class GatewayFilter implements Filter {
 
         final User user = (User) request.getSession().getAttribute(SessionKeys.USER);
         if (user == null) {
-            if (isNewLogin(request)) {
+            if (isAuthorized(request)) {
                 if (requestURI.contains("login")) response.sendRedirect("/");
                 else chain.doFilter(request, response);
                 return;
@@ -83,14 +84,20 @@ public class GatewayFilter implements Filter {
         request.getSession().setAttribute("i18n", bundles.get(language));
     }
 
-    private boolean isNewLogin(HttpServletRequest request) {
+    private boolean isAuthorized(HttpServletRequest request) {
+        try {
+            final User user = tryGetUser(request);
+            request.getSession().setAttribute("user", user);
+            return true;
+        } catch (UsersManager.NoSuchUser | UsersManager.EmptyLogin e) {
+            return false;
+        }
+    }
+
+    private User tryGetUser(HttpServletRequest request) throws UsersManager.NoSuchUser, UsersManager.EmptyLogin {
         final String login = request.getParameter("login");
         final String password = request.getParameter("password");
-        final User user = authorization.login(login, password);
-        if (user == null) return false;
-
-        request.getSession().setAttribute("user", user);
-        return true;
+        return usersManager.getUser(login, password);
     }
 
     @Override public void destroy() {

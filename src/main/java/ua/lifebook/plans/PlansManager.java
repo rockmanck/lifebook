@@ -2,7 +2,7 @@ package ua.lifebook.plans;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.lifebook.db.PlansJdbc;
+import ua.lifebook.db.PlansService;
 import ua.lifebook.users.User;
 import ua.lifebook.utils.DateUtils;
 
@@ -15,11 +15,11 @@ import java.util.Map;
 
 @Component
 public class PlansManager {
-    @Autowired private PlansJdbc plansJdbc;
+    @Autowired private PlansService plansService;
 
     public void save(Plan plan, User user) {
         plan.setUser(user);
-        plansJdbc.savePlan(plan);
+        plansService.savePlan(plan);
     }
 
     public List<PlansByDay> getDailyPlans(LocalDate date, User user) {
@@ -32,19 +32,19 @@ public class PlansManager {
     }
 
     public Plan getPlan(int id) {
-        return plansJdbc.getPlan(id);
+        return plansService.getPlan(id);
     }
 
     public void donePlan(int id) {
-        plansJdbc.update("UPDATE plans SET status = ? WHERE id = ?", PlanStatus.DONE.getCode(), id);
+        plansService.updatePlanStatus(id, PlanStatus.DONE);
     }
 
     public void cancelPlan(int id) {
-        plansJdbc.update("UPDATE plans SET status = ? WHERE id = ?", PlanStatus.CANCELED.getCode(), id);
+        plansService.updatePlanStatus(id, PlanStatus.CANCELED);
     }
 
     private List<PlansByDay> getPlans(LocalDate start, LocalDate end, User user) {
-        final List<Plan> plans = plansJdbc.getPlans(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end), user);
+        final List<Plan> plans = plansService.getPlans(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end), user);
         final Map<LocalDate, PlansByDay> map = new HashMap<>();
 
         for (Plan plan : plans) {

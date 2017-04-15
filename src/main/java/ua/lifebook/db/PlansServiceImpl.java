@@ -23,15 +23,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-public class PlansJdbc extends JdbcTemplate {
+public class PlansServiceImpl extends JdbcTemplate implements PlansService {
     private final DynamicSqlBuilder sqlBuilder = new DynamicSqlBuilder();
     private final Repository repository = new Repository(this);
 
-    public PlansJdbc(DataSource dataSource) {
+    public PlansServiceImpl(DataSource dataSource) {
         super(dataSource);
     }
 
-    public void savePlan(Plan plan) {
+    @Override public void savePlan(Plan plan) {
         final String sql;
         if (plan.getId() == null) {
             sql = "INSERT INTO plans (title, repeated, comments, status, user_id, category, due_time) VALUES (?,?,?,?,?,?,?)";
@@ -47,7 +47,7 @@ public class PlansJdbc extends JdbcTemplate {
         //repository.save(plan);
     }
 
-    public Plan getPlan(Integer id) {
+    @Override public Plan getPlan(Integer id) {
         final String sql = sqlBuilder.sql("GetPlan").build();
         try {
             return queryForObject(sql, (rs, rowNum) -> plan(rs), id);
@@ -56,10 +56,7 @@ public class PlansJdbc extends JdbcTemplate {
         }
     }
 
-    /**
-     * Returns all plan for specified date and user. Sorts collection by due time.
-     */
-    public List<Plan> getPlans(Date start, Date end, User user) {
+    @Override public List<Plan> getPlans(Date start, Date end, User user) {
         final Set<ViewOption> viewOptions = user.getUserSettings().getViewOptions();
         final String sql = sqlBuilder.sql("GetPlans")
             .param("startDate", DateUtils.format(start))
@@ -78,6 +75,10 @@ public class PlansJdbc extends JdbcTemplate {
         });
         Collections.sort(result, (o1, o2) -> o1.getDueDate().compareTo(o2.getDueDate()));
         return result;
+    }
+
+    @Override public void updatePlanStatus(int planId, PlanStatus status) {
+        update("UPDATE plans SET status = ? WHERE id = ?", status.getCode(), planId);
     }
 
     private Plan plan(ResultSet rs) throws SQLException {

@@ -13,6 +13,7 @@ import ua.lifebook.plans.Plan;
 import ua.lifebook.plans.PlanStatus;
 import ua.lifebook.plans.PlansByDay;
 import ua.lifebook.plans.PlansManager;
+import ua.lifebook.reminders.RemindersService;
 import ua.lifebook.users.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import java.util.List;
 @Controller
 public class PlanController extends BaseController {
     @Autowired private PlansManager plansManager;
+    @Autowired private RemindersService remindersService;
 
     @RequestMapping(value = "/save.html", method = RequestMethod.POST)
     public void savePlan(@ModelAttribute Plan plan, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -67,6 +69,11 @@ public class PlanController extends BaseController {
     @RequestMapping("/{id}/cancel.html")
     public void cancel(@PathVariable int id, HttpServletResponse response) throws IOException {
         plansManager.cancelPlan(id);
+        ok(response);
+    }
+
+    @RequestMapping("/{id}/addRemind.html")
+    public void addRemind(@PathVariable int planId, HttpServletResponse response) throws IOException {
         ok(response);
     }
 }

@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -73,7 +73,7 @@ public class PlansServiceImpl extends JdbcTemplate implements PlansService {
             plan.setUser(user);
             result.add(plan);
         });
-        Collections.sort(result, (o1, o2) -> o1.getDueDate().compareTo(o2.getDueDate()));
+        result.sort(Comparator.comparing(Plan::getDueDate));
         return result;
     }
 

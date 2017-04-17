@@ -1,11 +1,7 @@
 package ua.lifebook.notification;
 
-import org.quartz.Job;
 import org.quartz.JobBuilder;
-import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
@@ -69,7 +65,6 @@ public class NotificationService {
             .build();
         try {
             scheduler.scheduleJob(job, trigger);
-            scheduler.start();
         } catch (SchedulerException e) {
             logger.error("Failed to schedule reminder " + reminder, e);
         }
@@ -82,21 +77,13 @@ public class NotificationService {
     @PostConstruct
     private void init() throws SchedulerException {
         scheduler = StdSchedulerFactory.getDefaultScheduler();
-        final Reminder reminder = new Reminder(1, 1, LocalDateTime.now().plusSeconds(10));
-        scheduleReminder("test", reminder);
+        scheduler.start();
+//        final Reminder reminder = new Reminder(1, 1, LocalDateTime.now().plusSeconds(10));
+//        scheduleReminder("test", reminder);
     }
 
     @PreDestroy
     private void shutdown() throws SchedulerException {
         scheduler.shutdown();
-    }
-
-    public static final class NotificationJob implements Job {
-        @Override public void execute(JobExecutionContext context) throws JobExecutionException {
-            logger.debug("Job started");
-            final JobDetail jobDetail = context.getJobDetail();
-            final JobDataMap jobDataMap = jobDetail.getJobDataMap();
-            logger.debug("PlanId = {}", jobDataMap.getInt("planId"));
-        }
     }
 }

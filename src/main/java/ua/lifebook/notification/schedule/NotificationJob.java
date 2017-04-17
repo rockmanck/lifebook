@@ -1,4 +1,4 @@
-package ua.lifebook.notification;
+package ua.lifebook.notification.schedule;
 
 import org.quartz.Job;
 import org.quartz.JobDataMap;

@@ -1,27 +1,24 @@
 package ua.lifebook.notification;
 
-import org.quartz.JobBuilder;
+import com.google.common.collect.HashMultimap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
+import org.quartz.TriggerKey;
 import org.quartz.impl.StdSchedulerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ua.lifebook.notification.schedule.ScheduleUtils;
 import ua.lifebook.reminders.Reminder;
 import ua.lifebook.reminders.RemindersService;
-import ua.lifebook.utils.DateUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
 public class NotificationService {
@@ -29,40 +26,55 @@ public class NotificationService {
 
     private static final Logger logger = LoggerFactory.getLogger(NotificationService.class);
     private Scheduler scheduler;
-    private final CopyOnWriteArrayList<NotificationObserver> observers = new CopyOnWriteArrayList<>();
-    private final Set<Integer> trackedUsers = ConcurrentHashMap.newKeySet();
+    private final HashMultimap<Integer, NotificationObserver> observers = HashMultimap.create();
 
-    // on new login load reminders which will occur in "near future"
-    public void trackNotificationsForUser(int userId) {
-        if (trackedUsers.contains(userId)) return;
+    /**
+     * Subscribes for notifications for user with id {@code userId}
+     * @param observer object that will receive notifications
+     */
+    public void subscribe(NotificationObserver observer, int userId) {
+        if (!observers.containsKey(userId)) {
+            final List<Reminder> remindersForUser = getRemindersForUser(userId);
+            remindersForUser.forEach(this::schedule);
+        }
+        observers.put(userId, observer);
+    }
 
-        trackedUsers.add(userId);
-        final List<Reminder> reminders = remindersService.getReminders(userId, LocalDateTime.now(), LocalDateTime.now().plusMonths(1));
-        final String groupId = String.valueOf(userId);
-        for (Reminder reminder : reminders) {
-            scheduleReminder(groupId, reminder);
+    public void unsubscribe(NotificationObserver observer, int userId) {
+        observers.remove(userId, observer);
+        if (!observers.containsKey(userId)) {
+            final List<Reminder> remindersForUser = getRemindersForUser(userId);
+            remindersForUser.forEach(this::unschedule);
         }
     }
 
-    /**
-     *
-     * @param planId
-     * @param remindExactTime
-     */
-    public void addNotification(int planId, LocalDateTime remindExactTime) {
-
+    public void updateNotification(Reminder reminder) {
+        try {
+            final TriggerKey triggerKey = ScheduleUtils.getTriggerKey(reminder);
+            scheduler.rescheduleJob(triggerKey, ScheduleUtils.getTrigger(reminder));
+        } catch (SchedulerException e) {
+            logger.error("Failed to update notification " + reminder, e);
+        }
     }
 
-    private void scheduleReminder(String groupId, Reminder reminder) {
-        final int planId = reminder.getPlanId();
-        final JobDetail job = JobBuilder.newJob(NotificationJob.class)
-            .withIdentity("Reminder for " + planId, groupId)
-            .usingJobData("planId", planId)
-            .build();
-        final Trigger trigger = TriggerBuilder.newTrigger()
-            .withIdentity("Trigger for " + reminder.getId(), groupId)
-            .startAt(DateUtils.localDateTimeToDate(reminder.getRemindTime()))
-            .build();
+    public void removeNotification(Reminder reminder) {
+        unschedule(reminder);
+    }
+
+//    @Scheduled
+    private void reloadRemindersForTrackedUsers() {
+        // TODO add once per day schedule, load reminders for a week and replace/add them in scheduler
+    }
+
+    private List<Reminder> getRemindersForUser(int userId) {
+        final LocalDateTime startDate = LocalDateTime.now();
+        final LocalDateTime endDate = startDate.plusWeeks(1);
+        return remindersService.getReminders(userId, startDate, endDate);
+    }
+
+    private void schedule(Reminder reminder) {
+        final JobDetail job = ScheduleUtils.getJob(reminder);
+        final Trigger trigger = ScheduleUtils.getTrigger(reminder);
         try {
             scheduler.scheduleJob(job, trigger);
         } catch (SchedulerException e) {
@@ -70,9 +82,13 @@ public class NotificationService {
         }
     }
 
-    // add notification subscribers
-
-    // schedule new notifications and when time occurs notify subscribers
+    private void unschedule(Reminder reminder) {
+        try {
+            scheduler.unscheduleJob(ScheduleUtils.getTriggerKey(reminder));
+        } catch (SchedulerException e) {
+            logger.error("Failed to unschedule " + reminder, e);
+        }
+    }
 
     @PostConstruct
     private void init() throws SchedulerException {

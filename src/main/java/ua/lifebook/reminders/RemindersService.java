@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RemindersService {
-    void createReminder(int planId, LocalDateTime remindTime);
+    Reminder createReminder(int planId, LocalDateTime remindTime);
 
     List<Reminder> getReminders(int userId, LocalDateTime from, LocalDateTime to);
 

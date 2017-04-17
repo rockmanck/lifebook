@@ -4,8 +4,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class RemindersServiceImpl implements RemindersService {
-    @Override public void createReminder(int planId, LocalDateTime remindTime) {
-
+    @Override public Reminder createReminder(int planId, LocalDateTime remindTime) {
+        return null;
     }
 
     @Override public List<Reminder> getReminders(int userId, LocalDateTime from, LocalDateTime to) {

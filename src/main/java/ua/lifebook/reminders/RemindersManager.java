@@ -20,18 +20,20 @@ public class RemindersManager {
     }
 
     public void addReminder(int planId, LocalDateTime remindExactTime) {
-        remindersService.createReminder(planId, remindExactTime);
-        notificationService.addNotification(planId, remindExactTime);
+        final Reminder reminder = remindersService.createReminder(planId, remindExactTime);
+        notificationService.updateNotification(reminder);
     }
 
     public void updateReminder(int reminderId, RemindBefore remindBefore) {
         final Reminder reminder = remindersService.getReminder(reminderId);
         final LocalDateTime remindExactTime = getRemindBeforeTime(reminder.getPlanId(), remindBefore);
         updateReminder(reminderId, remindExactTime);
+        notificationService.updateNotification(remindersService.getReminder(reminderId));
     }
 
     public void updateReminder(int reminderId, LocalDateTime remindExactTime) {
         remindersService.updateReminder(reminderId, remindExactTime);
+        notificationService.updateNotification(remindersService.getReminder(reminderId));
     }
 
     public void removeRemindersForPlan(int planId) {

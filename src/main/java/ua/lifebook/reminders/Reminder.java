@@ -5,11 +5,13 @@ import java.time.LocalDateTime;
 public class Reminder {
     private final int id;
     private final int planId;
+    private final int userId;
     private final LocalDateTime remindTime;
 
-    public Reminder(int id, int planId, LocalDateTime remindTime) {
+    public Reminder(int id, int planId, int userId, LocalDateTime remindTime) {
         this.id = id;
         this.planId = planId;
+        this.userId = userId;
         this.remindTime = remindTime;
     }
 
@@ -23,6 +25,10 @@ public class Reminder {
 
     public LocalDateTime getRemindTime() {
         return remindTime;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     @Override public boolean equals(Object o) {
@@ -42,6 +48,7 @@ public class Reminder {
         return "Reminder{" +
             "id=" + id +
             ", planId=" + planId +
+            ", userId=" + userId +
             ", remindTime=" + remindTime +
             '}';
     }

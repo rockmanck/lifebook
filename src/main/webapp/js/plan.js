@@ -42,6 +42,14 @@ function PlanClass() {
 		});
     };
 
+    this.loadOverview = function() {
+        Loader.show();
+        $.get('./overview.html?year=2017&month=6', function (data) {
+            Loader.hide();
+            $('#overview').html(data);
+        });
+    };
+
 	this.edit = function(id, viewType) {
 		loadPlanById(id, new Date(), viewType);
 	};

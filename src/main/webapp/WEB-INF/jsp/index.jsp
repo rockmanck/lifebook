@@ -55,6 +55,9 @@
         <li <c:if test='${defaultTab eq "SEARCH"}'>class="active"</c:if>>
             <a data-toggle="tab" href="#search" data-type="SEARCH">${i18n.getString("search")}</a>
         </li>
+        <li <c:if test='${defaultTab eq "OVERVIEW"}'>class="active"</c:if>>
+            <a data-toggle="tab" href="#overview" data-type="OVERVIEW">${i18n.getString("overview")}</a>
+        </li>
     </ul>
 
     <c:set var="viewOptions" value="${userViewOptions}" scope="request"/>
@@ -67,6 +70,13 @@
         </div>
         <div id="search" class="tab-pane fade <c:if test='${defaultTab eq "SEARCH"}'>in active</c:if>">
 
+        </div>
+        <div id="overview" class="tab-pane fade <c:if test='${defaultTab eq "OVERVIEW"}'>in active</c:if>">
+            <div class="row">
+                <div id="weeklyList" class="col-sm-12">
+                    <c:if test='${defaultTab eq "OVERVIEW"}'><jsp:include page="overview.jsp"/></c:if>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -25,11 +25,25 @@ public class PlansByDay implements Comparable<PlansByDay> {
     /**
      * Returns capitalized full representation of {@link java.time.DayOfWeek} using method {@link java.time.DayOfWeek#getDisplayName(TextStyle, Locale) getDisplayName}.
      */
-    public String getDay(/*Locale locale*/) {
+    public String getDay() {
         return day.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US);
+    }
+
+    public int getDayOfMonth() {
+        return day.getDayOfMonth();
+    }
+
+    LocalDateTime getDayFully() {
+        return day;
     }
 
     @Override public int compareTo(PlansByDay o) {
         return day.compareTo(o.day);
+    }
+
+    @Override public String toString() {
+        return "PlansByDay{" +
+            "day=" + day +
+            '}';
     }
 }

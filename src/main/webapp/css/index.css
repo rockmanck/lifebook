@@ -55,3 +55,29 @@
 .plans-day-list {
     padding: 0 2px 0 2px;
 }
+
+td.overview {
+    border: 1px solid darkgrey;
+    padding: 3px;
+}
+
+.overview-item {
+
+}
+
+.overview-item-day {
+    font-size: small;
+    color: darkgrey;
+}
+
+.overview-done {
+    color: darkgreen;
+}
+
+.overview-canceled {
+    text-decoration: line-through;
+}
+
+.overview-outdated {
+    color: #ac2925;
+}

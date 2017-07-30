@@ -1,6 +1,9 @@
-apply plugin: 'idea'
-apply plugin: 'java'
-apply plugin: 'war'
+plugins {
+    id 'idea'
+    id 'java'
+    id 'war'
+    id "org.flywaydb.flyway" version "4.2.0"
+}
 
 sourceCompatibility = 1.8
 
@@ -32,6 +35,7 @@ dependencies {
     compile 'com.google.api-client:google-api-client:1.22.0'
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.22.0'
     compile 'com.google.apis:google-api-services-calendar:v3-rev249-1.22.0'
+    compile "org.flywaydb:flyway-core:4.2.0"
 
     compile files('lib/RockmanUtils.jar')
 

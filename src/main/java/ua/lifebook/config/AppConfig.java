@@ -1,7 +1,6 @@
 package ua.lifebook.config;
 
 import com.typesafe.config.Config;
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,8 +13,6 @@ import ua.lifebook.notification.MailManager;
 import ua.lifebook.reminders.RemindersService;
 import ua.lifebook.reminders.RemindersServiceImpl;
 
-import javax.sql.DataSource;
-
 @Configuration
 @ComponentScan("ua.lifebook")
 public class AppConfig {
@@ -26,11 +23,11 @@ public class AppConfig {
     }
 
     @Bean public PlansService plansJdbc() {
-        return new PlansServiceImpl(getDataSource());
+        return new PlansServiceImpl(DbConfig.dataSource());
     }
 
     @Bean public UsersJdbc usersJdbc() {
-        return new UsersJdbc(getDataSource());
+        return new UsersJdbc(DbConfig.dataSource());
     }
 
     @Bean public ReplicationManager replicationManager() {
@@ -51,15 +48,5 @@ public class AppConfig {
         sender.setPassword(sendConf.getString("password"));
         sender.setDefaultEncoding(sendConf.getString("defaultEncoding"));
         return sender;
-    }
-
-    private DataSource getDataSource() {
-        final Config db = config.getConfig("db");
-        final BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setUsername(db.getString("username"));
-        dataSource.setPassword(db.getString("password"));
-        dataSource.setUrl(db.getString("url"));
-        dataSource.setDriverClassName(db.getString("driver"));
-        return dataSource;
     }
 }

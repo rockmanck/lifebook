@@ -56,8 +56,7 @@ public class PlansServiceImpl extends JdbcTemplate implements PlansService {
         }
     }
 
-    @Override public List<Plan> getPlans(Date start, Date end, User user) {
-        final Set<ViewOption> viewOptions = user.getUserSettings().getViewOptions();
+    @Override public List<Plan> getPlans(Date start, Date end, User user, Set<ViewOption> viewOptions) {
         final String sql = sqlBuilder.sql("GetPlans")
             .param("startDate", DateUtils.format(start))
             .param("endDate", DateUtils.format(end))

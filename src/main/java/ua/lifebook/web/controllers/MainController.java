@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import ua.lifebook.plans.OverviewPlans;
 import ua.lifebook.plans.PlanStatus;
 import ua.lifebook.plans.PlansByDay;
 import ua.lifebook.plans.PlansManager;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -47,6 +49,7 @@ public class MainController extends BaseController {
         final DefaultTab defaultTab = userSettings.getDefaultTab();
         final List<PlansByDay> plans;
         final LocalDate now = LocalDate.now();
+        final ModelAndView result = new ModelAndView("index");
         switch (defaultTab) {
             case DAILY:
                 plans = plansManager.getDailyPlans(now, user);
@@ -54,10 +57,15 @@ public class MainController extends BaseController {
             case WEEKLY:
                 plans = plansManager.getWeekPlans(now, user);
                 break;
+            case OVERVIEW:
+                final int year = now.getYear();
+                final int month = now.getMonthValue();
+                final Map<Integer, PlansByDay> monthlyPlans = plansManager.getMonthlyPlans(year, month, user);
+                result.addObject("plansOverview", new OverviewPlans(year, month, monthlyPlans));
             default: plans = new ArrayList<>();
         }
 
-        return new ModelAndView("index")
+        return result
             .addObject("planStatuses", PlanStatus.values())
             .addObject("plans", plans)
             .addObject("userViewOptions", userViewOptions)
@@ -78,5 +86,12 @@ public class MainController extends BaseController {
     public void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
         request.getSession().removeAttribute(SessionKeys.USER);
         response.sendRedirect("/");
+    }
+
+    @RequestMapping("/overview.html")
+    public ModelAndView overview(@RequestParam int year, @RequestParam int month, HttpServletRequest request) {
+        final Map<Integer, PlansByDay> plans = plansManager.getMonthlyPlans(year, month, user(request));
+        return new ModelAndView("overview")
+            .addObject("plansOverview", new OverviewPlans(year, month, plans));
     }
 }

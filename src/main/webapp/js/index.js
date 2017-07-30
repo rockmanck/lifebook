@@ -12,6 +12,9 @@ $(document).ready(function(){
 			case '#weekly':
 				Plan.loadWeeklyPlans();
 				break;
+            case '#overview':
+                Plan.loadOverview();
+                break;
 		}
         UserSettings.updateSelectedTab(tab.data('type'));
 

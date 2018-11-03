@@ -1,11 +1,32 @@
-plugins {
-    id 'idea'
-    id 'java'
-    id 'war'
-    id "org.flywaydb.flyway" version "4.2.0"
+apply plugin: 'idea'
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+buildscript {
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${spring_boot_version}")
+    }
 }
 
 sourceCompatibility = 1.8
+
+ext {
+    springVersion = '5.0.8.RELEASE'
+    libs = [
+            logging: [
+                    'ch.qos.logback:logback-classic:1.2.3'
+                    , 'ch.qos.logback:logback-core:1.2.3'
+                    , 'org.codehaus.janino:janino:2.7.8'
+            ]
+    ]
+}
 
 allprojects {
     repositories {
@@ -14,31 +35,43 @@ allprojects {
 }
 
 dependencies {
-    providedCompile 'org.apache.tomcat:tomcat-catalina:7.0.57'
-    providedCompile 'javax.servlet:javax.servlet-api:3.0.1'
-
-    compile 'ch.qos.logback:logback-classic:1.1.3'
+    compile libs.logging
     compile 'com.typesafe:config:1.3.0'
-    compile 'commons-fileupload:commons-fileupload:1.3.1'
-    compile 'javax.mail:mail:1.4.7'
-    compile 'javax.servlet.jsp.jstl:javax.servlet.jsp.jstl-api:1.2.1'
-    compile 'org.postgresql:postgresql:9.4-1204-jdbc42'
-    compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'org.apache.commons:commons-dbcp2:2.1.1'
-    compile 'org.apache.velocity:velocity:1.7'
-    compile 'org.springframework:spring-webmvc:4.2.1.RELEASE'
-    compile 'org.springframework:spring-context-support:4.1.5.RELEASE'
-    compile 'org.springframework:spring-jdbc:4.2.1.RELEASE'
-    compile 'taglibs:standard:1.1.2'
-    compile 'org.quartz-scheduler:quartz:2.2.1'
     compile 'com.google.guava:guava:19.0'
     compile 'com.google.api-client:google-api-client:1.22.0'
     compile 'com.google.oauth-client:google-oauth-client-jetty:1.22.0'
     compile 'com.google.apis:google-api-services-calendar:v3-rev249-1.22.0'
-    compile "org.flywaydb:flyway-core:4.2.0"
+    compile 'commons-fileupload:commons-fileupload:1.3.1'
+    compile 'javax.mail:mail:1.4.7'
+    compile 'javax.servlet:jstl'
+    compile 'javax.servlet:javax.servlet-api'
+    compile 'org.aspectj:aspectjweaver:1.9.1'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'org.apache.commons:commons-dbcp2:2.1.1'
+    compile 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    compile 'org.apache.velocity:velocity:1.7'
+    compile 'org.postgresql:postgresql:9.4-1204-jdbc42'
+    compile 'org.quartz-scheduler:quartz:2.2.1'
+    compile "org.springframework:spring-context-support"
+    compile "org.springframework:spring-jdbc"
+    compile "org.springframework:spring-tx"
+    compile 'org.springframework.boot:spring-boot-starter-tomcat'
+    compile ("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: 'hibernate-validator'
+    }
+    compile "org.flywaydb:flyway-core:${flyway_version}"
+    compile 'taglibs:standard:1.1.2'
 
     compile files('lib/RockmanUtils.jar')
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.7.1'
+}
+
+bootWar {
+    mainClassName = 'ua.lifebook.application.LifebookApp'
+}
+
+bootJar {
+    mainClassName = 'ua.lifebook.application.LifebookApp'
 }

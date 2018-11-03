@@ -38,7 +38,7 @@ public class GatewayFilter implements Filter {
     private static final boolean devMode = AppConfig.config.getBoolean("devMode");
     private static final Map<Language, ResourceBundle> bundles = new HashMap<>();
 
-    @Override public void init(FilterConfig config) throws ServletException {
+    @Override public void init(FilterConfig config) {
         final ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
         usersManager = applicationContext.getBean(UsersManager.class);
     }
@@ -77,7 +77,7 @@ public class GatewayFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    private void setLocale(HttpServletRequest request, Language language) throws UnsupportedEncodingException {
+    private void setLocale(HttpServletRequest request, Language language) {
         if (!bundles.containsKey(language) || devMode) {
             bundles.put(language, ResourceBundle.getBundle("MessagesBundle", language.getLocale(), language.getEncodingControl()));
         }

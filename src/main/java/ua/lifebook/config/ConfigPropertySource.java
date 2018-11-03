@@ -6,6 +6,14 @@ public class ConfigPropertySource extends PropertySource<Object> {
 
     @Override
     public Object getProperty(String name) {
+        if (name.contains("[")) {
+            return null;
+        }
+
+        if (name.contains(":")) {
+            return null;
+        }
+
         if (AppConfig.config.hasPath(name)) {
             return AppConfig.config.getAnyRef(name);
         }

@@ -10,7 +10,7 @@ WITH (
 OIDS=FALSE
 );
 
-TRUNCATE TABLE "Plans";
+TRUNCATE TABLE "Plans" CASCADE;
 
 ALTER TABLE "Plans"
-ALTER COLUMN "Category" TYPE INT
+ALTER COLUMN "Category" TYPE INT USING "Category"::integer

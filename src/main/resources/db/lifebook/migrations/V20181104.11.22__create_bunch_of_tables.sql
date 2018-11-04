@@ -1,3 +1,13 @@
+CREATE TABLE "PlanStatus"
+(
+  "Code" character varying(10) NOT NULL,
+  "Name" character varying(100),
+  CONSTRAINT "PlanStatus_pk" PRIMARY KEY ("Code")
+)
+WITH (
+OIDS=FALSE
+);
+
 CREATE TABLE "Plans"
 (
   "Id" serial NOT NULL,
@@ -81,16 +91,6 @@ CREATE TABLE "RepeatType"
   "Code" character varying(10) NOT NULL,
   "Name" character varying(100),
   CONSTRAINT "RepeatType_pk" PRIMARY KEY ("Code")
-)
-WITH (
-OIDS=FALSE
-);
-
-CREATE TABLE "PlanStatus"
-(
-  "Code" character varying(10) NOT NULL,
-  "Name" character varying(100),
-  CONSTRAINT "PlanStatus_pk" PRIMARY KEY ("Code")
 )
 WITH (
 OIDS=FALSE

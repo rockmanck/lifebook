@@ -64,7 +64,7 @@ public class UsersJdbc extends JdbcTemplate {
         user.setPassword(rs.getString("password"));
         final UserSettings userSettings = new UserSettings();
         userSettings.setViewOptions(ViewOption.parse(rs.getString("view_options")));
-        userSettings.setDefaultTab(DefaultTab.valueOf(rs.getString("default_tab")));
+        userSettings.setDefaultTab(DefaultTab.byName(rs.getString("default_tab")));
         user.setUserSettings(userSettings);
         final String lang = rs.getString("language");
         user.setLanguage(!StringUtils.isEmpty(lang) ? Language.byCode(lang) : Language.EN);

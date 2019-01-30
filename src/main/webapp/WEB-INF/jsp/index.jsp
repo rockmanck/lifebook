@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="<c:url value="/css/bootstrap-datetimepicker.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/eventlist.css"/>">
     <link rel="stylesheet" href="<c:url value="/css/index.css"/>">
+    <%--some new line of code--%>
 </head>
 <body>
 <div class="container">

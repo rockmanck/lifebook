@@ -2,7 +2,6 @@ package ua.lifebook.db;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import ua.lifebook.db.repository.Repository;
 import ua.lifebook.db.sqlbuilder.DynamicSqlBuilder;
 import ua.lifebook.plans.Category;
 import ua.lifebook.plans.Plan;
@@ -25,7 +24,6 @@ import java.util.Set;
 
 public class PlansServiceImpl extends JdbcTemplate implements PlansService {
     private final DynamicSqlBuilder sqlBuilder = new DynamicSqlBuilder();
-    private final Repository repository = new Repository(this);
 
     public PlansServiceImpl(DataSource dataSource) {
         super(dataSource);
@@ -44,7 +42,6 @@ public class PlansServiceImpl extends JdbcTemplate implements PlansService {
         final Object[] values = {plan.getTitle(), repeated != null ? repeated.getCode() : null, plan.getComments(),
             plan.getStatus().getCode(), plan.getUser().getId(), category != null ? category.getId() : null, timestamp};
         update(sql, values, new int[]{Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.TIMESTAMP});
-        //repository.save(plan);
     }
 
     @Override public Plan getPlan(Integer id) {

@@ -1,9 +1,7 @@
 package ua.lifebook.plans;
 
-import ua.lifebook.db.repository.Identifiable;
-import ua.lifebook.db.repository.Table;
+import ua.lifebook.db.Identifiable;
 
-@Table("Category")
 public class Category extends Identifiable {
     private String name;
 

@@ -11,7 +11,6 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import ua.lifebook.db.PlansService;
 import ua.lifebook.db.PlansServiceImpl;
 import ua.lifebook.db.UsersJdbc;
-import ua.lifebook.db.repository.ReplicationManager;
 import ua.lifebook.notification.MailManager;
 import ua.lifebook.reminders.RemindersService;
 import ua.lifebook.reminders.RemindersServiceImpl;
@@ -42,12 +41,6 @@ public class AppConfig {
     @Bean
     public UsersJdbc usersJdbc() {
         return new UsersJdbc(DbConfig.dataSource());
-    }
-
-    @Bean
-    public ReplicationManager replicationManager() {
-        final Config replication = config.getConfig("replication");
-        return new ReplicationManager(replication.getBoolean("isPrimary"), replication.getString("storage"));
     }
 
     @Bean

@@ -1,14 +1,12 @@
 package ua.lifebook.plans;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import ua.lifebook.db.repository.Identifiable;
-import ua.lifebook.db.repository.Table;
+import ua.lifebook.db.Identifiable;
 import ua.lifebook.users.User;
 import ua.lifebook.utils.DateUtils;
 
 import java.time.LocalDateTime;
 
-@Table("Plans")
 public class Plan extends Identifiable {
     private String title;
     @DateTimeFormat(pattern = "MM/dd/yyyy HH:mm")

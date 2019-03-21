@@ -1,5 +1,6 @@
 package ua.lifebook.users.parameters;
 
+import com.google.common.base.Charsets;
 import ua.lifebook.i18n.EncodingControl;
 
 import java.util.HashMap;
@@ -8,9 +9,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public enum Language {
-    EN("en", new Locale("en", "US"), new EncodingControl("UTF-8")),
-    UA("ua", new Locale("ukr", "UA"), new EncodingControl("windows-1251")),
-    RU("ru", new Locale("rus", "RU"), new EncodingControl("windows-1251"))
+    EN("en", new Locale("en", "US"), new EncodingControl(Charsets.UTF_8)),
+    UA("ua", new Locale("ukr", "UA"), new EncodingControl(Charsets.UTF_8)),
+    RU("ru", new Locale("rus", "RU"), new EncodingControl(Charsets.UTF_8))
     ;
 
     private final String code;

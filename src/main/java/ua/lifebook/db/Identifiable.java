@@ -1,7 +1,6 @@
-package ua.lifebook.db.repository;
+package ua.lifebook.db;
 
 public abstract class Identifiable {
-    @Serial("Id")
     private Integer id;
 
     public Integer getId() {

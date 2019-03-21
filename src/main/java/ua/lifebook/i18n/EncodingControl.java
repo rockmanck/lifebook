@@ -5,24 +5,24 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
 public class EncodingControl extends ResourceBundle.Control {
-    private final String encoding;
+    private final Charset encoding;
 
-    public EncodingControl(String encoding) {
+    public EncodingControl(Charset encoding) {
         this.encoding = encoding;
     }
 
-    public String getEncoding() {
+    public Charset getEncoding() {
         return encoding;
     }
 
-    public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload)
-        throws IllegalAccessException, InstantiationException, IOException {
-
+    @Override
+    public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload) throws IOException {
         String bundleName = toBundleName(baseName, locale);
         String resourceName = toResourceName(bundleName, "properties");
         ResourceBundle bundle = null;

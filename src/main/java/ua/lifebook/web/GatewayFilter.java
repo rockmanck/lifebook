@@ -19,14 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
 public class GatewayFilter implements Filter {
-    private final String encoding = "utf8";
     private UsersManager usersManager;
     private static final List<Predicate<String>> rulesAllowedLinks = new ArrayList<>();
     static {
@@ -35,8 +34,8 @@ public class GatewayFilter implements Filter {
         rulesAllowedLinks.add(e -> e.startsWith("/js/"));
     }
 
-    private static final boolean devMode = AppConfig.config.getBoolean("devMode");
-    private static final Map<Language, ResourceBundle> bundles = new HashMap<>();
+    private static final boolean DEV_MODE = AppConfig.config.getBoolean("devMode");
+    private static final Map<Language, ResourceBundle> bundles = new EnumMap<>(Language.class);
 
     @Override public void init(FilterConfig config) {
         final ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
@@ -78,7 +77,7 @@ public class GatewayFilter implements Filter {
     }
 
     private void setLocale(HttpServletRequest request, Language language) {
-        if (!bundles.containsKey(language) || devMode) {
+        if (!bundles.containsKey(language) || DEV_MODE) {
             bundles.put(language, ResourceBundle.getBundle("MessagesBundle", language.getLocale(), language.getEncodingControl()));
         }
         request.getSession().setAttribute("i18n", bundles.get(language));
@@ -94,14 +93,15 @@ public class GatewayFilter implements Filter {
         }
     }
 
-    private User tryGetUser(HttpServletRequest request) throws UsersManager.NoSuchUser, UsersManager.EmptyLogin {
+    private User tryGetUser(HttpServletRequest request) {
         final String login = request.getParameter("login");
         final String password = request.getParameter("password");
         return usersManager.getUser(login, password);
     }
 
-    @Override public void destroy() {
-
+    @Override
+    public void destroy() {
+        // nothing to do
     }
 
     private boolean isAllowed(String uri) {
@@ -112,6 +112,7 @@ public class GatewayFilter implements Filter {
     }
 
     private void setCharacterEncoding(ServletRequest request, ServletResponse response) throws UnsupportedEncodingException {
+        String encoding = "utf8";
         request.setCharacterEncoding(encoding);
         response.setCharacterEncoding(encoding);
     }

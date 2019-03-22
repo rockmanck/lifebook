@@ -1,4 +1,4 @@
-package ua.lifebook.config;
+package ua.lifebook.web.application.config;
 
 import com.typesafe.config.Config;
 import org.apache.commons.dbcp2.BasicDataSource;

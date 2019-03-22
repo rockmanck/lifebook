@@ -1,13 +1,13 @@
-package ua.lifebook.application;
+package ua.lifebook.web.application;
 
 import com.typesafe.config.Config;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import ua.lifebook.application.flyway.FlywaySync;
-import ua.lifebook.config.AppConfig;
-import ua.lifebook.config.ConfigurationHolder;
+import ua.lifebook.web.application.flyway.FlywaySync;
+import ua.lifebook.web.application.config.AppConfig;
+import ua.lifebook.web.application.config.ConfigurationHolder;
 import ua.lifebook.web.config.WebConfig;
 
 import java.util.Map;

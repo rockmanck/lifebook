@@ -29,7 +29,8 @@ public class PlansServiceImpl extends JdbcTemplate implements PlansService {
         super(dataSource);
     }
 
-    @Override public void savePlan(Plan plan) {
+    @Override
+    public void savePlan(Plan plan) {
         final String sql;
         if (plan.getId() == null) {
             sql = "INSERT INTO plans (title, repeated, comments, status, user_id, category, due_time) VALUES (?,?,?,?,?,?,?)";
@@ -44,7 +45,8 @@ public class PlansServiceImpl extends JdbcTemplate implements PlansService {
         update(sql, values, new int[]{Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.TIMESTAMP});
     }
 
-    @Override public Plan getPlan(Integer id) {
+    @Override
+    public Plan getPlan(Integer id) {
         final String sql = sqlBuilder.sql("GetPlan").build();
         try {
             return queryForObject(sql, (rs, rowNum) -> plan(rs), id);
@@ -53,7 +55,8 @@ public class PlansServiceImpl extends JdbcTemplate implements PlansService {
         }
     }
 
-    @Override public List<Plan> getPlans(Date start, Date end, User user, Set<ViewOption> viewOptions) {
+    @Override
+    public List<Plan> getPlans(Date start, Date end, User user, Set<ViewOption> viewOptions) {
         final String sql = sqlBuilder.sql("GetPlans")
             .param("startDate", DateUtils.format(start))
             .param("endDate", DateUtils.format(end))
@@ -73,7 +76,8 @@ public class PlansServiceImpl extends JdbcTemplate implements PlansService {
         return result;
     }
 
-    @Override public void updatePlanStatus(int planId, PlanStatus status) {
+    @Override
+    public void updatePlanStatus(int planId, PlanStatus status) {
         update("UPDATE plans SET status = ? WHERE id = ?", status.getCode(), planId);
     }
 

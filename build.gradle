@@ -69,9 +69,9 @@ dependencies {
 }
 
 bootWar {
-    mainClassName = 'ua.lifebook.application.LifebookApp'
+    mainClassName = 'ua.lifebook.web.application.LifebookApp'
 }
 
 bootJar {
-    mainClassName = 'ua.lifebook.application.LifebookApp'
+    mainClassName = 'ua.lifebook.web.application.LifebookApp'
 }

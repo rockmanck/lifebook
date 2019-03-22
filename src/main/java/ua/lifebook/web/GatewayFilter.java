@@ -2,7 +2,7 @@ package ua.lifebook.web;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import ua.lifebook.config.AppConfig;
+import ua.lifebook.web.application.config.AppConfig;
 import ua.lifebook.users.User;
 import ua.lifebook.users.UsersManager;
 import ua.lifebook.users.parameters.Language;

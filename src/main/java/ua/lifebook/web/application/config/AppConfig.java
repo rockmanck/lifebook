@@ -1,4 +1,4 @@
-package ua.lifebook.config;
+package ua.lifebook.web.application.config;
 
 import com.typesafe.config.Config;
 import org.springframework.context.annotation.Bean;
@@ -6,7 +6,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import ua.lifebook.db.PlansService;
 import ua.lifebook.db.PlansServiceImpl;
@@ -46,11 +45,6 @@ public class AppConfig {
     @Bean
     public RemindersService remindersService() {
         return new RemindersServiceImpl();
-    }
-
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
     }
 
     @Bean

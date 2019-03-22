@@ -1,4 +1,4 @@
-package ua.lifebook.config;
+package ua.lifebook.web.application.config;
 
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.support.EncodedResource;

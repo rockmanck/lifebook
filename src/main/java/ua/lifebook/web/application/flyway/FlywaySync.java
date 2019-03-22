@@ -1,10 +1,10 @@
-package ua.lifebook.application.flyway;
+package ua.lifebook.web.application.flyway;
 
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ua.lifebook.config.AppConfig;
-import ua.lifebook.config.DbConfig;
+import ua.lifebook.web.application.config.AppConfig;
+import ua.lifebook.web.application.config.DbConfig;
 
 public final class FlywaySync {
     private static final Logger logger = LoggerFactory.getLogger(FlywaySync.class);

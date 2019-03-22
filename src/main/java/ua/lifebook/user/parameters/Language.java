@@ -1,4 +1,4 @@
-package ua.lifebook.users.parameters;
+package ua.lifebook.user.parameters;
 
 import com.google.common.base.Charsets;
 import ua.lifebook.i18n.EncodingControl;

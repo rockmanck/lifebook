@@ -1,24 +1,25 @@
-package ua.lifebook.users;
+package ua.lifebook.user;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import ua.lifebook.db.UsersJdbc;
+import ua.lifebook.db.user.UsersJdbc;
+import ua.lifebook.db.user.UsersDbStorage;
 
 import static org.junit.Assert.assertTrue;
 
-public class UsersManagerTest {
+public class UsersStorageTest {
     @Mock private UsersJdbc usersJdbc;
     @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
 
-    @Test(expected = UsersManager.EmptyLogin.class)
+    @Test(expected = UsersDbStorage.EmptyLogin.class)
     public void WhenLoginNull_ThrowEmptyLogin() {
         usersManager().isAuthorized(null, null);
     }
 
-    @Test(expected = UsersManager.EmptyLogin.class)
+    @Test(expected = UsersDbStorage.EmptyLogin.class)
     public void WhenLoginEmpty_ThrowEmptyLogin() {
         usersManager().isAuthorized("", "test");
     }
@@ -28,17 +29,17 @@ public class UsersManagerTest {
         final User user = new User();
         user.setLogin("test");
         user.setPassword("");
-        final UsersManager usersManager = usersManager();
-        usersManager.addUser(user);
-        assertTrue(usersManager.isAuthorized("test", ""));
+        final UsersStorage usersStorage = usersManager();
+        usersStorage.addUser(user);
+        assertTrue(usersStorage.isAuthorized("test", ""));
     }
 
-    @Test(expected = UsersManager.NoSuchUser.class)
+    @Test(expected = UsersDbStorage.NoSuchUser.class)
     public void WhenUnknownUser_ThrowNoSuchUser() {
         usersManager().getUser("test", "");
     }
 
-    UsersManager usersManager() {
-        return new UsersManager(usersJdbc);
+    UsersStorage usersManager() {
+        return new UsersDbStorage(usersJdbc);
     }
 }

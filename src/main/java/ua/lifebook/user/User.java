@@ -1,7 +1,7 @@
-package ua.lifebook.users;
+package ua.lifebook.user;
 
-import ua.lifebook.users.parameters.Language;
-import ua.lifebook.users.parameters.UserSettings;
+import ua.lifebook.user.parameters.Language;
+import ua.lifebook.user.parameters.UserSettings;
 
 public class User {
     private Integer id;

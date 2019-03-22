@@ -1,5 +1,5 @@
 <%--@elvariable id="i18n" type="java.util.ResourceBundle"--%>
-<%--@elvariable id="status" type="ua.lifebook.plans.PlanStatus"--%>
+<%--@elvariable id="status" type="ua.lifebook.plan.PlanStatus"--%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 

@@ -1,4 +1,4 @@
-package ua.lifebook.plans;
+package ua.lifebook.plan;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

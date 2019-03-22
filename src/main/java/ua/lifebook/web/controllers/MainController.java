@@ -5,15 +5,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.lifebook.plans.OverviewPlans;
-import ua.lifebook.plans.PlanStatus;
-import ua.lifebook.plans.PlansByDay;
-import ua.lifebook.plans.PlansManager;
-import ua.lifebook.users.User;
-import ua.lifebook.users.UsersManager;
-import ua.lifebook.users.parameters.DefaultTab;
-import ua.lifebook.users.parameters.UserSettings;
-import ua.lifebook.users.parameters.ViewOption;
+import ua.lifebook.plan.OverviewPlans;
+import ua.lifebook.plan.PlanStatus;
+import ua.lifebook.plan.PlansByDay;
+import ua.lifebook.plan.PlansManager;
+import ua.lifebook.user.User;
+import ua.lifebook.user.UsersStorage;
+import ua.lifebook.user.parameters.DefaultTab;
+import ua.lifebook.user.parameters.UserSettings;
+import ua.lifebook.user.parameters.ViewOption;
 import ua.lifebook.web.utils.SessionKeys;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @Controller
 public class MainController extends BaseController {
     @Autowired private PlansManager plansManager;
-    @Autowired private UsersManager usersManager;
+    @Autowired private UsersStorage usersStorage;
 
     @RequestMapping("/")
     public ModelAndView root(HttpServletRequest request) {
@@ -78,7 +78,7 @@ public class MainController extends BaseController {
                                   @RequestParam String defaultTab,
                                   HttpServletRequest request,
                                   HttpServletResponse response) throws IOException {
-        usersManager.updateSettings(viewOptions, defaultTab, user(request));
+        usersStorage.updateSettings(viewOptions, defaultTab, user(request));
         ok(response);
     }
 

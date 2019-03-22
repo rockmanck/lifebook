@@ -1,8 +1,8 @@
-package ua.lifebook.plans;
+package ua.lifebook.plan;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import ua.lifebook.db.Identifiable;
-import ua.lifebook.users.User;
+import ua.lifebook.user.User;
 import ua.lifebook.utils.DateUtils;
 
 import java.time.LocalDateTime;

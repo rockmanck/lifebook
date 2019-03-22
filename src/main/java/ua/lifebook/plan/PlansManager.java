@@ -1,10 +1,9 @@
-package ua.lifebook.plans;
+package ua.lifebook.plan;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.lifebook.db.PlansService;
-import ua.lifebook.users.User;
-import ua.lifebook.users.parameters.ViewOption;
+import ua.lifebook.user.User;
+import ua.lifebook.user.parameters.ViewOption;
 import ua.lifebook.utils.DateUtils;
 
 import java.time.LocalDate;
@@ -20,12 +19,12 @@ import java.util.stream.Collectors;
 
 @Component
 public class PlansManager {
-    @Autowired private PlansService plansService;
+    @Autowired private PlansStorage plansStorage;
     private static final Set<ViewOption> allViewOptions = new HashSet<>(Arrays.asList(ViewOption.values()));
 
     public void save(Plan plan, User user) {
         plan.setUser(user);
-        plansService.savePlan(plan);
+        plansStorage.savePlan(plan);
     }
 
     public List<PlansByDay> getDailyPlans(LocalDate date, User user) {
@@ -38,15 +37,15 @@ public class PlansManager {
     }
 
     public Plan getPlan(int id) {
-        return plansService.getPlan(id);
+        return plansStorage.getPlan(id);
     }
 
     public void donePlan(int id) {
-        plansService.updatePlanStatus(id, PlanStatus.DONE);
+        plansStorage.updatePlanStatus(id, PlanStatus.DONE);
     }
 
     public void cancelPlan(int id) {
-        plansService.updatePlanStatus(id, PlanStatus.CANCELED);
+        plansStorage.updatePlanStatus(id, PlanStatus.CANCELED);
     }
 
     public Map<Integer, PlansByDay> getMonthlyPlans(int year, int month, User user) {
@@ -60,7 +59,7 @@ public class PlansManager {
                                       LocalDate end,
                                       User user,
                                       Set<ViewOption> viewOptions) {
-        final List<Plan> plans = plansService.getPlans(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end), user, viewOptions);
+        final List<Plan> plans = plansStorage.getPlans(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end), user, viewOptions);
         final Map<LocalDate, PlansByDay> map = new HashMap<>();
 
         for (Plan plan : plans) {

@@ -1,4 +1,4 @@
-package ua.lifebook.plans;
+package ua.lifebook.plan;
 
 import ua.lifebook.db.Identifiable;
 

@@ -3,8 +3,8 @@ package ua.lifebook.reminders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.lifebook.notification.NotificationService;
-import ua.lifebook.plans.Plan;
-import ua.lifebook.plans.PlansManager;
+import ua.lifebook.plan.Plan;
+import ua.lifebook.plan.PlansManager;
 
 import java.time.LocalDateTime;
 

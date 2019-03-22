@@ -1,14 +1,14 @@
 package ua.lifebook.notification;
 
-public class MailType {
-	private String name;
+public enum MailType {
+    HTML("text/html; charset=utf-8"),
+    TEXT("text/plain; charset=utf-8");
 
-	private MailType(String name) {
+	private final String name;
+
+	MailType(String name) {
 		this.name = name;
 	}
-
-	public final static MailType HTML = new MailType("text/html; charset=utf-8");
-	public final static MailType TEXT = new MailType("text/plain; charset=utf-8");
 
 	@Override
 	public String toString() {

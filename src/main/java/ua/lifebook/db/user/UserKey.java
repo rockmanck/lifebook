@@ -1,4 +1,6 @@
-package ua.lifebook.users;
+package ua.lifebook.db.user;
+
+import ua.lifebook.user.User;
 
 final class UserKey {
     final String login;

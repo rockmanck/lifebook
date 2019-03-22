@@ -1,14 +1,15 @@
-package ua.lifebook.db;
+package ua.lifebook.db.plan;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ua.lifebook.db.sqlbuilder.DynamicSqlBuilder;
-import ua.lifebook.plans.Category;
-import ua.lifebook.plans.Plan;
-import ua.lifebook.plans.PlanStatus;
-import ua.lifebook.plans.RepeatType;
-import ua.lifebook.users.User;
-import ua.lifebook.users.parameters.ViewOption;
+import ua.lifebook.plan.Category;
+import ua.lifebook.plan.Plan;
+import ua.lifebook.plan.PlanStatus;
+import ua.lifebook.plan.PlansStorage;
+import ua.lifebook.plan.RepeatType;
+import ua.lifebook.user.User;
+import ua.lifebook.user.parameters.ViewOption;
 import ua.lifebook.utils.DateUtils;
 
 import javax.sql.DataSource;
@@ -22,10 +23,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-public class PlansServiceImpl extends JdbcTemplate implements PlansService {
+public class PlansDbStorage extends JdbcTemplate implements PlansStorage {
     private final DynamicSqlBuilder sqlBuilder = new DynamicSqlBuilder();
 
-    public PlansServiceImpl(DataSource dataSource) {
+    public PlansDbStorage(DataSource dataSource) {
         super(dataSource);
     }
 

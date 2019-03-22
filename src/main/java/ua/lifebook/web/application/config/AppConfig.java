@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import ua.lifebook.db.PlansService;
-import ua.lifebook.db.PlansServiceImpl;
-import ua.lifebook.db.UsersJdbc;
+import ua.lifebook.plan.PlansStorage;
+import ua.lifebook.db.plan.PlansDbStorage;
+import ua.lifebook.db.user.UsersJdbc;
 import ua.lifebook.notification.MailManager;
 import ua.lifebook.reminders.RemindersService;
 import ua.lifebook.reminders.RemindersServiceImpl;
@@ -33,8 +33,8 @@ public class AppConfig {
     }
 
     @Bean
-    public PlansService plansJdbc() {
-        return new PlansServiceImpl(DbConfig.dataSource());
+    public PlansStorage plansJdbc() {
+        return new PlansDbStorage(DbConfig.dataSource());
     }
 
     @Bean

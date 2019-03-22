@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="i18n" type="java.util.ResourceBundle"--%>
-<%--@elvariable id="plan" type="ua.lifebook.plans.Plan"--%>
+<%--@elvariable id="plan" type="ua.lifebook.plan.Plan"--%>
 <div class="row">
     <div id="weeklyList" class="col-sm-8">
         <c:set var="viewType" value="ViewType.WEEKLY" scope="request"/>

@@ -1,18 +1,19 @@
-package ua.lifebook.users;
+package ua.lifebook.db.user;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import ua.lifebook.db.UsersJdbc;
-import ua.lifebook.users.parameters.DefaultTab;
-import ua.lifebook.users.parameters.ViewOption;
+import ua.lifebook.user.User;
+import ua.lifebook.user.UsersStorage;
+import ua.lifebook.user.parameters.DefaultTab;
+import ua.lifebook.user.parameters.ViewOption;
 
 import java.util.concurrent.TimeUnit;
 
 @Component
-public class UsersManager {
+public class UsersDbStorage implements UsersStorage {
     private final UsersJdbc usersJdbc;
     private final Cache<UserKey, User> authorizationCache = CacheBuilder.newBuilder()
         .softValues()
@@ -20,7 +21,7 @@ public class UsersManager {
         .build();
 
     @Autowired
-    public UsersManager(UsersJdbc usersJdbc) {
+    public UsersDbStorage(UsersJdbc usersJdbc) {
         this.usersJdbc = usersJdbc;
     }
 
@@ -29,7 +30,7 @@ public class UsersManager {
      * @param options {@link ViewOption} values joined by ','
      * @param defaultTab
      */
-    public void updateSettings(String options, String defaultTab, User user) {
+    @Override public void updateSettings(String options, String defaultTab, User user) {
         user.getUserSettings().setViewOptions(ViewOption.parse(options));
         user.getUserSettings().setDefaultTab(DefaultTab.valueOf(defaultTab));
         usersJdbc.updateUserSettings(options, user);
@@ -42,7 +43,7 @@ public class UsersManager {
      * @throws EmptyLogin if {@code login == null || login.isEmpty()}
      * @return true if such login and password pair exists in User table
      */
-    public boolean isAuthorized(String login, String password) {
+    @Override public boolean isAuthorized(String login, String password) {
         if (!isValidLogin(login)) throw new EmptyLogin();
         final User user = authorizationCache.getIfPresent(new UserKey(login, password));
         return user != null;
@@ -53,7 +54,7 @@ public class UsersManager {
      * @throws NoSuchUser if login or password is incorrect
      * @throws EmptyLogin if login is empty
      */
-    public User getUser(String login, String password) {
+    @Override public User getUser(String login, String password) {
         if (!isValidLogin(login)) throw new EmptyLogin();
 
         final User user = getFromCacheOrLoadFromDb(login, password);
@@ -67,7 +68,7 @@ public class UsersManager {
      * Creates new user record in database
      * @param user
      */
-    public void addUser(User user) {
+    @Override public void addUser(User user) {
         // TODO add new user to db
 
         putToCache(UserKey.forUser(user), user);

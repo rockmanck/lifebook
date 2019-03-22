@@ -2,10 +2,11 @@ package ua.lifebook.web;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
+import ua.lifebook.db.user.UsersDbStorage;
 import ua.lifebook.web.application.config.AppConfig;
-import ua.lifebook.users.User;
-import ua.lifebook.users.UsersManager;
-import ua.lifebook.users.parameters.Language;
+import ua.lifebook.user.User;
+import ua.lifebook.user.UsersStorage;
+import ua.lifebook.user.parameters.Language;
 import ua.lifebook.web.utils.SessionKeys;
 
 import javax.servlet.Filter;
@@ -26,7 +27,7 @@ import java.util.ResourceBundle;
 import java.util.function.Predicate;
 
 public class GatewayFilter implements Filter {
-    private UsersManager usersManager;
+    private UsersStorage usersStorage;
     private static final List<Predicate<String>> rulesAllowedLinks = new ArrayList<>();
     static {
         rulesAllowedLinks.add(e -> e.startsWith("/css/"));
@@ -39,7 +40,7 @@ public class GatewayFilter implements Filter {
 
     @Override public void init(FilterConfig config) {
         final ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
-        usersManager = applicationContext.getBean(UsersManager.class);
+        usersStorage = applicationContext.getBean(UsersDbStorage.class);
     }
 
     @Override public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
@@ -88,7 +89,7 @@ public class GatewayFilter implements Filter {
             final User user = tryGetUser(request);
             request.getSession().setAttribute("user", user);
             return true;
-        } catch (UsersManager.NoSuchUser | UsersManager.EmptyLogin e) {
+        } catch (UsersDbStorage.NoSuchUser | UsersDbStorage.EmptyLogin e) {
             return false;
         }
     }
@@ -96,7 +97,7 @@ public class GatewayFilter implements Filter {
     private User tryGetUser(HttpServletRequest request) {
         final String login = request.getParameter("login");
         final String password = request.getParameter("password");
-        return usersManager.getUser(login, password);
+        return usersStorage.getUser(login, password);
     }
 
     @Override

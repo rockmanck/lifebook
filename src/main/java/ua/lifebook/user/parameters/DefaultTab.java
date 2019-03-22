@@ -1,4 +1,4 @@
-package ua.lifebook.users.parameters;
+package ua.lifebook.user.parameters;
 
 import java.util.HashMap;
 import java.util.Map;

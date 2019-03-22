@@ -1,6 +1,5 @@
 package ua.lifebook.notification;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import javax.mail.BodyPart;
@@ -28,7 +27,6 @@ public class MailManager {
     private int mailSenderPoolSize = 20;
     private int mailSenderPoolCount = 0;
 
-    @Autowired
     public MailManager(JavaMailSenderImpl mailSender, String from) {
         this.mailSender = mailSender;
         this.from = from;
@@ -126,7 +124,7 @@ public class MailManager {
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Thread.currentThread().interrupt();
             }
         }
 

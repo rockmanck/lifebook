@@ -2,7 +2,7 @@ package ua.lifebook.web;
 
 import org.junit.Assert;
 import org.junit.Test;
-import ua.lifebook.users.parameters.Language;
+import ua.lifebook.user.parameters.Language;
 
 import java.util.ResourceBundle;
 

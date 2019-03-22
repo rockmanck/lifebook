@@ -1,15 +1,15 @@
-package ua.lifebook.db;
+package ua.lifebook.db.user;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import ua.lifebook.db.sqlbuilder.DynamicSqlBuilder;
-import ua.lifebook.users.User;
-import ua.lifebook.users.parameters.DefaultTab;
-import ua.lifebook.users.parameters.Language;
-import ua.lifebook.users.parameters.UserSettings;
-import ua.lifebook.users.parameters.ViewOption;
+import ua.lifebook.user.User;
+import ua.lifebook.user.parameters.DefaultTab;
+import ua.lifebook.user.parameters.Language;
+import ua.lifebook.user.parameters.UserSettings;
+import ua.lifebook.user.parameters.ViewOption;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;

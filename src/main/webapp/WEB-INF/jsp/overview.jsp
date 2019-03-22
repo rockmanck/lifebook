@@ -1,9 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="i18n" type="java.util.ResourceBundle"--%>
-<%--@elvariable id="plan" type="ua.lifebook.plans.Plan"--%>
-<%--@elvariable id="dayPlans" type="ua.lifebook.plans.PlansByDay"--%>
-<%--@elvariable id="plansOverview" type="ua.lifebook.plans.OverviewPlans"--%>
+<%--@elvariable id="plan" type="ua.lifebook.plan.Plan"--%>
+<%--@elvariable id="dayPlans" type="ua.lifebook.plan.PlansByDay"--%>
+<%--@elvariable id="plansOverview" type="ua.lifebook.plan.OverviewPlans"--%>
 <%--@elvariable id="row" type="java.util.List"--%>
 TODO month choice control<br><br>
 <table>

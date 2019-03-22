@@ -1,15 +1,13 @@
-package ua.lifebook.db;
+package ua.lifebook.plan;
 
-import ua.lifebook.plans.Plan;
-import ua.lifebook.plans.PlanStatus;
-import ua.lifebook.users.User;
-import ua.lifebook.users.parameters.ViewOption;
+import ua.lifebook.user.User;
+import ua.lifebook.user.parameters.ViewOption;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-public interface PlansService {
+public interface PlansStorage {
     void savePlan(Plan plan);
 
     Plan getPlan(Integer id);

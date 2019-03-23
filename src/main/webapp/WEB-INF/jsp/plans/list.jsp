@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--@elvariable id="i18n" type="java.util.ResourceBundle"--%>
-<%--@elvariable id="plan" type="ua.lifebook.plans.Plan"--%>
+<%--@elvariable id="plan" type="ua.lifebook.plan.Plan"--%>
 <c:set var="newlineWindows" value="<%= \"\r\n\" %>" />
 <c:set var="newline" value="<%= \"\n\" %>" />
 <c:forEach var="planByDay" items="${plans}">

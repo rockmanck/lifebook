@@ -1,13 +1,10 @@
 package ua.lifebook.moments;
 
-import ua.lifebook.db.repository.Serial;
-import ua.lifebook.db.repository.Table;
 
 import java.time.LocalDate;
 
-@Table("Moments")
 public class Moments {
-    @Serial private Integer id;
+    private Integer id;
     private LocalDate date;
     private String description;
 

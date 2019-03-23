@@ -1,5 +1,6 @@
 package ua.lifebook.db.sqlbuilder;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class DynamicSqlBuilder {
         try {
             return sql(templateName, callerResolver.getCaller(DynamicSqlBuilder.class));
         } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            throw new NoSuchClassException(e);
         }
     }
 
@@ -35,8 +36,8 @@ public class DynamicSqlBuilder {
 
         Builder(String templateName, Class<?> callerClass){
             final Package aPackage = callerClass.getPackage();
-            final String path = aPackage.getName().replace(".", "/");
-            this.templatePath = path + "/" + templateName + ".sql.vm";
+            final String path = aPackage.getName().replace(".", File.separator);
+            this.templatePath = path + File.separator + templateName + ".sql.vm";
         }
 
         public Builder param(String name, Object value) {
@@ -46,6 +47,12 @@ public class DynamicSqlBuilder {
 
         public String build() {
             return velocityManager.renderTemplate(templatePath, context);
+        }
+    }
+
+    private class NoSuchClassException extends RuntimeException {
+        NoSuchClassException(Exception e) {
+            super(e);
         }
     }
 }

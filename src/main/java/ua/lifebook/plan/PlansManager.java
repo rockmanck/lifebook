@@ -19,8 +19,13 @@ import java.util.stream.Collectors;
 
 @Component
 public class PlansManager {
-    @Autowired private PlansStorage plansStorage;
+    private final PlansStorage plansStorage;
     private static final Set<ViewOption> allViewOptions = new HashSet<>(Arrays.asList(ViewOption.values()));
+
+    @Autowired
+    public PlansManager(PlansStorage plansStorage) {
+        this.plansStorage = plansStorage;
+    }
 
     public void save(Plan plan, User user) {
         plan.setUser(user);

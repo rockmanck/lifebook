@@ -3,16 +3,14 @@ package ua.lifebook.db.user;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import ua.lifebook.user.User;
 import ua.lifebook.user.UsersStorage;
 import ua.lifebook.user.parameters.DefaultTab;
 import ua.lifebook.user.parameters.ViewOption;
 
+import javax.sql.DataSource;
 import java.util.concurrent.TimeUnit;
 
-@Component
 public class UsersDbStorage implements UsersStorage {
     private final UsersJdbc usersJdbc;
     private final Cache<UserKey, User> authorizationCache = CacheBuilder.newBuilder()
@@ -20,9 +18,8 @@ public class UsersDbStorage implements UsersStorage {
         .expireAfterWrite(10, TimeUnit.MINUTES)
         .build();
 
-    @Autowired
-    public UsersDbStorage(UsersJdbc usersJdbc) {
-        this.usersJdbc = usersJdbc;
+    public UsersDbStorage(DataSource dataSource) {
+        this.usersJdbc = new UsersJdbc(dataSource);
     }
 
     /**

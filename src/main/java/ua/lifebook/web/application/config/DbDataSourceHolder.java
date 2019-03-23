@@ -5,8 +5,14 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import javax.sql.DataSource;
 
-public final class DbConfig {
-    public static DataSource dataSource() {
+public final class DbDataSourceHolder {
+    private final DataSource dataSource = dataSource();
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+    private DataSource dataSource() {
         final Config db = AppConfig.config.getConfig("db");
         final BasicDataSource dataSource = new BasicDataSource();
         dataSource.setUsername(db.getString("username"));

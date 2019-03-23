@@ -5,8 +5,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import ua.lifebook.plan.Plan;
@@ -28,7 +28,7 @@ public class PlanController extends BaseController {
     @Autowired private PlansManager plansManager;
     @Autowired private RemindersService remindersService;
 
-    @RequestMapping(value = "/save.html", method = RequestMethod.POST)
+    @PostMapping("/save.html")
     public void savePlan(@ModelAttribute Plan plan, HttpServletRequest request, HttpServletResponse response) throws IOException {
         plansManager.save(plan, user(request));
         ok(response);

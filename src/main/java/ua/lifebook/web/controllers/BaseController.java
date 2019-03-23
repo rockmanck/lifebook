@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public abstract class BaseController {
-    public static String OK = "ok";
+    public static final String OK = "ok";
 
     protected User user(HttpServletRequest request) {
         return (User) request.getSession().getAttribute(SessionKeys.USER);

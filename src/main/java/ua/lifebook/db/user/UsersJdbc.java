@@ -1,6 +1,8 @@
 package ua.lifebook.db.user;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,42 +17,43 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class UsersJdbc extends JdbcTemplate {
+class UsersJdbc extends JdbcTemplate {
+    private final Logger usersJdbcLogger = LoggerFactory.getLogger(this.getClass());
     private final DynamicSqlBuilder sqlBuilder = new DynamicSqlBuilder();
 
-    public UsersJdbc(DataSource dataSource) {
+    UsersJdbc(DataSource dataSource) {
         super(dataSource);
     }
 
     /**
      * Tries to find user with such credentials. If not found returns null.
      */
-    public User getUserByCreds(String login, String password) {
+    User getUserByCreds(String login, String password) {
         final String sql = sqlBuilder.sql("GetUserId")
             .param("login", login)
             .param("password", password)
             .build();
         try {
-            final Integer id = queryForObject(sql, ((rs, rowNum) -> rs.getInt("Id")));
-            return id > 0 ? getUser(id) : null;
+            final Integer id = queryForObject(sql, Integer.class);
+            return id != null && id > 0 ? getUser(id) : null;
         } catch (EmptyResultDataAccessException e) {
             return null;
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            usersJdbcLogger.error("Failed to get user by credentials for " + login + " login", e);
             return null;
         }
     }
 
-    public User getUser(int id) {
+    void updateUserSettings(String options, User user) {
+        final String defaultTab = user.getUserSettings().getDefaultTab().name();
+        update("UPDATE user_settings SET view_options = ?, default_tab = ? WHERE user_id = ?", options, defaultTab, user.getId());
+    }
+
+    private User getUser(int id) {
         final String sql = sqlBuilder.sql("GetUser")
             .param("id", id)
             .build();
         return queryForObject(sql, ((rs, rowNum) -> getUser(rs)));
-    }
-
-    public void updateUserSettings(String options, User user) {
-        final String defaultTab = user.getUserSettings().getDefaultTab().name();
-        update("UPDATE user_settings SET view_options = ?, default_tab = ? WHERE user_id = ?", options, defaultTab, user.getId());
     }
 
     private User getUser(ResultSet rs) throws SQLException {

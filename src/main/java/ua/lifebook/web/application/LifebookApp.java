@@ -5,9 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import ua.lifebook.web.application.flyway.FlywaySync;
 import ua.lifebook.web.application.config.AppConfig;
 import ua.lifebook.web.application.config.ConfigurationHolder;
+import ua.lifebook.web.application.flyway.FlywaySync;
 import ua.lifebook.web.config.WebConfig;
 
 import java.util.Map;

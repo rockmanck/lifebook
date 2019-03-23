@@ -20,7 +20,7 @@ public final class UserSettings {
         viewOptions.set(options);
     }
 
-    public synchronized Set<ViewOption> getViewOptions() {
+    public Set<ViewOption> getViewOptions() {
         return viewOptions.get();
     }
 }

@@ -89,8 +89,8 @@ public class PlansDbStorage extends JdbcTemplate implements PlansStorage {
         plan.setTitle(rs.getString("title"));
         plan.setComments(rs.getString("comments"));
         plan.setStatus(PlanStatus.byCode(rs.getString("status")));
-        final Timestamp due_time = rs.getTimestamp("due_time");
-        plan.setDueDate(DateUtils.dateToLocalDateTime(due_time));
+        final Timestamp dueTime = rs.getTimestamp("due_time");
+        plan.setDueDate(DateUtils.dateToLocalDateTime(dueTime));
         plan.setRepeated(RepeatType.byCode(rs.getString("repeated")));
         plan.setOutdated(rs.getBoolean("outdated"));
         return plan;

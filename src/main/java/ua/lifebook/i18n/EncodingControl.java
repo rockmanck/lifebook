@@ -25,7 +25,16 @@ public class EncodingControl extends ResourceBundle.Control {
     public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload) throws IOException {
         String bundleName = toBundleName(baseName, locale);
         String resourceName = toResourceName(bundleName, "properties");
-        ResourceBundle bundle = null;
+        InputStream stream = getInputStream(loader, reload, resourceName);
+        if (stream != null) {
+            try (stream) {
+                return new PropertyResourceBundle(new InputStreamReader(stream, encoding));
+            }
+        }
+        return null;
+    }
+
+    private InputStream getInputStream(ClassLoader loader, boolean reload, String resourceName) throws IOException {
         InputStream stream = null;
         if (reload) {
             URL url = loader.getResource(resourceName);
@@ -39,13 +48,6 @@ public class EncodingControl extends ResourceBundle.Control {
         } else {
             stream = loader.getResourceAsStream(resourceName);
         }
-        if (stream != null) {
-            try {
-                bundle = new PropertyResourceBundle(new InputStreamReader(stream, encoding));
-            } finally {
-                stream.close();
-            }
-        }
-        return bundle;
+        return stream;
     }
 }

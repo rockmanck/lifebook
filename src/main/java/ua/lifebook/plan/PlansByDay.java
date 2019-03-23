@@ -5,6 +5,7 @@ import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class PlansByDay implements Comparable<PlansByDay> {
     private final LocalDateTime day;
@@ -39,6 +40,17 @@ public class PlansByDay implements Comparable<PlansByDay> {
 
     @Override public int compareTo(PlansByDay o) {
         return day.compareTo(o.day);
+    }
+
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlansByDay that = (PlansByDay) o;
+        return Objects.equals(day, that.day);
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(day);
     }
 
     @Override public String toString() {

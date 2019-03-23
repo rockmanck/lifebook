@@ -88,7 +88,7 @@ public final class OverviewPlans {
     }
 
     private void prependPreviousMonthDays(List<PlansByDay> row, int dayOfWeekOrdinal) {
-        for (int i = 0; i < dayOfWeekOrdinal; i += 1) {
+        for (long i = 0; i < dayOfWeekOrdinal; i += 1) {
             final LocalDate localDate = firstDayOfMonth.minusDays(dayOfWeekOrdinal - i);
             row.add(getEmptyPlansByDate(localDate));
         }
@@ -96,7 +96,7 @@ public final class OverviewPlans {
 
     private void appendNextMonthDays(List<PlansByDay> row, int daysCount) {
         final int lengthOfMonth = firstDayOfMonth.lengthOfMonth();
-        for (int i = 1; i <= daysCount; i += 1) {
+        for (long i = 1; i <= daysCount; i += 1) {
             final LocalDate localDate = firstDayOfMonth.plusDays(lengthOfMonth + i);
             row.add(getEmptyPlansByDate(localDate));
         }

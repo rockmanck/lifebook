@@ -9,10 +9,10 @@ import java.io.StringWriter;
 import java.util.Map;
 import java.util.Properties;
 
-public class VelocityManager {
+class VelocityManager {
     private VelocityEngine velocityEngine;
 
-    public VelocityManager() {
+    VelocityManager() {
         Properties p = new Properties();
         p.setProperty("resource.loader", "classpath");
         p.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
@@ -29,22 +29,30 @@ public class VelocityManager {
         try {
             velocityEngine.init(p);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new VelocityInitializationException(e);
         }
     }
 
-    public String renderTemplate(String template, Map<String, Object> context) {
+    String renderTemplate(String template, Map<String, Object> context) {
         StringWriter wr = new StringWriter();
         try {
-            Template vmTemplate = velocityEngine.getTemplate(getRoot() + template);
+            Template vmTemplate = velocityEngine.getTemplate(template);
             vmTemplate.merge(new VelocityContext(context), wr);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new TemplateRenderingException(e);
         }
         return wr.toString();
     }
 
-    protected String getRoot() {
-        return "";
+    private class VelocityInitializationException extends RuntimeException {
+        VelocityInitializationException(Exception e) {
+            super(e);
+        }
+    }
+
+    private class TemplateRenderingException extends RuntimeException {
+        TemplateRenderingException(Exception e) {
+            super(e);
+        }
     }
 }

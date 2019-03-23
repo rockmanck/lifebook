@@ -9,6 +9,11 @@ import ua.lifebook.reminders.Reminder;
 import ua.lifebook.utils.DateUtils;
 
 public final class ScheduleUtils {
+
+    private ScheduleUtils() {
+        // hide public constructor
+    }
+
     public static JobDetail getJob(Reminder reminder) {
         final int planId = reminder.getPlanId();
         final String groupId = groupId(reminder.getUserId());

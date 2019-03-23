@@ -62,7 +62,11 @@ public class MainController extends BaseController {
                 final int month = now.getMonthValue();
                 final Map<Integer, PlansByDay> monthlyPlans = plansManager.getMonthlyPlans(year, month, user);
                 result.addObject("plansOverview", new OverviewPlans(year, month, monthlyPlans));
-            default: plans = new ArrayList<>();
+                plans = new ArrayList<>();
+                break;
+            default:
+                plans = new ArrayList<>();
+                break;
         }
 
         return result

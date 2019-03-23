@@ -3,10 +3,10 @@ package ua.lifebook.web;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import ua.lifebook.db.user.UsersDbStorage;
-import ua.lifebook.web.application.config.AppConfig;
 import ua.lifebook.user.User;
 import ua.lifebook.user.UsersStorage;
 import ua.lifebook.user.parameters.Language;
+import ua.lifebook.web.application.config.AppConfig;
 import ua.lifebook.web.utils.SessionKeys;
 
 import javax.servlet.Filter;
@@ -40,7 +40,7 @@ public class GatewayFilter implements Filter {
 
     @Override public void init(FilterConfig config) {
         final ApplicationContext applicationContext = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
-        usersStorage = applicationContext.getBean(UsersDbStorage.class);
+        usersStorage = applicationContext.getBean(UsersStorage.class);
     }
 
     @Override public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {

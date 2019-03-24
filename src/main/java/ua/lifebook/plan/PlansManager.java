@@ -8,10 +8,8 @@ import ua.lifebook.utils.DateUtils;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -20,7 +18,7 @@ import java.util.stream.Collectors;
 @Component
 public class PlansManager {
     private final PlansStorage plansStorage;
-    private static final Set<ViewOption> allViewOptions = new HashSet<>(Arrays.asList(ViewOption.values()));
+    private static final Set<ViewOption> monthlyViewOptions = Set.of(ViewOption.SHOW_DONE, ViewOption.SHOW_CANCELED);
 
     @Autowired
     public PlansManager(PlansStorage plansStorage) {
@@ -56,7 +54,7 @@ public class PlansManager {
     public Map<Integer, PlansByDay> getMonthlyPlans(int year, int month, User user) {
         final LocalDate start = LocalDate.of(year, month, 1);
         final LocalDate end = start.withDayOfMonth(start.lengthOfMonth());
-        return getPlans(start, end, user, allViewOptions).stream()
+        return getPlans(start, end, user, monthlyViewOptions).stream()
             .collect(Collectors.toMap(PlansByDay::getDayOfMonth, e -> e));
     }
 

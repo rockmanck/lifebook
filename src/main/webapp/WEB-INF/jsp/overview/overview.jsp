@@ -12,6 +12,6 @@
         </div>
     </div>
 </div>
-<div>
+<div id="overviewContent">
     <jsp:include page="overviewContent.jsp"/>
 </div>

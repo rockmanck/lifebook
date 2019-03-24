@@ -16,7 +16,7 @@
                         <span class="overview-item-day">${dayPlans.day} ${dayPlans.dayOfMonth}</span><br>
                         <ul class="list-unstyled" style="font-size: 10pt;">
                         <c:forEach var="plan" items="${dayPlans.plans}">
-                            <li>
+                            <li style="border-top: #9d9d9d solid 1px;">
                                 <c:set var="isDone" value="${plan.status.code eq 'DN'}"/>
                                 <c:set var="isCanceled" value="${plan.status.code eq 'CNCL'}"/>
                                 <c:set var="isOutdated" value="${plan.outdated}"/>

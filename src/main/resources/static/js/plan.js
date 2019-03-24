@@ -44,9 +44,12 @@ function PlanClass() {
 
     this.loadOverview = function() {
         Loader.show();
-        $.get('./overview.html?year=2017&month=6', function (data) {
+        var monthAndYear = $('#monthPicker').data('date').split("/");
+        var year = monthAndYear[1];
+        var month = monthAndYear[0];
+        $.get('./overview.html?year=' + year + '&month=' + month, function (data) {
             Loader.hide();
-            $('#overview').html(data);
+            $('#overviewContent').html(data);
         });
     };
 

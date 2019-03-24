@@ -17,8 +17,6 @@ $(document).ready(function(){
                 break;
 		}
         UserSettings.updateSelectedTab(tab.data('type'));
-
-		var y = $(event.relatedTarget).text();  // previous tab
 	});
 
 	$('#datepicker-daily').datetimepicker({
@@ -42,6 +40,21 @@ $(document).ready(function(){
 		title.focus();
 		title.val(title.val());
 	});
+
+	$('#monthPicker').datetimepicker({
+        format: 'MM/YYYY',
+        viewMode: 'months',
+        defaultDate: new Date()
+    })
+        .data('date', getCurrentMonthAndYear())
+        .on('dp.change', function () {
+            Plan.loadOverview();
+        });
+
+	function getCurrentMonthAndYear() {
+	    var date = new Date();
+	    return (date.getMonth() + 1) + "/" + date.getFullYear();
+    }
 
     UserSettings = new UserSettingsClass();
     Loader = new LoaderClass();

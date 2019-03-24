@@ -60,10 +60,12 @@ public class PlansManager {
             .collect(Collectors.toMap(PlansByDay::getDayOfMonth, e -> e));
     }
 
-    private List<PlansByDay> getPlans(LocalDate start,
-                                      LocalDate end,
-                                      User user,
-                                      Set<ViewOption> viewOptions) {
+    private List<PlansByDay> getPlans(
+        LocalDate start,
+        LocalDate end,
+        User user,
+        Set<ViewOption> viewOptions
+    ) {
         final List<Plan> plans = plansStorage.getPlans(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end), user, viewOptions);
         final Map<LocalDate, PlansByDay> map = new HashMap<>();
 

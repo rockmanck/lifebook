@@ -28,8 +28,14 @@ import java.util.stream.Collectors;
 
 @Controller
 public class MainController extends BaseController {
-    @Autowired private PlansManager plansManager;
-    @Autowired private UsersStorage usersStorage;
+    private final PlansManager plansManager;
+    private final UsersStorage usersStorage;
+
+    @Autowired
+    public MainController(PlansManager plansManager, UsersStorage usersStorage) {
+        this.plansManager = plansManager;
+        this.usersStorage = usersStorage;
+    }
 
     @RequestMapping("/")
     public ModelAndView root(HttpServletRequest request) {
@@ -78,10 +84,12 @@ public class MainController extends BaseController {
     }
 
     @RequestMapping("/updateUserSettings.html")
-    public void updateViewOptions(@RequestParam String viewOptions,
-                                  @RequestParam String defaultTab,
-                                  HttpServletRequest request,
-                                  HttpServletResponse response) throws IOException {
+    public void updateViewOptions(
+        @RequestParam String viewOptions,
+        @RequestParam String defaultTab,
+        HttpServletRequest request,
+        HttpServletResponse response
+    ) throws IOException {
         usersStorage.updateSettings(viewOptions, defaultTab, user(request));
         ok(response);
     }
@@ -95,7 +103,7 @@ public class MainController extends BaseController {
     @RequestMapping("/overview.html")
     public ModelAndView overview(@RequestParam int year, @RequestParam int month, HttpServletRequest request) {
         final Map<Integer, PlansByDay> plans = plansManager.getMonthlyPlans(year, month, user(request));
-        return new ModelAndView("overview")
+        return new ModelAndView("overview/overviewContent")
             .addObject("plansOverview", new OverviewPlans(year, month, plans));
     }
 }

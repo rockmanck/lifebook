@@ -73,11 +73,7 @@
 
         </div>
         <div id="overview" class="tab-pane fade <c:if test='${defaultTab eq "OVERVIEW"}'>in active</c:if>">
-            <div class="row">
-                <div id="weeklyList" class="col-sm-12">
-                    <c:if test='${defaultTab eq "OVERVIEW"}'><jsp:include page="overview.jsp"/></c:if>
-                </div>
-            </div>
+            <jsp:include page="overview/overview.jsp"/>
         </div>
     </div>
 </div>

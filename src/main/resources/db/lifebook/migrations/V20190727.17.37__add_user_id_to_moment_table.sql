@@ -1,0 +1,2 @@
+ALTER TABLE moments
+ADD COLUMN user_id INT NOT NULL;

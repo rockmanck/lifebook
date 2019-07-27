@@ -6,7 +6,9 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
-import ua.lifebook.db.user.UsersDbStorage;
+import pp.ua.lifebook.db.user.UsersDbStorage;
+import pp.ua.lifebook.user.User;
+import pp.ua.lifebook.user.UsersStorage;
 
 import static org.junit.Assert.assertTrue;
 

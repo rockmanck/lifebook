@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--@elvariable id="i18n" type="java.util.ResourceBundle"--%>
 <%--@elvariable id="plan" type="ua.lifebook.plan.Plan"--%>
-<%--@elvariable id="dayPlans" type="ua.lifebook.plan.PlansByDay"--%>
+<%--@elvariable id="dayPlans" type="ua.lifebook.plan.ItemsByDay"--%>
 <%--@elvariable id="plansOverview" type="ua.lifebook.plan.OverviewPlans"--%>
 <%--@elvariable id="row" type="java.util.List"--%>
 <c:if test="${plansOverview != null}">

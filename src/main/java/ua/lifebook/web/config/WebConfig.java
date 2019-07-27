@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -35,6 +36,12 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public ServletWebServerFactory servletWebServerFactory() {
         return new TomcatServletWebServerFactory();
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new StringToLocalDateTimeConverter());
+        registry.addConverter(new StringToLocalDateConverter());
     }
 
     @Bean

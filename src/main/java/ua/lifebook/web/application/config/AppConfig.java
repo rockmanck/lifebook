@@ -7,13 +7,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import ua.lifebook.db.plan.PlansDbStorage;
-import ua.lifebook.db.user.UsersDbStorage;
+import pp.ua.lifebook.db.moment.MomentDbStorage;
+import pp.ua.lifebook.db.plan.PlansDbStorage;
+import pp.ua.lifebook.db.user.UsersDbStorage;
+import pp.ua.lifebook.moments.MomentService;
+import pp.ua.lifebook.moments.MomentStorage;
+import pp.ua.lifebook.plan.PlansManager;
+import pp.ua.lifebook.plan.PlansStorage;
+import pp.ua.lifebook.user.UsersStorage;
 import ua.lifebook.notification.MailManager;
-import ua.lifebook.plan.PlansStorage;
 import ua.lifebook.reminders.RemindersService;
 import ua.lifebook.reminders.RemindersServiceImpl;
-import ua.lifebook.user.UsersStorage;
 
 @Configuration
 @ComponentScan(
@@ -48,8 +52,23 @@ public class AppConfig {
     }
 
     @Bean
+    public MomentStorage momentStorage(DbDataSourceHolder dbDataSourceHolder) {
+        return new MomentDbStorage(dbDataSourceHolder.getDataSource());
+    }
+
+    @Bean
     public RemindersService remindersService() {
         return new RemindersServiceImpl();
+    }
+
+    @Bean
+    public PlansManager plansManager(PlansStorage storage) {
+        return new PlansManager(storage);
+    }
+
+    @Bean
+    public MomentService momentService(MomentStorage storage) {
+        return new MomentService(storage);
     }
 
     @Bean

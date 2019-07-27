@@ -1,2 +1,5 @@
 rootProject.name = 'lifebook'
+include 'lifebook-core'
+include 'lifebook-utils'
+include 'lifebook-db'
 

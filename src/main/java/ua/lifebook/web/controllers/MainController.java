@@ -5,15 +5,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import ua.lifebook.plan.OverviewPlans;
-import ua.lifebook.plan.PlanStatus;
-import ua.lifebook.plan.PlansByDay;
-import ua.lifebook.plan.PlansManager;
-import ua.lifebook.user.User;
-import ua.lifebook.user.UsersStorage;
-import ua.lifebook.user.parameters.DefaultTab;
-import ua.lifebook.user.parameters.UserSettings;
-import ua.lifebook.user.parameters.ViewOption;
+import pp.ua.lifebook.plan.ItemsByDay;
+import pp.ua.lifebook.plan.OverviewPlans;
+import pp.ua.lifebook.plan.PlanStatus;
+import pp.ua.lifebook.plan.PlansManager;
+import pp.ua.lifebook.user.User;
+import pp.ua.lifebook.user.UsersStorage;
+import pp.ua.lifebook.user.parameters.DefaultTab;
+import pp.ua.lifebook.user.parameters.UserSettings;
+import pp.ua.lifebook.user.parameters.ViewOption;
 import ua.lifebook.web.utils.SessionKeys;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,7 +53,7 @@ public class MainController extends BaseController {
             .collect(Collectors.toSet());
 
         final DefaultTab defaultTab = userSettings.getDefaultTab();
-        final List<PlansByDay> plans;
+        final List<ItemsByDay> plans;
         final LocalDate now = LocalDate.now();
         final ModelAndView result = new ModelAndView("index");
         switch (defaultTab) {
@@ -66,7 +66,7 @@ public class MainController extends BaseController {
             case OVERVIEW:
                 final int year = now.getYear();
                 final int month = now.getMonthValue();
-                final Map<Integer, PlansByDay> monthlyPlans = plansManager.getMonthlyPlans(year, month, user);
+                final Map<Integer, ItemsByDay> monthlyPlans = plansManager.getMonthlyPlans(year, month, user);
                 result.addObject("plansOverview", new OverviewPlans(year, month, monthlyPlans));
                 plans = new ArrayList<>();
                 break;
@@ -102,7 +102,7 @@ public class MainController extends BaseController {
 
     @RequestMapping("/overview.html")
     public ModelAndView overview(@RequestParam int year, @RequestParam int month, HttpServletRequest request) {
-        final Map<Integer, PlansByDay> plans = plansManager.getMonthlyPlans(year, month, user(request));
+        final Map<Integer, ItemsByDay> plans = plansManager.getMonthlyPlans(year, month, user(request));
         return new ModelAndView("overview/overviewContent")
             .addObject("plansOverview", new OverviewPlans(year, month, plans));
     }

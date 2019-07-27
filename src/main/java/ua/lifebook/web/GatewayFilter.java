@@ -1,11 +1,13 @@
 package ua.lifebook.web;
 
+import org.apache.commons.codec.Charsets;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import ua.lifebook.db.user.UsersDbStorage;
-import ua.lifebook.user.User;
-import ua.lifebook.user.UsersStorage;
-import ua.lifebook.user.parameters.Language;
+import pp.ua.lifebook.db.user.UsersDbStorage;
+import pp.ua.lifebook.user.User;
+import pp.ua.lifebook.user.UsersStorage;
+import pp.ua.lifebook.user.parameters.Language;
+import ua.lifebook.i18n.EncodingControl;
 import ua.lifebook.web.application.config.AppConfig;
 import ua.lifebook.web.utils.SessionKeys;
 
@@ -36,6 +38,7 @@ public class GatewayFilter implements Filter {
     }
 
     private static final boolean DEV_MODE = AppConfig.config.getBoolean("devMode");
+    private static final EncodingControl ENCODING_CONTROL = new EncodingControl(Charsets.UTF_8);
     private static final Map<Language, ResourceBundle> bundles = new EnumMap<>(Language.class);
 
     @Override public void init(FilterConfig config) {
@@ -79,7 +82,7 @@ public class GatewayFilter implements Filter {
 
     private void setLocale(HttpServletRequest request, Language language) {
         if (!bundles.containsKey(language) || DEV_MODE) {
-            bundles.put(language, ResourceBundle.getBundle("MessagesBundle", language.getLocale(), language.getEncodingControl()));
+            bundles.put(language, ResourceBundle.getBundle("MessagesBundle", language.getLocale(), ENCODING_CONTROL));
         }
         request.getSession().setAttribute("i18n", bundles.get(language));
     }

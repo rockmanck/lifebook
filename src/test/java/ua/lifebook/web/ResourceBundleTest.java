@@ -1,8 +1,10 @@
 package ua.lifebook.web;
 
+import com.google.common.base.Charsets;
 import org.junit.Assert;
 import org.junit.Test;
-import ua.lifebook.user.parameters.Language;
+import pp.ua.lifebook.user.parameters.Language;
+import ua.lifebook.i18n.EncodingControl;
 
 import java.util.ResourceBundle;
 
@@ -16,6 +18,6 @@ public class ResourceBundleTest {
     }
 
     private ResourceBundle getBundle(Language language) {
-        return ResourceBundle.getBundle("MessagesBundle", language.getLocale(), language.getEncodingControl());
+        return ResourceBundle.getBundle("MessagesBundle", language.getLocale(), new EncodingControl(Charsets.UTF_8));
     }
 }

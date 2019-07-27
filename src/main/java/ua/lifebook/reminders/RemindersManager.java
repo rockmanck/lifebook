@@ -2,9 +2,9 @@ package ua.lifebook.reminders;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import pp.ua.lifebook.plan.Plan;
+import pp.ua.lifebook.plan.PlansManager;
 import ua.lifebook.notification.NotificationService;
-import ua.lifebook.plan.Plan;
-import ua.lifebook.plan.PlansManager;
 
 import java.time.LocalDateTime;
 

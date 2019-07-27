@@ -5,8 +5,8 @@ import org.quartz.JobDetail;
 import org.quartz.Trigger;
 import org.quartz.TriggerBuilder;
 import org.quartz.TriggerKey;
+import pp.ua.lifebook.utils.DateUtils;
 import ua.lifebook.reminders.Reminder;
-import ua.lifebook.utils.DateUtils;
 
 public final class ScheduleUtils {
 

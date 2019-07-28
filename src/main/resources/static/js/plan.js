@@ -25,7 +25,7 @@ function PlanClass() {
 	this.loadDailyPlans = function() {
 		var date = $('#datepicker-daily').data('date');
         Loader.show();
-		$.get('./plan/daily.html?date=' + encodeURI(date), function (data) {
+		$.get('./items/daily.html?date=' + encodeURI(date), function (data) {
             Loader.hide();
 			$('#dailyList').html(data);
 			PlansListCollapse.init(ViewType.DAILY);
@@ -35,7 +35,7 @@ function PlanClass() {
     this.loadWeeklyPlans = function() {
         var date = $('#datepicker-weekly').data('date');
         Loader.show();
-        $.get('./plan/weekly.html?date=' + encodeURI(date), function (data) {
+        $.get('./items/weekly.html?date=' + encodeURI(date), function (data) {
             Loader.hide();
 			$('#weeklyList').html(data);
             PlansListCollapse.init(ViewType.WEEKLY);

@@ -1,6 +1,7 @@
 package pp.ua.lifebook.plan;
 
 import org.junit.Test;
+import pp.ua.lifebook.ItemsByDay;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -51,7 +52,7 @@ public class OverviewPlansTest {
             for (int j = 0; j < 7; j += 1) {
                 final ItemsByDay itemsByDay = row.get(j);
                 assertThat("Week #" + (i + 1) + " contains wrong day", day, is(itemsByDay.getDayOfMonth()));
-                final LocalDate localDate = itemsByDay.getDayFully().toLocalDate();
+                final LocalDate localDate = itemsByDay.getDayFully();
                 day = nextDay(day, localDate.lengthOfMonth());
             }
         }

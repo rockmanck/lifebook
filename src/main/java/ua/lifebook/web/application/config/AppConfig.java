@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import pp.ua.lifebook.DayItemsManager;
 import pp.ua.lifebook.db.moment.MomentDbStorage;
 import pp.ua.lifebook.db.plan.PlansDbStorage;
 import pp.ua.lifebook.db.user.UsersDbStorage;
@@ -69,6 +70,11 @@ public class AppConfig {
     @Bean
     public MomentService momentService(MomentStorage storage) {
         return new MomentService(storage);
+    }
+
+    @Bean
+    public DayItemsManager dayItemsManager(PlansStorage plansStorage, MomentStorage momentStorage) {
+        return new DayItemsManager(plansStorage, momentStorage);
     }
 
     @Bean

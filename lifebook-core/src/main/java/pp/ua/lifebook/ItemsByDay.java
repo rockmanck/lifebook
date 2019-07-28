@@ -1,8 +1,9 @@
-package pp.ua.lifebook.plan;
+package pp.ua.lifebook;
 
 import pp.ua.lifebook.moments.Moment;
+import pp.ua.lifebook.plan.Plan;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +11,12 @@ import java.util.Locale;
 import java.util.Objects;
 
 public class ItemsByDay implements Comparable<ItemsByDay> {
-    private final LocalDateTime day;
+    private final LocalDate day;
     private final List<Plan> plans = new ArrayList<>();
     private final List<Moment> moments = new ArrayList<>();
 
-    public ItemsByDay(LocalDateTime day) {
-        this.day = day;
+    public ItemsByDay(LocalDate date) {
+        this.day = date;
     }
 
     public List<Plan> getPlans() {
@@ -45,7 +46,7 @@ public class ItemsByDay implements Comparable<ItemsByDay> {
         return day.getDayOfMonth();
     }
 
-    LocalDateTime getDayFully() {
+    public LocalDate getDayFully() {
         return day;
     }
 

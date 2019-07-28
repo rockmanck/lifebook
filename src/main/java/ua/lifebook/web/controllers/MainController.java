@@ -1,14 +1,13 @@
 package ua.lifebook.web.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import pp.ua.lifebook.plan.ItemsByDay;
+import pp.ua.lifebook.DayItemsManager;
+import pp.ua.lifebook.ItemsByDay;
 import pp.ua.lifebook.plan.OverviewPlans;
 import pp.ua.lifebook.plan.PlanStatus;
-import pp.ua.lifebook.plan.PlansManager;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.UsersStorage;
 import pp.ua.lifebook.user.parameters.DefaultTab;
@@ -28,12 +27,11 @@ import java.util.stream.Collectors;
 
 @Controller
 public class MainController extends BaseController {
-    private final PlansManager plansManager;
+    private final DayItemsManager dayItemsManager;
     private final UsersStorage usersStorage;
 
-    @Autowired
-    public MainController(PlansManager plansManager, UsersStorage usersStorage) {
-        this.plansManager = plansManager;
+    public MainController(DayItemsManager dayItemsManager, UsersStorage usersStorage) {
+        this.dayItemsManager = dayItemsManager;
         this.usersStorage = usersStorage;
     }
 
@@ -58,15 +56,15 @@ public class MainController extends BaseController {
         final ModelAndView result = new ModelAndView("index");
         switch (defaultTab) {
             case DAILY:
-                plans = plansManager.getDailyPlans(now, user);
+                plans = dayItemsManager.getForDay(now, user);
                 break;
             case WEEKLY:
-                plans = plansManager.getWeekPlans(now, user);
+                plans = dayItemsManager.getForWeek(now, user);
                 break;
             case OVERVIEW:
                 final int year = now.getYear();
                 final int month = now.getMonthValue();
-                final Map<Integer, ItemsByDay> monthlyPlans = plansManager.getMonthlyPlans(year, month, user);
+                final Map<Integer, ItemsByDay> monthlyPlans = dayItemsManager.getMonthlyPlans(year, month, user);
                 result.addObject("plansOverview", new OverviewPlans(year, month, monthlyPlans));
                 plans = new ArrayList<>();
                 break;
@@ -102,7 +100,7 @@ public class MainController extends BaseController {
 
     @RequestMapping("/overview.html")
     public ModelAndView overview(@RequestParam int year, @RequestParam int month, HttpServletRequest request) {
-        final Map<Integer, ItemsByDay> plans = plansManager.getMonthlyPlans(year, month, user(request));
+        final Map<Integer, ItemsByDay> plans = dayItemsManager.getMonthlyPlans(year, month, user(request));
         return new ModelAndView("overview/overviewContent")
             .addObject("plansOverview", new OverviewPlans(year, month, plans));
     }

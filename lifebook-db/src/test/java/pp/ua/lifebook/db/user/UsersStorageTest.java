@@ -1,20 +1,12 @@
-package ua.lifebook.user;
+package pp.ua.lifebook.db.user;
 
-import org.apache.commons.dbcp2.BasicDataSource;
-import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnit;
-import org.mockito.junit.MockitoRule;
-import pp.ua.lifebook.db.user.UsersDbStorage;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.UsersStorage;
 
 import static org.junit.Assert.assertTrue;
 
 public class UsersStorageTest {
-    @Mock private BasicDataSource dataSource;
-    @Rule public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Test(expected = UsersDbStorage.EmptyLogin.class)
     public void WhenLoginNull_ThrowEmptyLogin() {
@@ -42,6 +34,6 @@ public class UsersStorageTest {
     }
 
     private UsersStorage usersManager() {
-        return new UsersDbStorage(dataSource);
+        return new UsersStorageMock();
     }
 }

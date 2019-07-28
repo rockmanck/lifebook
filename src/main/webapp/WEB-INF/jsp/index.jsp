@@ -10,6 +10,7 @@
     <script src="<c:url value="/js/bootstrap-datetimepicker.js"/>"></script>
     <script src="<c:url value="/js/index.js"/>"></script>
     <script src="<c:url value="/js/plan.js"/>"></script>
+    <script src="<c:url value="/js/moment.js"/>"></script>
     <script src="<c:url value="/js/animation.js"/>"></script>
     <script src="<c:url value="/js/user-settings.js"/>"></script>
     <script src="<c:url value="/js/loader.js"/>"></script>
@@ -80,6 +81,9 @@
 
 <div class="modal fade" id="planModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <jsp:include page="planForm.jsp"/>
+</div>
+<div class="modal fade" id="momentModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <jsp:include page="momentForm.jsp"/>
 </div>
 
 </body>

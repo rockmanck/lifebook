@@ -12,11 +12,14 @@ import pp.ua.lifebook.utils.DateUtils;
 import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MomentDbStorage extends JdbcTemplate implements MomentStorage {
     private static final String INSERT_ONE_SQL = "INSERT INTO moments(date, description, user_id) VALUES(?, ?, ?)";
     private static final String UPDATE_ONE_SQL = "UPDATE moments SET date = ?, description = ? WHERE id = ?";
+    private static final String FIND_BY_ID_SQL = "SELECT id, date, description, user_id FROM moments WHERE id = ?";
+    private static final MomentMapper MAPPER = new MomentMapper();
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final DynamicSqlBuilder sqlBuilder = new DynamicSqlBuilder();
@@ -27,15 +30,16 @@ public class MomentDbStorage extends JdbcTemplate implements MomentStorage {
 
     @Override
     public void save(Moment moment) {
+        final Date date = DateUtils.localDateToDate(moment.getDate());
         if (moment.getId() == null) {
-            update(INSERT_ONE_SQL, moment.getDate(), moment.getDescription(), moment.getUserId());
+            update(INSERT_ONE_SQL, date, moment.getDescription(), moment.getUserId());
         } else {
-            update(UPDATE_ONE_SQL,  moment.getDate(), moment.getDescription(), moment.getId());
+            update(UPDATE_ONE_SQL, date, moment.getDescription(), moment.getId());
         }
     }
 
     @Override
-    public List<Moment> getByDate(int userId, LocalDate start, LocalDate end) {
+    public List<Moment> getByDateRange(int userId, LocalDate start, LocalDate end) {
         final List<Moment> result = new ArrayList<>();
         final String sql = sqlBuilder.sql("GetMoments")
             .param("startDate", DateUtils.format(start))
@@ -43,16 +47,21 @@ public class MomentDbStorage extends JdbcTemplate implements MomentStorage {
             .build();
         try {
             query(sql, rs -> {
-                final Moment moment = new Moment();
-                moment.setId(rs.getInt("id"));
-                moment.setDate(DateUtils.dateToLocalDate(rs.getDate("date")));
-                moment.setDescription(rs.getString("description"));
-                moment.setUserId(rs.getInt("user_id"));
+                final Moment moment = MAPPER.mapRow(rs, 0);
                 result.add(moment);
             });
         } catch (EmptyResultDataAccessException e) {
             log.debug("No moments found for {} user between {} and {} dates", userId, start, end);
         }
         return result;
+    }
+
+    @Override
+    public Moment getById(int id) {
+        try {
+            return queryForObject(FIND_BY_ID_SQL, MAPPER, id);
+        } catch (EmptyResultDataAccessException e) {
+            return new Moment();
+        }
     }
 }

@@ -14,7 +14,7 @@
                 <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
                 Add Plan
             </a>
-            <a class="btn icon-btn btn-success" href="#">
+            <a class="btn icon-btn btn-success" href="#" data-toggle="modal" onclick="Moment.new('datepicker-daily', ${viewType});">
                 <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
                 Add Moment
             </a>

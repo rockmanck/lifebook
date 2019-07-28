@@ -4,4 +4,4 @@ SELECT
 	m.date,
 	m.user_id
 FROM moments m
-WHERE CAST(due_time AS DATE) BETWEEN '$startDate' AND '$endDate' AND user_id = $userId
+WHERE m.date BETWEEN '$startDate' AND '$endDate' AND user_id = $userId

@@ -7,5 +7,7 @@ public interface MomentStorage {
 
     void save(Moment moment);
 
-    List<Moment> getByDate(int userId, LocalDate start, LocalDate end);
+    List<Moment> getByDateRange(int userId, LocalDate start, LocalDate end);
+
+    Moment getById(int id);
 }

@@ -1,6 +1,8 @@
 package pp.ua.lifebook.moments;
 
 
+import pp.ua.lifebook.utils.DateUtils;
+
 import java.time.LocalDate;
 
 public class Moment {
@@ -39,5 +41,9 @@ public class Moment {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    public String getRawDate() {
+        return date != null ? DateUtils.format(date) : "";
     }
 }

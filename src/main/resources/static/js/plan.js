@@ -2,26 +2,6 @@ function PlanClass() {
 	var _self = this;
 	var sevenDays = 7 * 24 * 60 * 60 * 1000;
 
-	function loadPlanById(id, defaultDate, viewType) {
-		$.get('./plan/' + id + '/edit.html', function (data) {
-			var form = $('#planModal');
-			form.html(data);
-			updateDueDate(form, defaultDate);
-			form.modal({backdrop: 'static'});
-			form.find('#viewType').val(viewType);
-		});
-	}
-
-	function updateDueDate(form, defaultDate) {
-		var dueDate = form.find('#planTimeRaw').val();
-		var date = dueDate != '' ? new Date(dueDate) : defaultDate;
-		form.find('#planTime').datetimepicker({
-			minDate: new Date() - sevenDays,
-			sideBySide: true,
-			format: 'MM/DD/YYYY HH:mm'
-		}).data("DateTimePicker").date(date);
-	}
-
 	this.loadDailyPlans = function() {
 		var date = $('#datepicker-daily').data('date');
         Loader.show();
@@ -101,6 +81,26 @@ function PlanClass() {
             }
         });
     };
+
+    function loadPlanById(id, defaultDate, viewType) {
+        $.get('./plan/' + id + '/edit.html', function (data) {
+            var form = $('#planModal');
+            form.html(data);
+            updateDueDate(form, defaultDate);
+            form.modal({backdrop: 'static'});
+            form.find('#viewType').val(viewType);
+        });
+    }
+
+    function updateDueDate(form, defaultDate) {
+        var dueDate = form.find('#planTimeRaw').val();
+        var date = dueDate !== '' ? new Date(dueDate) : defaultDate;
+        form.find('#planTime').datetimepicker({
+            minDate: new Date() - sevenDays,
+            sideBySide: true,
+            format: 'MM/DD/YYYY HH:mm'
+        }).data("DateTimePicker").date(date);
+    }
 }
 
 function PlansContainerResolver() {

@@ -5,13 +5,13 @@
 <%--@elvariable id="plan" type="ua.lifebook.plan.Plan"--%>
 <c:set var="newlineWindows" value="<%= \"\r\n\" %>" />
 <c:set var="newline" value="<%= \"\n\" %>" />
-<c:forEach var="planByDay" items="${plans}">
+<c:forEach var="itemsByDay" items="${items}">
     <div>
-        <c:set var="day" value="${planByDay.getDay()}"/>
+        <c:set var="day" value="${itemsByDay.getDay()}"/>
         <div class="plans-day-strip expanded" data-forDay="${day}">${day}</div>
         <div class="plans-day-list">
             <ul class="event-list">
-            <c:forEach var="plan" items="${planByDay.plans}">
+            <c:forEach var="plan" items="${itemsByDay.plans}">
                 <c:set var="isDone" value="${plan.status.code eq 'DN'}"/>
                 <c:set var="isCanceled" value="${plan.status.code eq 'CNCL'}"/>
                 <c:set var="isOutdated" value="${plan.outdated}"/>
@@ -32,6 +32,18 @@
                                 <li class="plan-action" onclick="Plan.done(${plan.id}, ${viewType}, '${day}');"><span class="done-button" title="Mark as Done"></span></li>
                                 <li class="plan-action" onclick="Plan.cancel(${plan.id}, ${viewType}, '${day}');"><span class="cancel-button" title="Cancel Plan"></span></li>
                             </c:if>
+                        </ul>
+                    </div>
+                </li>
+            </c:forEach>
+            <c:forEach var="moment" items="${itemsByDay.moments}">
+                <li id="moment-${moment.id}">
+                    <div class="info">
+                        <p class="moment">${fn:replace(fn:replace(moment.description, newline, "<br/>"), newlineWindows, "<br/>")}</p>
+                    </div>
+                    <div class="social">
+                        <ul>
+                            <li class="plan-action" onclick="Moment.edit(${moment.id}, ${viewType});"><span class="edit-button" title="Edit Moment"></span></li>
                         </ul>
                     </div>
                 </li>

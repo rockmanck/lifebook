@@ -84,7 +84,12 @@ body {
 .event-list > li > .info > .desc {
     font-size: 13pt;
     font-weight: 300;
-    margin: 0px;
+    margin: 0;
+    overflow-y: hidden;
+    max-height: 75px;
+}
+.event-list > li > .info > .desc:hover {
+    overflow-y: auto;
 }
 .event-list > li > .info > ul,
 .event-list > li > .social > ul {

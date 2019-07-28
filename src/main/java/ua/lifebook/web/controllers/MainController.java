@@ -51,31 +51,31 @@ public class MainController extends BaseController {
             .collect(Collectors.toSet());
 
         final DefaultTab defaultTab = userSettings.getDefaultTab();
-        final List<ItemsByDay> plans;
+        final List<ItemsByDay> items;
         final LocalDate now = LocalDate.now();
         final ModelAndView result = new ModelAndView("index");
         switch (defaultTab) {
             case DAILY:
-                plans = dayItemsManager.getForDay(now, user);
+                items = dayItemsManager.getForDay(now, user);
                 break;
             case WEEKLY:
-                plans = dayItemsManager.getForWeek(now, user);
+                items = dayItemsManager.getForWeek(now, user);
                 break;
             case OVERVIEW:
                 final int year = now.getYear();
                 final int month = now.getMonthValue();
                 final Map<Integer, ItemsByDay> monthlyPlans = dayItemsManager.getMonthlyPlans(year, month, user);
                 result.addObject("plansOverview", new OverviewPlans(year, month, monthlyPlans));
-                plans = new ArrayList<>();
+                items = new ArrayList<>();
                 break;
             default:
-                plans = new ArrayList<>();
+                items = new ArrayList<>();
                 break;
         }
 
         return result
             .addObject("planStatuses", PlanStatus.values())
-            .addObject("plans", plans)
+            .addObject("items", items)
             .addObject("userViewOptions", userViewOptions)
             .addObject("defaultTab", userSettings.getDefaultTab().name())
             .addObject("user", user);

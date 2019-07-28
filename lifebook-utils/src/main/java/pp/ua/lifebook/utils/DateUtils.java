@@ -17,7 +17,7 @@ public class DateUtils {
     }
 
     private static final ThreadLocal<DateTimeFormatter> dateTimeFormatter = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
-
+    private static final ThreadLocal<DateTimeFormatter> localDateFormatter = ThreadLocal.withInitial(() -> DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     private static final ThreadLocal<SimpleDateFormat> dateFormatter = ThreadLocal.withInitial(() -> new SimpleDateFormat("yyyy-MM-dd"));
 
     public static Date localDateTimeToDate(LocalDateTime dateTime) {
@@ -76,7 +76,7 @@ public class DateUtils {
     }
 
     public static String format(LocalDate date) {
-        return dateFormatter.get().format(date);
+        return localDateFormatter.get().format(date);
     }
 
     private static Instant dateToInstant(Date date) {

@@ -26,7 +26,7 @@ public class ItemsController extends BaseController {
         final User user = user(request);
         final List<ItemsByDay> dailyPlans = dayItemsManager.getForDay(date, user);
         return new ModelAndView("plans/list")
-            .addObject("plans", dailyPlans)
+            .addObject("items", dailyPlans)
             .addObject("viewType", "ViewType.DAILY");
     }
 
@@ -35,7 +35,7 @@ public class ItemsController extends BaseController {
         final User user = user(request);
         final List<ItemsByDay> itemsByDay = dayItemsManager.getForWeek(date, user);
         return new ModelAndView("plans/list")
-            .addObject("plans", itemsByDay)
+            .addObject("items", itemsByDay)
             .addObject("viewType", "ViewType.WEEKLY");
     }
 }

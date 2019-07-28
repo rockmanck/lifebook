@@ -44,6 +44,7 @@ public class MomentDbStorage extends JdbcTemplate implements MomentStorage {
         final String sql = sqlBuilder.sql("GetMoments")
             .param("startDate", DateUtils.format(start))
             .param("endDate", DateUtils.format(end))
+            .param("userId", userId)
             .build();
         try {
             query(sql, rs -> {

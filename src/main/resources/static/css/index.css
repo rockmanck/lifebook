@@ -81,3 +81,16 @@ td.overview {
 .overview-outdated {
     color: #ac2925;
 }
+
+.moment {
+    font-size: 13pt;
+    font-weight: 300;
+    margin: 0;
+    overflow-y: hidden;
+    max-height: 98px;
+    padding: 0 10px;
+}
+
+.moment:hover {
+    overflow-y: auto;
+}

@@ -1,8 +1,23 @@
+plugins {
+    id 'idea'
+    id 'java'
+    id 'info.solidsoft.pitest'
+}
+
 apply plugin: 'idea'
 apply plugin: 'java'
+
+pitest {
+    testPlugin = "junit5"
+    targetClasses = ['pp.ua.lifebook.*']
+    verbose = true
+}
 
 dependencies {
     compile project(':lifebook-utils')
     compile files('../lib/RockmanUtils.jar')
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    testImplementation "org.junit.jupiter:junit-jupiter:${junit5_version}"
+    testImplementation 'org.assertj:assertj-core:3.13.1'
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit5_version}"
 }

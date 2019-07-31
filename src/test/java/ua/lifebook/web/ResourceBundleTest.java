@@ -1,20 +1,21 @@
 package ua.lifebook.web;
 
 import com.google.common.base.Charsets;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import pp.ua.lifebook.user.parameters.Language;
 import ua.lifebook.i18n.EncodingControl;
 
 import java.util.ResourceBundle;
 
-public class ResourceBundleTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class ResourceBundleTest {
     @Test
-    public void checkCyrillic() {
+    void checkCyrillic() {
         final String signIn = "signIn";
-        Assert.assertEquals("Check sign in text in russian", "Войти", getBundle(Language.RU).getString(signIn));
-        Assert.assertEquals("Check sign in text in ukrainian", "Увійти", getBundle(Language.UA).getString(signIn));
-        Assert.assertEquals("Check sign in text in english", "Sign in", getBundle(Language.EN).getString(signIn));
+        assertEquals("Войти", getBundle(Language.RU).getString(signIn), "Check sign in text in russian");
+        assertEquals("Увійти", getBundle(Language.UA).getString(signIn), "Check sign in text in ukrainian");
+        assertEquals("Sign in", getBundle(Language.EN).getString(signIn), "Check sign in text in english");
     }
 
     private ResourceBundle getBundle(Language language) {

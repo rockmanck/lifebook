@@ -88,9 +88,12 @@ td.overview {
     margin: 0;
     overflow-y: hidden;
     max-height: 98px;
+    min-height: 98px;
     padding: 0 10px;
+    filter: blur(4px);
 }
 
 .moment:hover {
     overflow-y: auto;
+    filter: none;
 }

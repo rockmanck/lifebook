@@ -38,6 +38,10 @@
             </c:forEach>
             <c:forEach var="moment" items="${itemsByDay.moments}">
                 <li id="moment-${moment.id}">
+                    <time datetime="${moment.date}">
+                        <span class="day">${moment.date.dayOfMonth}</span>
+                        <span class="month">${moment.date.month}</span>
+                    </time>
                     <div class="info">
                         <p class="moment">${fn:replace(fn:replace(moment.description, newline, "<br/>"), newlineWindows, "<br/>")}</p>
                     </div>

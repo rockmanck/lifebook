@@ -57,7 +57,7 @@ class UsersJdbc extends JdbcTemplate {
     }
 
     private User getUser(ResultSet rs) throws SQLException {
-        final User user = new User();
+        final User user = User.builder().createUser();
         user.setId(rs.getInt("userId"));
         user.setFirstName(rs.getString("first_name"));
         user.setLastName(rs.getString("last_name"));

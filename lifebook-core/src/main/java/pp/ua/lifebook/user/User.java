@@ -14,6 +14,28 @@ public class User {
     private Language language;
     private UserSettings userSettings;
 
+    private User(
+        Integer id,
+        String login,
+        String firstName,
+        String lastName,
+        String email,
+        String password,
+        boolean admin,
+        Language language,
+        UserSettings userSettings
+    ) {
+        this.id = id;
+        this.login = login;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.admin = admin;
+        this.language = language;
+        this.userSettings = userSettings;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -84,5 +106,75 @@ public class User {
 
     public void setUserSettings(UserSettings userSettings) {
         this.userSettings = userSettings;
+    }
+
+    public static UserBuilder builder() {
+        return new UserBuilder();
+    }
+
+    public static final class UserBuilder {
+
+        private Integer id;
+        private String login;
+        private String firstName;
+        private String lastName;
+        private String email;
+        private String password;
+        private boolean admin;
+        private Language language;
+        private UserSettings userSettings;
+
+        private UserBuilder() {
+            // hide public constructor
+        }
+
+        public UserBuilder setId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public UserBuilder setLogin(String login) {
+            this.login = login;
+            return this;
+        }
+
+        public UserBuilder setFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public UserBuilder setLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public UserBuilder setEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public UserBuilder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserBuilder setAdmin(boolean admin) {
+            this.admin = admin;
+            return this;
+        }
+
+        public UserBuilder setLanguage(Language language) {
+            this.language = language;
+            return this;
+        }
+
+        public UserBuilder setUserSettings(UserSettings userSettings) {
+            this.userSettings = userSettings;
+            return this;
+        }
+
+        public User createUser() {
+            return new User(id, login, firstName, lastName, email, password, admin, language, userSettings);
+        }
     }
 }

@@ -17,9 +17,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -52,12 +52,12 @@ public class PlansDbStorage extends JdbcTemplate implements PlansStorage {
         try {
             return queryForObject(sql, (rs, rowNum) -> plan(rs), id);
         } catch (EmptyResultDataAccessException e) {
-            return new Plan();
+            return Plan.builder().createPlan();
         }
     }
 
     @Override
-    public List<Plan> getPlans(Date start, Date end, User user, Set<ViewOption> viewOptions) {
+    public List<Plan> getPlans(LocalDate start, LocalDate end, User user, Set<ViewOption> viewOptions) {
         final String sql = sqlBuilder.sql("GetPlans")
             .param("startDate", DateUtils.format(start))
             .param("endDate", DateUtils.format(end))
@@ -83,7 +83,7 @@ public class PlansDbStorage extends JdbcTemplate implements PlansStorage {
     }
 
     private Plan plan(ResultSet rs) throws SQLException {
-        final Plan plan = new Plan();
+        final Plan plan = Plan.builder().createPlan();
         plan.setId(rs.getInt("plan_id"));
         plan.setCategory(category(rs));
         plan.setTitle(rs.getString("title"));

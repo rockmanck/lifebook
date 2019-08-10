@@ -11,6 +11,13 @@ public class Moment {
     private String description;
     private int userId;
 
+    private Moment(Integer id, LocalDate date, String description, int userId) {
+        this.id = id;
+        this.date = date;
+        this.description = description;
+        this.userId = userId;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -45,5 +52,45 @@ public class Moment {
 
     public String getRawDate() {
         return date != null ? DateUtils.format(date) : "";
+    }
+
+    public static final MomentBuilder builder() {
+        return new MomentBuilder();
+    }
+
+    public static final class MomentBuilder {
+
+        private Integer id;
+        private LocalDate date;
+        private String description;
+        private int userId;
+
+        private MomentBuilder() {
+            // hide public constructor
+        }
+
+        public MomentBuilder setId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public MomentBuilder setDate(LocalDate date) {
+            this.date = date;
+            return this;
+        }
+
+        public MomentBuilder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public MomentBuilder setUserId(int userId) {
+            this.userId = userId;
+            return this;
+        }
+
+        public Moment createMoment() {
+            return new Moment(id, date, description, userId);
+        }
     }
 }

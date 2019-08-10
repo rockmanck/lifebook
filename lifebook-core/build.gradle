@@ -17,7 +17,8 @@ dependencies {
     compile project(':lifebook-utils')
     compile files('../lib/RockmanUtils.jar')
 
-    testImplementation "org.junit.jupiter:junit-jupiter:${junit5_version}"
     testImplementation 'org.assertj:assertj-core:3.13.1'
+    testImplementation "org.junit.jupiter:junit-jupiter:${junit5_version}"
+    testImplementation 'org.mockito:mockito-core:3.0.0'
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit5_version}"
 }

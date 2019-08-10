@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class MomentMapper implements RowMapper<Moment> {
     @Override
     public Moment mapRow(ResultSet rs, int rowNum) throws SQLException {
-        final Moment moment = new Moment();
+        final Moment moment = Moment.builder().createMoment();
         moment.setId(rs.getInt("id"));
         moment.setDate(DateUtils.dateToLocalDate(rs.getDate("date")));
         moment.setDescription(rs.getString("description"));

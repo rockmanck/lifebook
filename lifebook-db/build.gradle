@@ -13,5 +13,6 @@ dependencies {
     compile 'org.apache.velocity:velocity:1.7'
     compile "org.springframework:spring-jdbc:${springVersion}"
 
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation "org.junit.jupiter:junit-jupiter:${junit5_version}"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit5_version}"
 }

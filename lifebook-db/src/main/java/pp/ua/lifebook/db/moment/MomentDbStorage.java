@@ -62,7 +62,7 @@ public class MomentDbStorage extends JdbcTemplate implements MomentStorage {
         try {
             return queryForObject(FIND_BY_ID_SQL, MAPPER, id);
         } catch (EmptyResultDataAccessException e) {
-            return new Moment();
+            return Moment.builder().createMoment();
         }
     }
 }

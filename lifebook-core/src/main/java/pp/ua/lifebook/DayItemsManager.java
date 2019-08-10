@@ -6,12 +6,10 @@ import pp.ua.lifebook.plan.Plan;
 import pp.ua.lifebook.plan.PlansStorage;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.parameters.ViewOption;
-import pp.ua.lifebook.utils.DateUtils;
 import pp.ua.lifebook.utils.collections.ListMultimap;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -68,9 +66,7 @@ public class DayItemsManager {
                 itemsByDay.addMoment(moment);
         }
 
-        final List<ItemsByDay> result = new ArrayList<>(map.values());
-        Collections.sort(result);
-        return result;
+        return new ArrayList<>(map.values());
     }
 
     private Set<LocalDate> mergeDates(Set<LocalDate> dates1, Set<LocalDate> dates2) {
@@ -80,7 +76,7 @@ public class DayItemsManager {
     }
 
     private ListMultimap<LocalDate, Plan> getPlans(LocalDate start, LocalDate end, User user, Set<ViewOption> viewOptions) {
-        final List<Plan> plans = plansStorage.getPlans(DateUtils.localDateToDate(start), DateUtils.localDateToDate(end), user, viewOptions);
+        final List<Plan> plans = plansStorage.getPlans(start, end, user, viewOptions);
         final ListMultimap<LocalDate, Plan> result = new ListMultimap<>();
         for (Plan p : plans) {
             final LocalDate date = p.getDueDate().toLocalDate();

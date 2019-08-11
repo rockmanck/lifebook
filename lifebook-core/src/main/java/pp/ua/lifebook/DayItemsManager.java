@@ -10,6 +10,7 @@ import pp.ua.lifebook.utils.collections.ListMultimap;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -34,7 +35,9 @@ public class DayItemsManager {
 
     public List<ItemsByDay> getForWeek(LocalDate date, User user) {
         final LocalDate end = date.plusWeeks(1);
-        return get(date, end, user, getUserViewOptions(user));
+        final List<ItemsByDay> itemsByDays = get(date, end, user, getUserViewOptions(user));
+        Collections.sort(itemsByDays);
+        return itemsByDays;
     }
 
     public Map<Integer, ItemsByDay> getMonthlyPlans(int year, int month, User user) {

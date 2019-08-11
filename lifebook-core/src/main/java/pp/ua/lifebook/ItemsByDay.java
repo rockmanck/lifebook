@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-public class ItemsByDay {
+public class ItemsByDay implements Comparable<ItemsByDay> {
     private final LocalDate day;
     private final List<Plan> plans = new ArrayList<>();
     private final List<Moment> moments = new ArrayList<>();
@@ -48,6 +48,11 @@ public class ItemsByDay {
 
     public LocalDate getDayFully() {
         return day;
+    }
+
+    @Override
+    public int compareTo(ItemsByDay o) {
+        return day.compareTo(o.day);
     }
 
     @Override

@@ -14,6 +14,8 @@ public class User {
     private Language language;
     private UserSettings userSettings;
 
+    public User() {}
+
     private User(
         Integer id,
         String login,

@@ -16,6 +16,8 @@ public class Plan {
     private User user;
     private boolean isOutdated;
 
+    public Plan () {}
+
     private Plan(
         Integer id,
         String title,

@@ -11,6 +11,8 @@ public class Moment {
     private String description;
     private int userId;
 
+    public Moment() {}
+
     private Moment(Integer id, LocalDate date, String description, int userId) {
         this.id = id;
         this.date = date;

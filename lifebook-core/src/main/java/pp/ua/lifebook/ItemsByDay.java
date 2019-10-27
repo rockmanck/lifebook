@@ -2,6 +2,7 @@ package pp.ua.lifebook;
 
 import pp.ua.lifebook.moments.Moment;
 import pp.ua.lifebook.plan.Plan;
+import pp.ua.lifebook.utils.DateUtils;
 
 import java.time.LocalDate;
 import java.time.format.TextStyle;
@@ -40,6 +41,10 @@ public class ItemsByDay implements Comparable<ItemsByDay> {
      */
     public String getDay() {
         return day.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US);
+    }
+
+    public String getShortDate() {
+        return DateUtils.formatShortDate(day);
     }
 
     public int getDayOfMonth() {

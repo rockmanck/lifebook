@@ -3,11 +3,12 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--@elvariable id="i18n" type="java.util.ResourceBundle"--%>
 <%--@elvariable id="plan" type="ua.lifebook.plan.Plan"--%>
+<%--@elvariable id="itemsByDay" type="pp.ua.lifebook.ItemsByDay"--%>
 <c:set var="newlineWindows" value="<%= \"\r\n\" %>" />
 <c:set var="newline" value="<%= \"\n\" %>" />
 <c:forEach var="itemsByDay" items="${items}">
     <div>
-        <c:set var="day" value="${itemsByDay.getDay()}"/>
+        <c:set var="day" value="${itemsByDay.getShortDate()} ${itemsByDay.getDay()}"/>
         <div class="plans-day-strip expanded" data-forDay="${day}">${day}</div>
         <div class="plans-day-list">
             <ul class="event-list">

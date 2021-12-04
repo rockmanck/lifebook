@@ -11,3 +11,10 @@ After all instructions make sure proxy set up properly:
 ProxyRequests On
 ProxyPass / http://localhost:8081/
 ProxyPassReverse / http://localhost:8081/
+
+# Buy certificate
+SSH to VM and execute: sudo openssl req -new -newkey rsa:2048 -nodes -out lifebook_pp_ua.csr -keyout lifebook_pp_ua.key -subj "/C=ua/ST=Cherkasy/L=Cherkasy/O=Lifebook/CN=lifebook.pp.ua/emailAddress=<email>"
+visit ssl.com and paste generated .csr
+copy .crt file to VM
+make sure /etc/apache2/sites-available/default-ssl.conf contains correct paths to .csr and .key files
+restart apache: sudo systemctl restart apache

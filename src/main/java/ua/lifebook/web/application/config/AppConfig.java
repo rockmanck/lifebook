@@ -1,21 +1,17 @@
 package ua.lifebook.web.application.config;
 
-import com.typesafe.config.Config;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import pp.ua.lifebook.DayItemsManager;
-import pp.ua.lifebook.db.moment.MomentDbStorage;
-import pp.ua.lifebook.db.plan.PlansDbStorage;
-import pp.ua.lifebook.db.user.UsersDbStorage;
 import pp.ua.lifebook.moments.MomentService;
 import pp.ua.lifebook.moments.MomentStorage;
 import pp.ua.lifebook.plan.PlansManager;
 import pp.ua.lifebook.plan.PlansStorage;
-import pp.ua.lifebook.user.UsersStorage;
 import ua.lifebook.notification.MailManager;
 import ua.lifebook.reminders.RemindersService;
 import ua.lifebook.reminders.RemindersServiceImpl;
@@ -28,33 +24,15 @@ import ua.lifebook.reminders.RemindersServiceImpl;
         pattern = {"ua.lifebook.web.*"}
     )
 )
-@PropertySource(factory = ConfigPropertySourceFactory.class, value = "application.conf")
+@DependsOn("flyway")
 public class AppConfig {
-	public static final Config config = new ConfigurationHolder().getConfig().getConfig("lb");
 
     @Bean
-    public MailManager mailManager(JavaMailSenderImpl sender) {
-        return new MailManager(sender, config.getString("transport.mailSender.from"));
-    }
-
-    @Bean
-    public DbDataSourceHolder dbDataSourceHolder() {
-        return new DbDataSourceHolder();
-    }
-
-    @Bean
-    public PlansStorage plansJdbc(DbDataSourceHolder dbDataSourceHolder) {
-        return new PlansDbStorage(dbDataSourceHolder.getDataSource());
-    }
-
-    @Bean
-    public UsersStorage usersJdbc(DbDataSourceHolder dbDataSourceHolder) {
-        return new UsersDbStorage(dbDataSourceHolder.getDataSource());
-    }
-
-    @Bean
-    public MomentStorage momentStorage(DbDataSourceHolder dbDataSourceHolder) {
-        return new MomentDbStorage(dbDataSourceHolder.getDataSource());
+    public MailManager mailManager(
+        JavaMailSenderImpl sender,
+        @Value("${lb.transport.mailSender.from}") String from
+    ) {
+        return new MailManager(sender, from);
     }
 
     @Bean
@@ -78,14 +56,19 @@ public class AppConfig {
     }
 
     @Bean
-    public JavaMailSenderImpl sender() {
+    public JavaMailSenderImpl sender(
+        @Value("${lb.transport.mailSender.host}") String host,
+        @Value("${lb.transport.mailSender.port}") int port,
+        @Value("${lb.transport.mailSender.username}") String username,
+        @Value("${lb.transport.mailSender.password}") String password,
+        @Value("${lb.transport.mailSender.defaultEncoding}") String encoding
+    ) {
         final JavaMailSenderImpl sender = new JavaMailSenderImpl();
-        final Config sendConf = config.getConfig("transport.mailSender");
-        sender.setHost(sendConf.getString("host"));
-        sender.setPort(sendConf.getInt("port"));
-        sender.setUsername(sendConf.getString("username"));
-        sender.setPassword(sendConf.getString("password"));
-        sender.setDefaultEncoding(sendConf.getString("defaultEncoding"));
+        sender.setHost(host);
+        sender.setPort(port);
+        sender.setUsername(username);
+        sender.setPassword(password);
+        sender.setDefaultEncoding(encoding);
         return sender;
     }
 }

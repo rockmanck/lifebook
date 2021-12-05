@@ -11,14 +11,14 @@ pitest {
 }
 
 dependencies {
-    compile project(':lifebook-core')
-    compile project(':lifebook-utils')
-    compile libs.logging
-    compile 'com.google.guava:guava:19.0'
-    compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'org.apache.commons:commons-dbcp2:2.1.1'
-    compile 'org.apache.velocity:velocity:1.7'
-    compile "org.springframework:spring-jdbc:${springVersion}"
+    implementation project(':lifebook-core')
+    implementation project(':lifebook-utils')
+    implementation libs.logging
+    implementation 'com.google.guava:guava:19.0'
+    implementation 'org.apache.commons:commons-lang3:3.4'
+    implementation 'org.apache.commons:commons-dbcp2:2.1.1'
+    implementation 'org.apache.velocity:velocity:1.7'
+    implementation "org.springframework:spring-jdbc:${springVersion}"
 
     testImplementation "org.junit.jupiter:junit-jupiter:${junit5_version}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit5_version}"

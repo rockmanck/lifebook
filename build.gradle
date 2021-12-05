@@ -7,7 +7,6 @@ apply plugin: 'io.spring.dependency-management'
 buildscript {
     repositories {
         mavenCentral()
-        jcenter()
     }
 
     dependencies {
@@ -18,18 +17,24 @@ buildscript {
     }
 }
 
-sourceCompatibility = 11
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
 
 ext {
     springVersion = '5.0.8.RELEASE'
-    flyway_version = '5.2.1'
-    junit5_version = '5.4.2'
+    flyway_version = '8.1.0'
+    junit5_version = '5.8.2'
+    assertJ_version = '3.21.0'
     libs = [
-            logging: [
-                    'ch.qos.logback:logback-classic:1.2.3'
-                    , 'ch.qos.logback:logback-core:1.2.3'
-                    , 'org.codehaus.janino:janino:2.7.8'
-            ]
+        logging: [
+            'ch.qos.logback:logback-classic:1.2.3'
+            , 'ch.qos.logback:logback-core:1.2.3'
+            , 'org.codehaus.janino:janino:2.7.8'
+        ],
+        assertJ: "org.assertj:assertj-core:${assertJ_version}"
     ]
 }
 ext['junit-jupiter.version'] = "${junit5_version}"
@@ -41,36 +46,38 @@ allprojects {
 }
 
 dependencies {
-    compile project(':lifebook-core')
-    compile project(':lifebook-db')
-    compile project(':lifebook-utils')
-    compile libs.logging
-    compile 'com.typesafe:config:1.3.0'
-    compile 'com.google.api-client:google-api-client:1.22.0'
-    compile 'com.google.oauth-client:google-oauth-client-jetty:1.22.0'
-    compile 'com.google.apis:google-api-services-calendar:v3-rev249-1.22.0'
-    compile 'commons-fileupload:commons-fileupload:1.3.1'
-    compile 'javax.mail:mail:1.4.7'
-    compile 'javax.servlet:jstl'
-    compile 'javax.servlet:javax.servlet-api'
-    compile 'org.aspectj:aspectjweaver:1.9.1'
-    compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'org.apache.tomcat.embed:tomcat-embed-jasper'
-    compile 'org.postgresql:postgresql:9.4-1204-jdbc42'
-    compile 'org.quartz-scheduler:quartz:2.2.1'
-    compile "org.springframework:spring-context-support"
-    compile "org.springframework:spring-tx"
-    compile 'org.springframework.boot:spring-boot-starter-tomcat'
-    compile ("org.springframework.boot:spring-boot-starter-web") {
+    implementation project(':lifebook-core')
+    implementation project(':lifebook-db')
+    implementation project(':lifebook-utils')
+    implementation libs.logging
+    implementation 'com.typesafe:config:1.3.0'
+    implementation 'com.google.api-client:google-api-client:1.22.0'
+    implementation 'com.google.oauth-client:google-oauth-client-jetty:1.22.0'
+    implementation 'com.google.apis:google-api-services-calendar:v3-rev249-1.22.0'
+    implementation 'commons-fileupload:commons-fileupload:1.3.1'
+    implementation 'javax.mail:mail:1.4.7'
+    implementation 'javax.servlet:jstl'
+    implementation 'javax.servlet:javax.servlet-api'
+    implementation 'org.aspectj:aspectjweaver:1.9.1'
+    implementation 'org.apache.commons:commons-lang3:3.4'
+    implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+    implementation 'org.postgresql:postgresql:42.3.1'
+    implementation 'org.quartz-scheduler:quartz:2.2.1'
+    implementation "org.springframework:spring-context-support"
+    implementation "org.springframework:spring-tx"
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+    implementation 'org.apache.commons:commons-dbcp2:2.1.1'
+    implementation "org.springframework:spring-jdbc:${springVersion}"
+    implementation ("org.springframework.boot:spring-boot-starter-web") {
         exclude module: 'hibernate-validator'
     }
-    compile "org.flywaydb:flyway-core:${flyway_version}"
-    compile 'taglibs:standard:1.1.2'
+    implementation "org.flywaydb:flyway-core:${flyway_version}"
+    implementation 'taglibs:standard:1.1.2'
 
-    compile files('lib/RockmanUtils.jar')
+    implementation files('lib/RockmanUtils.jar')
 
+    testImplementation libs.assertJ
     testImplementation "org.junit.jupiter:junit-jupiter:${junit5_version}"
-    testImplementation 'org.assertj:assertj-core:3.13.1'
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit5_version}"
 }
 

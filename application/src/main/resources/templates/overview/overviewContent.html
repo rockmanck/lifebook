@@ -1,0 +1,16 @@
+<th:block th:if="${plansOverview != null}">
+    <table class="table table-bordered" style="font-family: 'Lato', sans-serif;">
+        <tr th:each="week: ${#numbers.sequence(0, plansOverview.weeksCount - 1)}" th:with="row=${plansOverview.data.get(week)}">
+            <th:block th:each="dayNumber: ${#numbers.sequence(0, 6)}" th:with="dayPlans=${row.get(dayNumber)}">
+                <td class="overview" width="14.28%">
+                    <span class="overview-item-day">[[${dayPlans.day}]] [[${dayPlans.dayOfMonth}]]</span><br>
+                    <ul class="list-unstyled" style="font-size: 10pt;">
+                        <li th:each="plan: ${dayPlans.plans}" style="border-top: #9d9d9d solid 1px;">
+                            <span th:title="${plan.comments}">[[${plan.title}]]</span>
+                        </li>
+                    </ul>
+                </td>
+            </th:block>
+        </tr>
+    </table>
+</th:block>

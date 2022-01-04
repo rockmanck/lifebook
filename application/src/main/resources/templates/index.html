@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Your LifeBook</title>
+    <script th:src="@{/js/jquery-2.1.4.js}"></script>
+    <script th:src="@{/js/moment-with-locales.js}"></script>
+    <script th:src="@{/js/bootstrap.js}"></script>
+    <script th:src="@{/js/bootstrap-datetimepicker.js}"></script>
+    <script th:src="@{/js/index.js}"></script>
+    <script th:src="@{/js/plan.js}"></script>
+    <script th:src="@{/js/moment.js}"></script>
+    <script th:src="@{/js/animation.js}"></script>
+    <script th:src="@{/js/user-settings.js}"></script>
+    <script th:src="@{/js/loader.js}"></script>
+    <script th:src="@{/js/plansListCollapse.js}"></script>
+    <link rel="shortcut icon" type="image/png" th:href="@{/img/lb-favicon.png}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <link rel="stylesheet" th:href="@{/css/bootstrap-datetimepicker.css}">
+    <link rel="stylesheet" th:href="@{/css/eventlist.css}">
+    <link rel="stylesheet" th:href="@{/css/index.css}">
+</head>
+<body>
+<div class="container">
+    <div class="alert alert-warning" id="implement-me" style="display: none;">
+        <a href="#" class="close" data-dismiss="alert">&times;</a>
+        <strong>Hi Dev!</strong> It is not implemented yet. Let's do it!
+    </div>
+
+    <div id="loading" style="display: none;"></div>
+    <div class="jumbotron">
+        <h2>[[${session.i18n.getString("welcome")}]]</h2>
+        <p>[[${session.i18n.getString("descriptionMain")}]]</p>
+
+        <div class="dropdown" id="user-menu">
+            <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">
+                [[${user.firstName}]] [[${user.lastName}]]
+                <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+                <li><a href="#" onclick="animation.notImplemented();">Admin</a></li>
+                <li><a href="#" onclick="animation.notImplemented();">Change Password</a></li>
+                <li class="divider"></li>
+                <li><a href="/logout.html">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <li th:class="${defaultTab == 'DAILY'} ? 'active' : ''">
+        <a data-toggle="tab" href="#daily" data-type="DAILY">[[${session.i18n.getString("daily")}]]</a>
+        </li>
+        <li th:class="${defaultTab == 'WEEKLY'} ? 'active' : ''">
+        <a data-toggle="tab" href="#weekly" data-type="WEEKLY">[[${session.i18n.getString("weekly")}]]</a>
+        </li>
+        <li th:class="${defaultTab == 'SEARCH'} ? 'active' : ''">
+        <a data-toggle="tab" href="#search" data-type="SEARCH">[[${session.i18n.getString("search")}]]</a>
+        </li>
+        <li th:class="${defaultTab == 'OVERVIEW'} ? 'active' : ''">
+        <a data-toggle="tab" href="#overview" data-type="OVERVIEW">[[${session.i18n.getString("overview")}]]</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div id="daily" th:class="'tab-pane fade ' + (${defaultTab == 'DAILY'} ? 'in active' : '')" th:insert="daily.html"></div>
+        <div id="weekly" th:class="'tab-pane fade ' + (${defaultTab == 'WEEKLY'} ? 'in active' : '')" th:insert="weekly.html"></div>
+        <div id="search" th:class="'tab-pane fade ' + (${defaultTab == 'SEARCH'} ? 'in active' : '')"></div>
+        <div id="overview" th:class="'tab-pane fade ' + (${defaultTab == 'OVERVIEW'} ? 'in active' : '')" th:insert="overview/overview.html"></div>
+    </div>
+</div>
+
+<div class="modal fade" id="planModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div th:insert="planForm.html"></div>
+</div>
+<div class="modal fade" id="momentModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div th:insert="momentForm.html"></div>
+</div>
+
+</body>
+</html>

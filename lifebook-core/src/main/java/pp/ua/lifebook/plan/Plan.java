@@ -4,6 +4,9 @@ import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.utils.DateUtils;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Plan {
     private Integer id;
@@ -78,6 +81,11 @@ public class Plan {
 
     public String getComments() {
         return comments;
+    }
+    
+    public List<String> getCommentLines() {
+        return Stream.of(comments.split("\n"))
+            .collect(Collectors.toList());
     }
 
     public void setComments(String comments) {

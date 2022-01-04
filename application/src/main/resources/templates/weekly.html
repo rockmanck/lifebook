@@ -1,0 +1,23 @@
+<div class="row" th:with="viewType='ViewType.WEEKLY'">
+    <div id="weeklyList" class="col-sm-8" th:with="viewType='ViewType.WEEKLY'">
+        <div th:insert="plans/list.html :: div"></div>
+    </div>
+    <div class="col-sm-4">
+        <div id="datepicker-weekly"></div>
+        <div style="margin-top: 8px; text-align: center;">
+            <a class="btn icon-btn btn-info" href="#" data-toggle="modal" onclick="Plan.new('datepicker-weekly', 'ViewType.WEEKLY');">
+                <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
+                Add Plan
+            </a>
+            <a class="btn icon-btn btn-success" href="#" data-toggle="modal" onclick="Moment.new('datepicker-weekly', 'ViewType.WEEKLY');">
+                <span class="glyphicon btn-glyphicon glyphicon-plus img-circle text-success"></span>
+                Add Moment
+            </a>
+        </div>
+
+        <div class="panel panel-default" style="margin-top: 15px;">
+            <div class="panel-heading">View options</div>
+            <div class="panel-body" id="view-options-weekly" th:insert="viewOptions.html"></div>
+        </div>
+    </div>
+</div>

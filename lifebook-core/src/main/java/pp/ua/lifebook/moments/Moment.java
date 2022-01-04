@@ -4,6 +4,9 @@ package pp.ua.lifebook.moments;
 import pp.ua.lifebook.utils.DateUtils;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Moment {
     private Integer id;
@@ -42,6 +45,11 @@ public class Moment {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<String> getDescriptionLines() {
+        return Stream.of(description.split("\n"))
+            .collect(Collectors.toList());
     }
 
     public int getUserId() {

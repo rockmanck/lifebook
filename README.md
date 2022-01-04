@@ -1,5 +1,6 @@
 # lifebook
 
+### Prerequisites
 PostgreSQL and Apache2 servers are installed on VM.
 
 ### How to deploy
@@ -10,3 +11,8 @@ PostgreSQL and Apache2 servers are installed on VM.
 * Copy .war file to `/home/rockman_roll/app`
 * `sudo systemctl start lifebook`
 * check status by `journalctl -f`. If server fails to start - reset VM.
+
+### Project structure
+* Domain - core module that contains high-level policies
+* Application - module contains integrations and app wire up. 
+Simplified version of hexagonal architecture - high-level packages could be converted to separate modules.

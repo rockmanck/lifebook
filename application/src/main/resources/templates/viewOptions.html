@@ -1,0 +1,18 @@
+<div class="checkbox">
+    <label>
+        <input type="checkbox" name="outdated" value="SHOW_OUTDATED" th:checked="${userViewOptions.contains('SHOW_OUTDATED')}">
+        Show outdated
+    </label>
+</div>
+<div class="checkbox">
+    <label>
+        <input type="checkbox" name="done" value="SHOW_DONE" th:checked="${userViewOptions.contains('SHOW_DONE')}">
+        Show done
+    </label>
+</div>
+<div class="checkbox">
+    <label>
+        <input type="checkbox" name="canceled" value="SHOW_CANCELED" th:checked="${userViewOptions.contains('SHOW_CANCELED')}">
+        Show canceled
+    </label>
+</div>

@@ -1,0 +1,49 @@
+<div th:each="itemsByDay: ${items}" th:with="day=${itemsByDay.getShortDate()} + ' ' + ${itemsByDay.getDay()}">
+    <div class="plans-day-strip expanded" th:data-forDay="${day}">[[${day}]]</div>
+    <div class="plans-day-list">
+        <ul class="event-list">
+            <li th:each="plan: ${itemsByDay.plans}" th:with="isDone=${plan.status.code == 'DN'},isCanceled=${plan.status.code == 'CNCL'},isOutdated=${plan.outdated}" th:custom="${plan.id}" th:id="'plan-' + ${plan.id}" th:class="(${isDone} ? 'done' : '') + ' ' + (${isCanceled} ? 'canceled' : '')">
+                <time th:datetime="${plan.dueDate}">
+                    <span class="day">[[${plan.dueDate.dayOfMonth}]]</span>
+                    <span class="month">[[${plan.dueDate.month}]]</span>
+                    <span class="time">[[${plan.dueDate.toLocalTime()}]]</span>
+                </time>
+                <div th:class="'info' + (${isOutdated} ? ' outdated' : '')">
+                    <h2 class="title">[[${plan.title}]]</h2>
+                    <p class="desc">
+                        <th:block th:each="line: ${plan.commentLines}">
+                            [[${line}]]<br/>
+                        </th:block>
+                    </p>
+                </div>
+                <div class="social">
+                    <ul>
+                        <li class="plan-action" th:data-view="${viewType}" th:onclick="'Plan.edit(' + ${plan.id} + ', this.getAttribute(\'data-view\'));'"><span class="edit-button" title="Edit Plan"></span></li>
+                        <th:block th:if="${!isDone && !isCanceled}">
+                            <li class="plan-action" th:data-view="${viewType}" th:data-day="${day}" th:onclick="'Plan.done(' + ${plan.id} + ', this.getAttribute(\'data-view\'), this.getAttribute(\'data-day\'));'"><span class="done-button" title="Mark as Done"></span></li>
+                            <li class="plan-action" th:data-view="${viewType}" th:data-day="${day}" th:onclick="'Plan.cancel(' + ${plan.id} + ', this.getAttribute(\'data-view\'), this.getAttribute(\'data-day\'));'"><span class="cancel-button" title="Cancel Plan"></span></li>
+                        </th:block>
+                    </ul>
+                </div>
+            </li>
+            <li th:each="moment: ${itemsByDay.moments}" th:id="'moment-' + ${moment.id}">
+                <time th:datetime="${moment.date}">
+                    <span class="day">[[${moment.date.dayOfMonth}]]</span>
+                    <span class="month">[[${moment.date.month}]]</span>
+                </time>
+                <div class="info">
+                    <p class="moment">
+                        <th:block th:each="m: ${moment.descriptionLines}">
+                            [[${m}]]<br/>
+                        </th:block>
+                    </p>
+                </div>
+                <div class="social">
+                    <ul>
+                        <li class="plan-action" th:data-view="${viewType}" th:onclick="'Moment.edit(' + ${moment.id} + ', this.getAttribute(\'data-view\'));'"><span class="edit-button" title="Edit Moment"></span></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

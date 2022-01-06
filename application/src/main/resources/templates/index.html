@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.15.35/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" th:href="@{/css/eventlist.css}">
     <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/lists.css}">
 </head>
 <body>
 <div class="container">
@@ -57,12 +58,16 @@
         <li th:class="${defaultTab == 'OVERVIEW'} ? 'active' : ''">
         <a data-toggle="tab" href="#overview" data-type="OVERVIEW">[[${session.i18n.getString("overview")}]]</a>
         </li>
+        <li th:class="${defaultTab == 'LISTS'} ? 'active' : ''">
+        <a data-toggle="tab" href="#lists" data-type="LISTS">[[${session.i18n.getString("lists")}]]</a>
+        </li>
     </ul>
     <div class="tab-content">
         <div id="daily" th:class="'tab-pane fade ' + (${defaultTab == 'DAILY'} ? 'in active' : '')" th:insert="daily.html"></div>
         <div id="weekly" th:class="'tab-pane fade ' + (${defaultTab == 'WEEKLY'} ? 'in active' : '')" th:insert="weekly.html"></div>
         <div id="search" th:class="'tab-pane fade ' + (${defaultTab == 'SEARCH'} ? 'in active' : '')"></div>
         <div id="overview" th:class="'tab-pane fade ' + (${defaultTab == 'OVERVIEW'} ? 'in active' : '')" th:insert="overview/overview.html"></div>
+        <div id="lists" th:class="'tab-pane fade ' + (${defaultTab == 'LISTS'} ? 'in active' : '')" th:insert="lists/lists.html"></div>
     </div>
 </div>
 

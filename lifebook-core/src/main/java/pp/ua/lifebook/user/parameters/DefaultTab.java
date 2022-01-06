@@ -7,7 +7,9 @@ public enum DefaultTab {
     DAILY,
     WEEKLY,
     SEARCH,
-    OVERVIEW;
+    OVERVIEW,
+    LISTS
+    ;
 
     private static final Map<String, DefaultTab> byName = new HashMap<>();
     static {

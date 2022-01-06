@@ -5,7 +5,6 @@ import pp.ua.lifebook.utils.DateUtils;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Moment {
@@ -49,7 +48,7 @@ public class Moment {
 
     public List<String> getDescriptionLines() {
         return Stream.of(description.split("\n"))
-            .collect(Collectors.toList());
+            .toList();
     }
 
     public int getUserId() {
@@ -64,7 +63,7 @@ public class Moment {
         return date != null ? DateUtils.format(date) : "";
     }
 
-    public static final MomentBuilder builder() {
+    public static MomentBuilder builder() {
         return new MomentBuilder();
     }
 

@@ -75,7 +75,7 @@ class DayItemsManagerTest {
     void testGetItemsForSingleDay() {
         when(plansStorage.getPlans(eq(JULY_15TH), eq(JULY_15TH), eq(user), Mockito.anySet()))
             .thenReturn(List.of(PLAN_JULY_15));
-        when(momentStorage.getByDateRange(eq(user.getId()), eq(JULY_15TH), eq(JULY_15TH)))
+        when(momentStorage.getByDateRange(user.getId(), JULY_15TH, JULY_15TH))
             .thenReturn(List.of(MOMENT_JULY_15));
 
         final List<ItemsByDay> items = dayItemsManager.getForDay(JULY_15TH, user);
@@ -101,7 +101,7 @@ class DayItemsManagerTest {
         final LocalDate endOfJuly = LocalDate.of(2019, 7, 31);
         when(plansStorage.getPlans(eq(beginOfJuly), eq(endOfJuly), eq(user), Mockito.anySet()))
             .thenReturn(List.of(PLAN_JULY_15, PLAN_JULY_25));
-        when(momentStorage.getByDateRange(eq(user.getId()), eq(beginOfJuly), eq(endOfJuly)))
+        when(momentStorage.getByDateRange(user.getId(), beginOfJuly, endOfJuly))
             .thenReturn(List.of(MOMENT_JULY_15, MOMENT_JULY_25));
 
         final Map<Integer, ItemsByDay> items = dayItemsManager.getMonthlyPlans(2019, 7, user);
@@ -117,7 +117,7 @@ class DayItemsManagerTest {
         final LocalDate end = LocalDate.of(2019, 7, 17);
         when(plansStorage.getPlans(eq(begin), eq(end), eq(user), Mockito.anySet()))
             .thenReturn(List.of(PLAN_JULY_17, PLAN_JULY_15, PLAN_JULY_18));
-        when(momentStorage.getByDateRange(eq(user.getId()), eq(begin), eq(end)))
+        when(momentStorage.getByDateRange(user.getId(), begin, end))
             .thenReturn(List.of(MOMENT_JULY_17, MOMENT_JULY_15, MOMENT_JULY_18));
 
         final List<ItemsByDay> items = dayItemsManager.getForWeek(begin, user);

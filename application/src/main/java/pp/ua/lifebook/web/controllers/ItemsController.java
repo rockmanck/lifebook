@@ -7,8 +7,8 @@ import org.springframework.web.servlet.ModelAndView;
 import pp.ua.lifebook.DayItemsManager;
 import pp.ua.lifebook.ItemsByDay;
 import pp.ua.lifebook.user.User;
+import pp.ua.lifebook.web.config.security.SecurityUtil;
 
-import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,8 +22,8 @@ public class ItemsController extends BaseController {
     }
 
     @RequestMapping("/daily.html")
-    public ModelAndView getDailyPlans(@RequestParam LocalDate date, HttpServletRequest request) {
-        final User user = user(request);
+    public ModelAndView getDailyPlans(@RequestParam LocalDate date) {
+        final User user = SecurityUtil.getUser().user();
         final List<ItemsByDay> dailyPlans = dayItemsManager.getForDay(date, user);
         return new ModelAndView("plans/list")
             .addObject("items", dailyPlans)
@@ -31,8 +31,8 @@ public class ItemsController extends BaseController {
     }
 
     @RequestMapping("/weekly.html")
-    public ModelAndView getWeeklyPlans(@RequestParam LocalDate date, HttpServletRequest request) {
-        final User user = user(request);
+    public ModelAndView getWeeklyPlans(@RequestParam LocalDate date) {
+        final User user = SecurityUtil.getUser().user();
         final List<ItemsByDay> itemsByDay = dayItemsManager.getForWeek(date, user);
         return new ModelAndView("plans/list")
             .addObject("items", itemsByDay)

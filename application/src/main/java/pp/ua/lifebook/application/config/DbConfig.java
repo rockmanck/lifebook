@@ -1,21 +1,25 @@
-package pp.ua.lifebook.web.application.config;
+package pp.ua.lifebook.application.config;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import pp.ua.lifebook.application.flyway.FlywayAction;
 import pp.ua.lifebook.db.moment.MomentDbStorage;
 import pp.ua.lifebook.db.plan.PlansDbStorage;
 import pp.ua.lifebook.db.user.UsersDbStorage;
 import pp.ua.lifebook.moments.MomentStorage;
 import pp.ua.lifebook.plan.PlansStorage;
 import pp.ua.lifebook.user.UsersStorage;
-import pp.ua.lifebook.web.application.flyway.FlywayAction;
 
 import javax.sql.DataSource;
 
 @Configuration
+@EnableJpaRepositories(basePackages = "pp.ua.lifebook.storage")
+@EntityScan(basePackages = "pp.ua.lifebook.storage")
 public class DbConfig {
 
     @Bean

@@ -1,4 +1,4 @@
-package pp.ua.lifebook.web.application.flyway;
+package pp.ua.lifebook.application.flyway;
 
 import org.flywaydb.core.Flyway;
 

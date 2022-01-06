@@ -16,8 +16,10 @@ dependencies {
     implementation 'javax.servlet:jstl'
     implementation 'javax.servlet:javax.servlet-api'
     implementation "org.springframework:spring-context-support"
-    implementation "org.springframework:spring-tx"
     implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation "org.springframework:spring-jdbc"
     implementation ("org.springframework.boot:spring-boot-starter-web") {
         exclude module: 'hibernate-validator'
@@ -40,11 +42,11 @@ dependencies {
 }
 
 bootWar {
-    mainClass.set('pp.ua.lifebook.web.application.LifebookApp')
+    mainClass.set('pp.ua.lifebook.application.LifebookApp')
 }
 
 bootJar {
-    mainClass.set('pp.ua.lifebook.web.application.LifebookApp')
+    mainClass.set('pp.ua.lifebook.application.LifebookApp')
 }
 
 test {

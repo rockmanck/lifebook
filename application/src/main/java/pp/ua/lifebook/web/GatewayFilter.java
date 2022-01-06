@@ -3,12 +3,10 @@ package pp.ua.lifebook.web;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
-import pp.ua.lifebook.db.user.UsersDbStorage;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.UsersStorage;
 import pp.ua.lifebook.user.parameters.Language;
 import pp.ua.lifebook.web.i18n.EncodingControl;
-import pp.ua.lifebook.web.utils.SessionKeys;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -48,41 +46,12 @@ public class GatewayFilter implements Filter {
         usersStorage = applicationContext.getBean(UsersStorage.class);
     }
 
-    @Override public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         setCharacterEncoding(servletRequest, servletResponse);
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
-        final String requestURI = request.getRequestURI();
-
-        if (isAllowed(requestURI)) {
-            chain.doFilter(request, response);
-            return;
-        }
-
-        final User user = (User) request.getSession().getAttribute(SessionKeys.USER);
-        if (user == null) {
-            final User andrew = usersStorage.getUser("andrew", "123");
-            request.getSession().setAttribute(SessionKeys.USER, andrew);
-        }
-//        if (user == null) {
-//            if (isAuthorized(request)) {
-//                if (requestURI.contains("login")) response.sendRedirect("/");
-//                else chain.doFilter(request, response);
-//                return;
-//            }
-//
-            setLocale(request, Language.EN);
-//            response.sendRedirect("forward:/login");
-//            return;
-//        }
-//
-//        setLocale(request, user.getLanguage());
-//
-//        if (requestURI.startsWith("/admin") && !user.isAdmin()) {
-//            response.sendRedirect("/");
-//            return;
-//        }
-
+        setLocale(request, Language.EN); // TODO @AndrewG: move local setup to better place
         chain.doFilter(request, response);
     }
 
@@ -91,16 +60,6 @@ public class GatewayFilter implements Filter {
             bundles.put(language, ResourceBundle.getBundle("MessagesBundle", language.getLocale(), ENCODING_CONTROL));
         }
         request.getSession().setAttribute("i18n", bundles.get(language));
-    }
-
-    private boolean isAuthorized(HttpServletRequest request) {
-        try {
-            final User user = tryGetUser(request);
-            request.getSession().setAttribute(SessionKeys.USER, user);
-            return true;
-        } catch (UsersDbStorage.NoSuchUser | UsersDbStorage.EmptyLogin e) {
-            return false;
-        }
     }
 
     private User tryGetUser(HttpServletRequest request) {
@@ -112,13 +71,6 @@ public class GatewayFilter implements Filter {
     @Override
     public void destroy() {
         // nothing to do
-    }
-
-    private boolean isAllowed(String uri) {
-        for (Predicate<String> rule : rulesAllowedLinks) {
-            if (rule.test(uri)) return true;
-        }
-        return false;
     }
 
     private void setCharacterEncoding(ServletRequest request, ServletResponse response) throws UnsupportedEncodingException {

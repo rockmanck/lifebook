@@ -1,6 +1,8 @@
 package pp.ua.lifebook.web.controllers;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +15,7 @@ import pp.ua.lifebook.user.UsersStorage;
 import pp.ua.lifebook.user.parameters.DefaultTab;
 import pp.ua.lifebook.user.parameters.UserSettings;
 import pp.ua.lifebook.user.parameters.ViewOption;
+import pp.ua.lifebook.web.config.security.SecurityUtil;
 import pp.ua.lifebook.web.utils.SessionKeys;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,13 +39,13 @@ public class MainController extends BaseController {
     }
 
     @RequestMapping("/")
-    public ModelAndView root(HttpServletRequest request) {
-        return index(request);
+    public ModelAndView root() {
+        return index();
     }
 
     @RequestMapping("/index.html")
-    public ModelAndView index(HttpServletRequest request) {
-        final User user = user(request);
+    public ModelAndView index() {
+        final User user = SecurityUtil.getUser().user();
         final UserSettings userSettings = user.getUserSettings();
         final Set<String> userViewOptions = userSettings
             .getViewOptions()
@@ -85,10 +88,9 @@ public class MainController extends BaseController {
     public void updateViewOptions(
         @RequestParam String viewOptions,
         @RequestParam String defaultTab,
-        HttpServletRequest request,
         HttpServletResponse response
     ) throws IOException {
-        usersStorage.updateSettings(viewOptions, defaultTab, user(request));
+        usersStorage.updateSettings(viewOptions, defaultTab, SecurityUtil.getUser().user());
         ok(response);
     }
 
@@ -98,14 +100,20 @@ public class MainController extends BaseController {
         response.sendRedirect("/");
     }
 
-    @RequestMapping("/login.html")
+    @RequestMapping("/login")
     public String login() {
         return "login";
     }
 
+    @GetMapping("/login-error")
+    public String loginError(Model model) {
+        model.addAttribute("loginError", true);
+        return "login";
+    }
+
     @RequestMapping("/overview.html")
-    public ModelAndView overview(@RequestParam int year, @RequestParam int month, HttpServletRequest request) {
-        final Map<Integer, ItemsByDay> plans = dayItemsManager.getMonthlyPlans(year, month, user(request));
+    public ModelAndView overview(@RequestParam int year, @RequestParam int month) {
+        final Map<Integer, ItemsByDay> plans = dayItemsManager.getMonthlyPlans(year, month, SecurityUtil.getUser().user());
         return new ModelAndView("overview/overviewContent")
             .addObject("plansOverview", new OverviewPlans(year, month, plans));
     }

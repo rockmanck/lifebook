@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
 public final class UserSettings {
-    private AtomicReference<Set<ViewOption>> viewOptions = new AtomicReference<>(new HashSet<>());
+    private final AtomicReference<Set<ViewOption>> viewOptions = new AtomicReference<>(new HashSet<>());
     private DefaultTab defaultTab;
 
     public DefaultTab getDefaultTab() {

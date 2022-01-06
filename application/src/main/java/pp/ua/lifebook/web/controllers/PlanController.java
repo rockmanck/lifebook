@@ -10,8 +10,8 @@ import pp.ua.lifebook.plan.Plan;
 import pp.ua.lifebook.plan.PlanStatus;
 import pp.ua.lifebook.plan.PlansManager;
 import pp.ua.lifebook.reminders.RemindersService;
+import pp.ua.lifebook.web.config.security.SecurityUtil;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -27,8 +27,8 @@ public class PlanController extends BaseController {
     }
 
     @PostMapping("/save.html")
-    public void savePlan(@ModelAttribute Plan plan, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        plansManager.save(plan, user(request));
+    public void savePlan(@ModelAttribute Plan plan, HttpServletResponse response) throws IOException {
+        plansManager.save(plan, SecurityUtil.getUser().user());
         ok(response);
     }
 

@@ -1,18 +1,10 @@
 package pp.ua.lifebook.web.controllers;
 
-import pp.ua.lifebook.user.User;
-import pp.ua.lifebook.web.utils.SessionKeys;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public abstract class BaseController {
     public static final String OK = "ok";
-
-    protected User user(HttpServletRequest request) {
-        return (User) request.getSession().getAttribute(SessionKeys.USER);
-    }
 
     /**
      * Writes to the response default ok message.

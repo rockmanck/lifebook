@@ -1,10 +1,10 @@
-package pp.ua.lifebook.web.application;
+package pp.ua.lifebook.application;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
-import pp.ua.lifebook.web.application.config.AppConfig;
+import pp.ua.lifebook.application.config.AppConfig;
 import pp.ua.lifebook.web.config.WebConfig;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})

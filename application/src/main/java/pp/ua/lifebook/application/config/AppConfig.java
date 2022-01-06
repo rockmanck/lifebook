@@ -1,4 +1,4 @@
-package pp.ua.lifebook.web.application.config;
+package pp.ua.lifebook.application.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

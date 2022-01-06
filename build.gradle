@@ -1,6 +1,3 @@
-apply plugin: 'idea'
-apply plugin: 'java'
-
 buildscript {
     repositories {
         mavenCentral()
@@ -8,11 +5,15 @@ buildscript {
 
     dependencies {
         configurations.maybeCreate("pitest")
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.6.1")
-
         classpath 'info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.4.0'
         pitest 'org.pitest:pitest-junit5-plugin:0.9'
     }
+}
+
+plugins {
+    id "java"
+    id 'idea'
+    id "org.springframework.boot" version "2.6.2" apply(false)
 }
 
 java {
@@ -25,11 +26,12 @@ ext {
     flyway_version = '8.1.0'
     junit5_version = '5.8.2'
     assertJ_version = '3.21.0'
+    jooq_version = '3.15.5'
     libs = [
         logging: [
-            'ch.qos.logback:logback-classic:1.2.3'
-            , 'ch.qos.logback:logback-core:1.2.3'
-            , 'org.codehaus.janino:janino:2.7.8'
+            'ch.qos.logback:logback-classic:1.2.10'
+            , 'ch.qos.logback:logback-core:1.2.10'
+            , 'org.codehaus.janino:janino:3.1.6'
         ],
         assertJ: "org.assertj:assertj-core:${assertJ_version}"
     ]

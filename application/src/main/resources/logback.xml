@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="false" scanPeriod="5 seconds">
+
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+
+    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%highlight(%-5level) %d{HH:mm:ss.SSS} %cyan([%thread]) %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="pp.ua.lifebook" level="info" />
+    <logger name="org" level="info"/>
+    <logger name="com.ning" level="warn"/>
+    <logger name="sun" level="info"/>
+    <logger name="jdk.internal.httpclient.debug" level="OFF"/>
+    <logger name="com.microsoft" level="info"/>
+    <logger name="com.hubspot" level="info"/>
+    <logger name="com.zaxxer" level="info"/>
+    <logger name="javax" level="info"/>
+    <logger name="io" level="info"/>
+    <logger name="jdk.event" level="info"/>
+    <logger name="com.google.api.client" level="warn"/>
+    <root level="debug">
+        <appender-ref ref="console" />
+    </root>
+</configuration>

@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
     <script th:src="@{/js/index.js}"></script>
     <script th:src="@{/js/moment.js}"></script>
+    <script th:src="@{/js/lists.js}"></script>
     <script th:src="@{/js/plan.js}"></script>
     <script th:src="@{/js/animation.js}"></script>
     <script th:src="@{/js/user-settings.js}"></script>
@@ -73,10 +74,13 @@
 </div>
 
 <div class="modal fade" id="planModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
-    <div th:insert="planForm.html"></div>
+    <div th:insert="plans/planForm.html"></div>
 </div>
 <div class="modal fade" id="momentModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div th:insert="momentForm.html"></div>
+</div>
+<div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+    <div th:insert="lists/listForm.html"></div>
 </div>
 
 </body>

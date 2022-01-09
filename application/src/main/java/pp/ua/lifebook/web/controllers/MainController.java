@@ -10,6 +10,7 @@ import pp.ua.lifebook.DayItemsManager;
 import pp.ua.lifebook.ItemsByDay;
 import pp.ua.lifebook.plan.OverviewPlans;
 import pp.ua.lifebook.plan.PlanStatus;
+import pp.ua.lifebook.storage.db.list.ListsRepository;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.UsersStorage;
 import pp.ua.lifebook.user.parameters.DefaultTab;
@@ -30,12 +31,15 @@ import java.util.stream.Collectors;
 
 @Controller
 public class MainController extends BaseController {
+
     private final DayItemsManager dayItemsManager;
     private final UsersStorage usersStorage;
+    private final ListsRepository listsRepository;
 
-    public MainController(DayItemsManager dayItemsManager, UsersStorage usersStorage) {
+    public MainController(DayItemsManager dayItemsManager, UsersStorage usersStorage, ListsRepository listsRepository) {
         this.dayItemsManager = dayItemsManager;
         this.usersStorage = usersStorage;
+        this.listsRepository = listsRepository;
     }
 
     @RequestMapping("/")
@@ -54,26 +58,19 @@ public class MainController extends BaseController {
             .collect(Collectors.toSet());
 
         final DefaultTab defaultTab = userSettings.getDefaultTab();
-        final List<ItemsByDay> items;
+        List<ItemsByDay> items = new ArrayList<>();
         final LocalDate now = LocalDate.now();
         final ModelAndView result = new ModelAndView("index");
         switch (defaultTab) {
-            case DAILY:
-                items = dayItemsManager.getForDay(now, user);
-                break;
-            case WEEKLY:
-                items = dayItemsManager.getForWeek(now, user);
-                break;
-            case OVERVIEW:
+            case DAILY -> items = dayItemsManager.getForDay(now, user);
+            case WEEKLY -> items = dayItemsManager.getForWeek(now, user);
+            case OVERVIEW -> {
                 final int year = now.getYear();
                 final int month = now.getMonthValue();
                 final Map<Integer, ItemsByDay> monthlyPlans = dayItemsManager.getMonthlyPlans(year, month, user);
                 result.addObject("plansOverview", new OverviewPlans(year, month, monthlyPlans));
-                items = new ArrayList<>();
-                break;
-            default:
-                items = new ArrayList<>();
-                break;
+            }
+            case LISTS -> result.addObject("lists", listsRepository.getFor(user.getId()));
         }
 
         return result

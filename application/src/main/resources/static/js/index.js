@@ -15,6 +15,8 @@ $(document).ready(function(){
             case '#overview':
                 Plan.loadOverview();
                 break;
+            case '#lists':
+                Lists.loadLists();
 		}
         UserSettings.updateSelectedTab(tab.data('type'));
 	});

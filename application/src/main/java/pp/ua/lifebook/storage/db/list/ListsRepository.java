@@ -5,13 +5,16 @@ import org.jooq.Record;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
+import pp.ua.lifebook.storage.db.scheme.tables.pojos.ListItems;
 import pp.ua.lifebook.storage.db.scheme.tables.pojos.Lists;
 import pp.ua.lifebook.storage.db.scheme.tables.records.ListsRecord;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Map;
 
 import static pp.ua.lifebook.storage.db.scheme.Tables.LISTS;
+import static pp.ua.lifebook.storage.db.scheme.Tables.LIST_ITEMS;
 
 @Repository
 public class ListsRepository {
@@ -28,6 +31,14 @@ public class ListsRepository {
             .where(LISTS.USER_ID.eq(userId).and(LISTS.DELETED.eq(false)))
             .fetch()
             .into(Lists.class);
+    }
+
+    public List<ListItems> getItemsFor(int listId) {
+        return dslContext.select()
+            .from(LIST_ITEMS)
+            .where(LIST_ITEMS.LIST_ID.eq(listId))
+            .fetch()
+            .into(ListItems.class);
     }
 
     public void save(ListsRecord list) {
@@ -53,5 +64,17 @@ public class ListsRepository {
             .set(LISTS.DELETED, true)
             .where(LISTS.ID.eq(listId))
             .execute();
+    }
+
+    public Map<Lists, List<ListItems>> getListsWithItemsFor(int userId) {
+        return dslContext.select()
+            .from(LISTS)
+            .leftJoin(LIST_ITEMS)
+            .on(LISTS.ID.eq(LIST_ITEMS.LIST_ID))
+            .where(LISTS.USER_ID.eq(userId).and(LISTS.DELETED.eq(false)))
+            .fetchGroups(
+                key -> key.into(LISTS).into(Lists.class),
+                val -> val.into(LIST_ITEMS).into(ListItems.class)
+            );
     }
 }

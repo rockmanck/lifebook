@@ -37,6 +37,10 @@ function ListsClass() {
         });
     }
 
+    this.newItem = function() {
+        // todo @AndrewG: implement me
+    }
+
     function loadListById(id) {
         $.get('./lists/' + id, function (data) {
             var form = $('#listModal');

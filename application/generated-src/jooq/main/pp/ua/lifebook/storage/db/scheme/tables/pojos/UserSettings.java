@@ -57,6 +57,46 @@ public class UserSettings implements Serializable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final UserSettings other = (UserSettings) obj;
+        if (viewOptions == null) {
+            if (other.viewOptions != null)
+                return false;
+        }
+        else if (!viewOptions.equals(other.viewOptions))
+            return false;
+        if (userId == null) {
+            if (other.userId != null)
+                return false;
+        }
+        else if (!userId.equals(other.userId))
+            return false;
+        if (defaultTab == null) {
+            if (other.defaultTab != null)
+                return false;
+        }
+        else if (!defaultTab.equals(other.defaultTab))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.viewOptions == null) ? 0 : this.viewOptions.hashCode());
+        result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
+        result = prime * result + ((this.defaultTab == null) ? 0 : this.defaultTab.hashCode());
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("UserSettings (");
 

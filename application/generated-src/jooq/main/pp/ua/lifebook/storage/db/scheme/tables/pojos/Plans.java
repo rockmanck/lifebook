@@ -113,6 +113,81 @@ public class Plans implements Serializable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final Plans other = (Plans) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!id.equals(other.id))
+            return false;
+        if (title == null) {
+            if (other.title != null)
+                return false;
+        }
+        else if (!title.equals(other.title))
+            return false;
+        if (repeated == null) {
+            if (other.repeated != null)
+                return false;
+        }
+        else if (!repeated.equals(other.repeated))
+            return false;
+        if (comments == null) {
+            if (other.comments != null)
+                return false;
+        }
+        else if (!comments.equals(other.comments))
+            return false;
+        if (status == null) {
+            if (other.status != null)
+                return false;
+        }
+        else if (!status.equals(other.status))
+            return false;
+        if (userId == null) {
+            if (other.userId != null)
+                return false;
+        }
+        else if (!userId.equals(other.userId))
+            return false;
+        if (category == null) {
+            if (other.category != null)
+                return false;
+        }
+        else if (!category.equals(other.category))
+            return false;
+        if (dueTime == null) {
+            if (other.dueTime != null)
+                return false;
+        }
+        else if (!dueTime.equals(other.dueTime))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.title == null) ? 0 : this.title.hashCode());
+        result = prime * result + ((this.repeated == null) ? 0 : this.repeated.hashCode());
+        result = prime * result + ((this.comments == null) ? 0 : this.comments.hashCode());
+        result = prime * result + ((this.status == null) ? 0 : this.status.hashCode());
+        result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
+        result = prime * result + ((this.category == null) ? 0 : this.category.hashCode());
+        result = prime * result + ((this.dueTime == null) ? 0 : this.dueTime.hashCode());
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Plans (");
 

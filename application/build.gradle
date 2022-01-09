@@ -107,6 +107,7 @@ jooq {
                         records = true
                         immutablePojos = true
                         fluentSetters = true
+                        pojosEqualsAndHashCode = true
                     }
                     target {
                         packageName = 'pp.ua.lifebook.storage.db.scheme'

@@ -62,7 +62,7 @@ public class Lists extends TableImpl<ListsRecord> {
     /**
      * The column <code>public.lists.deleted</code>.
      */
-    public final TableField<ListsRecord, Boolean> DELETED = createField(DSL.name("deleted"), SQLDataType.BOOLEAN, this, "");
+    public final TableField<ListsRecord, Boolean> DELETED = createField(DSL.name("deleted"), SQLDataType.BOOLEAN.nullable(false).defaultValue(DSL.field("false", SQLDataType.BOOLEAN)), this, "");
 
     private Lists(Name alias, Table<ListsRecord> aliased) {
         this(alias, aliased, null);

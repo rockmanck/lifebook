@@ -69,6 +69,53 @@ public class Moments implements Serializable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final Moments other = (Moments) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!id.equals(other.id))
+            return false;
+        if (date == null) {
+            if (other.date != null)
+                return false;
+        }
+        else if (!date.equals(other.date))
+            return false;
+        if (description == null) {
+            if (other.description != null)
+                return false;
+        }
+        else if (!description.equals(other.description))
+            return false;
+        if (userId == null) {
+            if (other.userId != null)
+                return false;
+        }
+        else if (!userId.equals(other.userId))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.date == null) ? 0 : this.date.hashCode());
+        result = prime * result + ((this.description == null) ? 0 : this.description.hashCode());
+        result = prime * result + ((this.userId == null) ? 0 : this.userId.hashCode());
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Moments (");
 

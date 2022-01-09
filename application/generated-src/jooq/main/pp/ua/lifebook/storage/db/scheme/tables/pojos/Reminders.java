@@ -58,6 +58,46 @@ public class Reminders implements Serializable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final Reminders other = (Reminders) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        }
+        else if (!id.equals(other.id))
+            return false;
+        if (planId == null) {
+            if (other.planId != null)
+                return false;
+        }
+        else if (!planId.equals(other.planId))
+            return false;
+        if (remindAt == null) {
+            if (other.remindAt != null)
+                return false;
+        }
+        else if (!remindAt.equals(other.remindAt))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.id == null) ? 0 : this.id.hashCode());
+        result = prime * result + ((this.planId == null) ? 0 : this.planId.hashCode());
+        result = prime * result + ((this.remindAt == null) ? 0 : this.remindAt.hashCode());
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Reminders (");
 

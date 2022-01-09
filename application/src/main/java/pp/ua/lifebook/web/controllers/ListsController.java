@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import pp.ua.lifebook.storage.db.list.ListsRepository;
-import pp.ua.lifebook.storage.db.scheme.tables.pojos.Lists;
 import pp.ua.lifebook.storage.db.scheme.tables.records.ListsRecord;
 import pp.ua.lifebook.web.config.security.SecurityUtil;
 
@@ -33,9 +32,9 @@ public class ListsController {
 
     @GetMapping("/{id}")
     public ModelAndView getEditForm(@PathVariable int id) {
-        final Lists list = listsRepository.get(id);
         return new ModelAndView("lists/listForm")
-            .addObject("list", list);
+            .addObject("list", listsRepository.get(id))
+            .addObject("items", listsRepository.getItemsFor(id));
     }
 
     @GetMapping

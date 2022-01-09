@@ -46,6 +46,39 @@ public class RepeatType implements Serializable {
     }
 
     @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        final RepeatType other = (RepeatType) obj;
+        if (code == null) {
+            if (other.code != null)
+                return false;
+        }
+        else if (!code.equals(other.code))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        }
+        else if (!name.equals(other.name))
+            return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((this.code == null) ? 0 : this.code.hashCode());
+        result = prime * result + ((this.name == null) ? 0 : this.name.hashCode());
+        return result;
+    }
+
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("RepeatType (");
 

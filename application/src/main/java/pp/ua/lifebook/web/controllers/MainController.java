@@ -10,13 +10,13 @@ import pp.ua.lifebook.DayItemsManager;
 import pp.ua.lifebook.ItemsByDay;
 import pp.ua.lifebook.plan.OverviewPlans;
 import pp.ua.lifebook.plan.PlanStatus;
-import pp.ua.lifebook.storage.db.list.ListsRepository;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.UsersStorage;
 import pp.ua.lifebook.user.parameters.DefaultTab;
 import pp.ua.lifebook.user.parameters.UserSettings;
 import pp.ua.lifebook.user.parameters.ViewOption;
 import pp.ua.lifebook.web.config.security.SecurityUtil;
+import pp.ua.lifebook.web.lists.ListsService;
 import pp.ua.lifebook.web.utils.SessionKeys;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,12 +34,12 @@ public class MainController extends BaseController {
 
     private final DayItemsManager dayItemsManager;
     private final UsersStorage usersStorage;
-    private final ListsRepository listsRepository;
+    private final ListsService listsService;
 
-    public MainController(DayItemsManager dayItemsManager, UsersStorage usersStorage, ListsRepository listsRepository) {
+    public MainController(DayItemsManager dayItemsManager, UsersStorage usersStorage, ListsService listsService) {
         this.dayItemsManager = dayItemsManager;
         this.usersStorage = usersStorage;
-        this.listsRepository = listsRepository;
+        this.listsService = listsService;
     }
 
     @RequestMapping("/")
@@ -70,7 +70,7 @@ public class MainController extends BaseController {
                 final Map<Integer, ItemsByDay> monthlyPlans = dayItemsManager.getMonthlyPlans(year, month, user);
                 result.addObject("plansOverview", new OverviewPlans(year, month, monthlyPlans));
             }
-            case LISTS -> result.addObject("lists", listsRepository.getFor(user.getId()));
+            case LISTS -> result.addObject("data", listsService.getFor(user.getId()));
         }
 
         return result

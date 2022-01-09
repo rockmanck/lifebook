@@ -13,16 +13,22 @@
         </div>
         <div class="modal-body">
             <form action="/lists" method="post">
-                <input type="hidden" th:value="${list?.id}" name="id">
+                <input type="hidden" th:value="${list?.id}" name="list.id" id="list-id">
                 <div class="form-group">
                     <label for="listName">[[${session.i18n.getString("listNameLabel")}]]</label>
-                    <input type="text" name="name" id="listName" th:value="${list?.name}" class="form-control">
+                    <input type="text" name="list.name" id="listName" th:value="${list?.name}" class="form-control">
                 </div>
                 <div><h4>Items:</h4></div>
-                <div class="form-group" th:each="item: ${items}" th:data-item-id="${item?.id}">
-                    <input type="text" name="name" th:value="${item?.name}" class="form-control">
+                <input type="hidden" th:value="${items.size()}" id="next-item-index">
+                <div class="form-group" th:each="item, itemStat: ${items}" th:data-item-id="${item?.id}">
+                    <input type="hidden" th:name="|items[${itemStat.index}].id|" th:value="${item?.id}">
+                    <input type="hidden" th:name="|items[${itemStat.index}].listId|" th:value="${item?.listId}">
+                    <input type="text" th:name="|items[${itemStat.index}].name|" th:value="${item?.name}" class="form-control">
                 </div>
-                <button type="button" onclick="Lists.newItem();" class="btn btn-info">[[${session.i18n.getString("addListItemLabel")}]]</button>
+                <div class="form-group" id="new-list-item">
+                    <input type="hidden" name="items.name" value="" class="form-control">
+                </div>
+                <button type="button" onclick="Lists.newItem(this);" class="btn btn-info">[[${session.i18n.getString("addListItemLabel")}]]</button>
             </form>
         </div>
         <div class="modal-footer">

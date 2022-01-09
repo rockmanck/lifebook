@@ -9,25 +9,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import pp.ua.lifebook.storage.db.list.ListsRepository;
-import pp.ua.lifebook.storage.db.scheme.tables.records.ListsRecord;
 import pp.ua.lifebook.web.config.security.SecurityUtil;
+import pp.ua.lifebook.web.lists.ListsDto;
+import pp.ua.lifebook.web.lists.ListsService;
 
 @Controller
 @RequestMapping("/lists")
 public class ListsController {
 
     private final ListsRepository listsRepository;
+    private final ListsService listsService;
 
-    public ListsController(ListsRepository listsRepository) {
+    public ListsController(ListsRepository listsRepository, ListsService listsService) {
         this.listsRepository = listsRepository;
+        this.listsService = listsService;
     }
 
     @PostMapping
     @ResponseBody
-    public void save(ListsRecord list) {
+    public void save(ListsDto list) {
         Integer userId = SecurityUtil.getUser().user().getId();
-        list.setUserId(userId);
-        listsRepository.save(list);
+        list.getList().setUserId(userId);
+        listsService.persist(list.getList(), list.getItems());
     }
 
     @GetMapping("/{id}")
@@ -41,7 +44,7 @@ public class ListsController {
     public ModelAndView getAll() {
         final int userId = SecurityUtil.getUser().user().getId();
         return new ModelAndView("lists/lists")
-            .addObject("lists", listsRepository.getFor(userId));
+            .addObject("data", listsService.getFor(userId));
     }
 
     @DeleteMapping("/{id}")

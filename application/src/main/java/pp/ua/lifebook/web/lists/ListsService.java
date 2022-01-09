@@ -2,8 +2,10 @@ package pp.ua.lifebook.web.lists;
 
 import org.springframework.stereotype.Service;
 import pp.ua.lifebook.storage.db.list.ListsRepository;
-import pp.ua.lifebook.storage.db.scheme.tables.pojos.ListItems;
+import pp.ua.lifebook.storage.db.scheme.tables.records.ListItemsRecord;
+import pp.ua.lifebook.storage.db.scheme.tables.records.ListsRecord;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -19,12 +21,18 @@ public class ListsService {
             .entrySet()
             .stream()
             .map(entry -> {
-                final List<ListItems> items = entry.getValue()
+                final List<ListItemsRecord> items = entry.getValue()
                     .stream()
                     .filter(i -> i.getId() != null)
                     .toList();
                 return new ListsDto(entry.getKey(), items);
             })
             .toList();
+    }
+
+    @Transactional
+    public void persist(ListsRecord list, List<ListItemsRecord> items) {
+        repository.save(list);
+        repository.save(items);
     }
 }

@@ -37,8 +37,25 @@ function ListsClass() {
         });
     }
 
-    this.newItem = function() {
-        // todo @AndrewG: implement me
+    this.newItem = function(button) {
+        let origin = document.querySelector('#new-list-item');
+        let newItemDiv = origin.cloneNode(true);
+        newItemDiv.removeAttribute('id');
+
+        let nameInput = newItemDiv.getElementsByTagName('input')[0];
+        nameInput.setAttribute('type', 'text');
+
+        let index = getCurrentIndexAndIncrement();
+        nameInput.name = 'items[' + index + '].name';
+
+        let idInput = document.createElement('input');
+        idInput.type = 'hidden';
+        idInput.name = 'items[' + index + '].listId';
+        idInput.value = document.getElementById('list-id').value;
+        newItemDiv.insertBefore(idInput, nameInput);
+
+        origin.parentNode.insertBefore(newItemDiv, button);
+        nameInput.focus();
     }
 
     function loadListById(id) {
@@ -47,6 +64,13 @@ function ListsClass() {
             form.html(data);
             form.modal({backdrop: 'static'});
         });
+    }
+
+    function getCurrentIndexAndIncrement() {
+        let nextItemIndexInput = document.getElementById('next-item-index');
+        let index = parseInt(nextItemIndexInput.getAttribute('value'));
+        nextItemIndexInput.value = index + 1;
+        return index;
     }
 }
 

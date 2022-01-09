@@ -1,6 +1,5 @@
 package pp.ua.lifebook.application.config;
 
-import org.apache.commons.dbcp2.BasicDataSource;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -21,21 +20,6 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(basePackages = "pp.ua.lifebook.storage")
 @EntityScan(basePackages = "pp.ua.lifebook.storage")
 public class DbConfig {
-
-    @Bean
-    public DataSource dataSource(
-        @Value("${lb.db.username}") String username,
-        @Value("${lb.db.password}") String password,
-        @Value("${lb.db.url}") String url,
-        @Value("${lb.db.driver}") String driver
-    ) {
-        final BasicDataSource dataSource = new BasicDataSource();
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-        dataSource.setUrl(url);
-        dataSource.setDriverClassName(driver);
-        return dataSource;
-    }
 
     @Bean
     public Flyway flyway(@Value("${lb.db.flyway}") String action, DataSource dataSource) {

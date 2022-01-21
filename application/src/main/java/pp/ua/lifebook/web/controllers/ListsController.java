@@ -37,7 +37,7 @@ public class ListsController {
     public ModelAndView getEditForm(@PathVariable int id) {
         return new ModelAndView("lists/listForm")
             .addObject("list", listsRepository.get(id))
-            .addObject("items", listsRepository.getItemsFor(id));
+            .addObject("listItems", listsRepository.getItemsFor(id));
     }
 
     @GetMapping

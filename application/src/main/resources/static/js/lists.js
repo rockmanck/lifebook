@@ -46,11 +46,11 @@ function ListsClass() {
         nameInput.setAttribute('type', 'text');
 
         let index = getCurrentIndexAndIncrement();
-        nameInput.name = 'items[' + index + '].name';
+        nameInput.name = 'listItems[' + index + '].name';
 
         let idInput = document.createElement('input');
         idInput.type = 'hidden';
-        idInput.name = 'items[' + index + '].listId';
+        idInput.name = 'listItems[' + index + '].listId';
         idInput.value = document.getElementById('list-id').value;
         newItemDiv.insertBefore(idInput, nameInput);
 

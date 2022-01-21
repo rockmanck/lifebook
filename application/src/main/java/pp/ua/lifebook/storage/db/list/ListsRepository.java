@@ -2,6 +2,7 @@ package pp.ua.lifebook.storage.db.list;
 
 import org.jooq.DSLContext;
 import org.jooq.Record;
+import org.jooq.Record1;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.springframework.stereotype.Repository;
@@ -44,7 +45,10 @@ public class ListsRepository {
             .into(ListItems.class);
     }
 
-    public void save(ListsRecord list) {
+    /**
+     * Returns list id
+     */
+    public int save(ListsRecord list) {
         final boolean deleted = list.getDeleted() != null ? list.getDeleted() : false;
         if (list.getId() != null) {
             dslContext.update(LISTS)
@@ -53,10 +57,13 @@ public class ListsRepository {
                 .set(LISTS.DELETED, deleted)
                 .where(LISTS.ID.eq(list.getId()))
                 .execute();
+            return list.getId();
         } else {
-            dslContext.insertInto(LISTS, LISTS.USER_ID, LISTS.NAME, LISTS.DELETED)
+            final Record1<Integer> result = dslContext.insertInto(LISTS, LISTS.USER_ID, LISTS.NAME, LISTS.DELETED)
                 .values(list.getUserId(), list.getName(), deleted)
-                .execute();
+                .returningResult(LISTS.ID)
+                .fetchOne();
+            return result.value1();
         }
     }
 

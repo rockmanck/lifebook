@@ -32,7 +32,14 @@ public class ListsService {
 
     @Transactional
     public void persist(ListsRecord list, List<ListItemsRecord> items) {
-        repository.save(list);
+        final int listId = repository.save(list);
+        setListIdTo(items, listId);
         repository.save(items);
+    }
+
+    private void setListIdTo(List<ListItemsRecord> items, int listId) {
+        for (ListItemsRecord item : items) {
+            item.setListId(listId);
+        }
     }
 }

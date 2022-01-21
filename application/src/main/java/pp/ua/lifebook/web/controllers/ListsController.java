@@ -30,7 +30,7 @@ public class ListsController {
     public void save(ListsDto list) {
         Integer userId = SecurityUtil.getUser().user().getId();
         list.getList().setUserId(userId);
-        listsService.persist(list.getList(), list.getItems());
+        listsService.persist(list.getList(), list.getListItems());
     }
 
     @GetMapping("/{id}")

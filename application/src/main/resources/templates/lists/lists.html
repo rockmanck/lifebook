@@ -11,7 +11,7 @@
         </div>
         <div th:id="'collapse-' + ${iStat.index}" class="panel-collapse collapse">
             <div class="panel-body">
-                <p th:each="item, iStatItem: ${datum.items}">
+                <p th:each="item, iStatItem: ${datum.listItems}">
                     [[${iStatItem.index + 1}]]. [[${item.name}]]
                 </p>
             </div>

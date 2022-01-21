@@ -65,7 +65,7 @@ jooq {
 
     configurations {
         main {  // name of the jOOQ configuration
-            generateSchemaSourceOnCompilation = true  // default (can be omitted)
+            generateSchemaSourceOnCompilation = false
 
             generationTool {
                 logging = org.jooq.meta.jaxb.Logging.WARN

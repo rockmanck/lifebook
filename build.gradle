@@ -55,7 +55,7 @@ allprojects {
 dependencies {
     implementation project(':lifebook-core')
     implementation project(':infrastructure:postgres-db')
-    implementation project(':lifebook-utils')
+    implementation project(':domain')
 
     implementation libs.logging
     implementation 'com.google.api-client:google-api-client:1.22.0'

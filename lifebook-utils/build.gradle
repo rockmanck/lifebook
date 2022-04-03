@@ -1,9 +1,0 @@
-dependencies {
-    testImplementation libs.assertJ
-    testImplementation "org.junit.jupiter:junit-jupiter:${junit5_version}"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit5_version}"
-}
-
-test {
-    useJUnitPlatform()
-}

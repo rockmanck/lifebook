@@ -27,7 +27,8 @@ public class UsersDbStorage implements UsersStorage {
      * @param options {@link ViewOption} values joined by ','
      * @param defaultTab
      */
-    @Override public void updateSettings(String options, String defaultTab, User user) {
+    @Override
+    public void updateSettings(String options, String defaultTab, User user) {
         user.getUserSettings().setViewOptions(ViewOption.parse(options));
         user.getUserSettings().setDefaultTab(DefaultTab.valueOf(defaultTab));
         usersJdbc.updateUserSettings(options, user);
@@ -40,7 +41,8 @@ public class UsersDbStorage implements UsersStorage {
      * @throws EmptyLogin if {@code login == null || login.isEmpty()}
      * @return true if such login and password pair exists in User table
      */
-    @Override public boolean isAuthorized(String login, String password) {
+    @Override
+    public boolean isAuthorized(String login, String password) {
         if (!isValidLogin(login)) throw new EmptyLogin();
         final User user = authorizationCache.getIfPresent(new UserKey(login, password));
         return user != null;
@@ -51,7 +53,8 @@ public class UsersDbStorage implements UsersStorage {
      * @throws NoSuchUser if login or password is incorrect
      * @throws EmptyLogin if login is empty
      */
-    @Override public User getUser(String login, String password) {
+    @Override
+    public User getUser(String login, String password) {
         if (!isValidLogin(login)) throw new EmptyLogin();
 
         final User user = getFromCacheOrLoadFromDb(login, password);
@@ -65,7 +68,8 @@ public class UsersDbStorage implements UsersStorage {
      * Creates new user record in database
      * @param user
      */
-    @Override public void addUser(User user) {
+    @Override
+    public void addUser(User user) {
         // TODO add new user to db
 
         putToCache(UserKey.forUser(user), user);

@@ -23,11 +23,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
-public class PlansDbStorage extends JdbcTemplate implements PlansStorage {
+public class PlansDbStorage implements PlansStorage {
     private final DynamicSqlBuilder sqlBuilder = new DynamicSqlBuilder();
+    private final JdbcTemplate jdbc;
 
     public PlansDbStorage(DataSource dataSource) {
-        super(dataSource);
+        this.jdbc = new JdbcTemplate(dataSource);
     }
 
     @Override
@@ -43,14 +44,14 @@ public class PlansDbStorage extends JdbcTemplate implements PlansStorage {
         final Timestamp timestamp = new Timestamp(DateUtils.getMillisFromLocalDateTime(plan.getDueDate()));
         final Object[] values = {plan.getTitle(), repeated != null ? repeated.getCode() : null, plan.getComments(),
             plan.getStatus().getCode(), plan.getUser().getId(), category != null ? category.getId() : null, timestamp};
-        update(sql, values, new int[]{Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.TIMESTAMP});
+        jdbc.update(sql, values, new int[]{Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.TIMESTAMP});
     }
 
     @Override
     public Plan getPlan(Integer id) {
         final String sql = sqlBuilder.sql("GetPlan").build();
         try {
-            return queryForObject(sql, (rs, rowNum) -> plan(rs), id);
+            return jdbc.queryForObject(sql, (rs, rowNum) -> plan(rs), id);
         } catch (EmptyResultDataAccessException e) {
             return Plan.builder().createPlan();
         }
@@ -68,7 +69,7 @@ public class PlansDbStorage extends JdbcTemplate implements PlansStorage {
             .build();
 
         final List<Plan> result = new ArrayList<>();
-        query(sql, rs -> {
+        jdbc.query(sql, rs -> {
             final Plan plan = plan(rs);
             plan.setUser(user);
             result.add(plan);
@@ -79,7 +80,7 @@ public class PlansDbStorage extends JdbcTemplate implements PlansStorage {
 
     @Override
     public void updatePlanStatus(int planId, PlanStatus status) {
-        update("UPDATE plans SET status = ? WHERE id = ?", status.getCode(), planId);
+        jdbc.update("UPDATE plans SET status = ? WHERE id = ?", status.getCode(), planId);
     }
 
     private Plan plan(ResultSet rs) throws SQLException {

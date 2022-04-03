@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class MomentDbStorage extends JdbcTemplate implements MomentStorage {
+public class MomentDbStorage implements MomentStorage {
     private static final String INSERT_ONE_SQL = "INSERT INTO moments(date, description, user_id) VALUES(?, ?, ?)";
     private static final String UPDATE_ONE_SQL = "UPDATE moments SET date = ?, description = ? WHERE id = ?";
     private static final String FIND_BY_ID_SQL = "SELECT id, date, description, user_id FROM moments WHERE id = ?";
@@ -23,18 +23,19 @@ public class MomentDbStorage extends JdbcTemplate implements MomentStorage {
 
     private final Logger log = LoggerFactory.getLogger(this.getClass());
     private final DynamicSqlBuilder sqlBuilder = new DynamicSqlBuilder();
+    private final JdbcTemplate jdbc;
 
     public MomentDbStorage(DataSource dataSource) {
-        super(dataSource);
+        this.jdbc = new JdbcTemplate(dataSource);
     }
 
     @Override
     public void save(Moment moment) {
         final Date date = DateUtils.localDateToDate(moment.getDate());
         if (moment.getId() == null) {
-            update(INSERT_ONE_SQL, date, moment.getDescription(), moment.getUserId());
+            jdbc.update(INSERT_ONE_SQL, date, moment.getDescription(), moment.getUserId());
         } else {
-            update(UPDATE_ONE_SQL, date, moment.getDescription(), moment.getId());
+            jdbc.update(UPDATE_ONE_SQL, date, moment.getDescription(), moment.getId());
         }
     }
 
@@ -47,7 +48,7 @@ public class MomentDbStorage extends JdbcTemplate implements MomentStorage {
             .param("userId", userId)
             .build();
         try {
-            query(sql, rs -> {
+            jdbc.query(sql, rs -> {
                 final Moment moment = MAPPER.mapRow(rs, 0);
                 result.add(moment);
             });
@@ -60,7 +61,7 @@ public class MomentDbStorage extends JdbcTemplate implements MomentStorage {
     @Override
     public Moment getById(int id) {
         try {
-            return queryForObject(FIND_BY_ID_SQL, MAPPER, id);
+            return jdbc.queryForObject(FIND_BY_ID_SQL, MAPPER, id);
         } catch (EmptyResultDataAccessException e) {
             return Moment.builder().createMoment();
         }

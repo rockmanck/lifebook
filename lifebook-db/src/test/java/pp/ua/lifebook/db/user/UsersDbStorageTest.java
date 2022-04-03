@@ -7,7 +7,7 @@ import pp.ua.lifebook.user.UsersStorage;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class UsersStorageTest {
+class UsersDbStorageTest {
 
     @Test
     void whenLoginNull_ThrowEmptyLogin() {

@@ -46,6 +46,10 @@ allprojects {
     repositories {
         mavenCentral()
     }
+
+    test {
+        useJUnitPlatform()
+    }
 }
 
 dependencies {

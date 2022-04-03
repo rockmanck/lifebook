@@ -1,6 +1,9 @@
 rootProject.name = 'lifebook'
 include 'lifebook-core'
 include 'lifebook-utils'
-include 'lifebook-db'
 include 'domain'
 include 'application'
+include 'infrastructure'
+include 'infrastructure:postgres-db'
+include 'infrastructure:rest-api'
+

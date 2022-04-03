@@ -9,7 +9,7 @@ plugins {
 
 dependencies {
     implementation project(":lifebook-core")
-    implementation project(":lifebook-db")
+    implementation project(":infrastructure:postgres-db")
     implementation project(":lifebook-utils")
 
     implementation platform(SpringBootPlugin.BOM_COORDINATES)

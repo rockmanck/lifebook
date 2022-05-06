@@ -1,11 +1,13 @@
 package pp.ua.lifebook.web.lists;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import pp.ua.lifebook.storage.db.list.ListsRepository;
 import pp.ua.lifebook.storage.db.scheme.tables.records.ListItemsRecord;
 import pp.ua.lifebook.storage.db.scheme.tables.records.ListsRecord;
 
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -24,6 +26,7 @@ public class ListsService {
                 final List<ListItemsRecord> items = entry.getValue()
                     .stream()
                     .filter(i -> i.getId() != null)
+                    .sorted(Comparator.comparingInt(ListItemsRecord::getId))
                     .toList();
                 return new ListsDto(entry.getKey(), items);
             })
@@ -34,7 +37,9 @@ public class ListsService {
     public void persist(ListsRecord list, List<ListItemsRecord> items) {
         final int listId = repository.save(list);
         setListIdTo(items, listId);
-        repository.save(items);
+        if (!CollectionUtils.isEmpty(items)) {
+            repository.save(items);
+        }
     }
 
     private void setListIdTo(List<ListItemsRecord> items, int listId) {

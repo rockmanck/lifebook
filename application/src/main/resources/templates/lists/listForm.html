@@ -23,7 +23,16 @@
                 <div class="form-group" th:each="item, itemStat: ${listItems}" th:data-item-id="${item?.id}">
                     <input type="hidden" th:name="|listItems[${itemStat.index}].id|" th:value="${item?.id}">
                     <input type="hidden" th:name="|listItems[${itemStat.index}].listId|" th:value="${item?.listId}">
-                    <input type="text" th:name="|listItems[${itemStat.index}].name|" th:value="${item?.name}" class="form-control">
+                    <table style="width: 100%;">
+                        <tr>
+                            <td>
+                                <input type="text" th:name="|listItems[${itemStat.index}].name|" th:value="${item?.name}" class="form-control">
+                            </td>
+                            <td>
+                                <div class="cancel-button" th:onclick="'Lists.deleteItem(' + ${list.id} + ', ' + ${item?.id} + ');'"></div>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
                 <div class="form-group" id="new-list-item">
                     <input type="hidden" name="items.name" value="" class="form-control">

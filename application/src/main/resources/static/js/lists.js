@@ -37,6 +37,16 @@ function ListsClass() {
         });
     }
 
+    this.deleteItem = function(listId, itemId) {
+        $.ajax({
+            url: '/lists/' + listId + '/items/' + itemId,
+            type: 'DELETE',
+            success: function() {
+                loadListById(listId);
+            }
+        });
+    }
+
     this.newItem = function(button) {
         let origin = document.querySelector('#new-list-item');
         let newItemDiv = origin.cloneNode(true);

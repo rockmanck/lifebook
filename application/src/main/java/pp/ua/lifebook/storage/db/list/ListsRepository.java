@@ -93,6 +93,12 @@ public class ListsRepository {
             .execute();
     }
 
+    public void deleteListItem(int listId, int itemId) {
+        dslContext.delete(LIST_ITEMS)
+            .where(LIST_ITEMS.LIST_ID.eq(listId).and(LIST_ITEMS.ID.eq(itemId)))
+            .execute();
+    }
+
     public Map<ListsRecord, List<ListItemsRecord>> getListsWithItemsFor(int userId) {
         return dslContext.select()
             .from(LISTS)

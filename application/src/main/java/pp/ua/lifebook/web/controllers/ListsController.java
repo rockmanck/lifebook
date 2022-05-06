@@ -52,4 +52,10 @@ public class ListsController {
     public void deleteList(@PathVariable int id) {
         listsRepository.deleteList(id);
     }
+
+    @DeleteMapping("/{listId}/items/{id}")
+    @ResponseBody
+    public void deleteListItem(@PathVariable int listId, @PathVariable int id) {
+        listsRepository.deleteListItem(listId, id);
+    }
 }

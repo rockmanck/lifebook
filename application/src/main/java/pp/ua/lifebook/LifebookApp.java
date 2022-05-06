@@ -1,4 +1,4 @@
-package pp.ua.lifebook.application;
+package pp.ua.lifebook;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;

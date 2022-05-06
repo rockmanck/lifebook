@@ -1,6 +1,7 @@
 package pp.ua.lifebook.featuretests;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -15,8 +16,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 
 @SpringBootTest(webEnvironment = RANDOM_PORT)
-// TODO @AndrewG: will be fixed in https://github.com/rockmanck/lifebook/projects/1#card-81596293
-public class ListsFeatureTest {
+@Disabled("will be fixed in https://github.com/rockmanck/lifebook/projects/1#card-81596293")
+class ListsFeatureTest {
 
     private String BASE_URL = "http://localhost:{port}/lists/1";
     private final TestRestTemplate restTemplate = new TestRestTemplate();

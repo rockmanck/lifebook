@@ -49,11 +49,15 @@ dependencies {
 }
 
 bootWar {
-    mainClass.set('pp.ua.lifebook.application.LifebookApp')
+    mainClass.set('pp.ua.lifebook.LifebookApp')
 }
 
-bootJar {
-    mainClass.set('pp.ua.lifebook.application.LifebookApp')
+jar {
+    enabled = false
+}
+
+war {
+    enabled = false
 }
 
 test {

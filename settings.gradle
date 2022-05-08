@@ -1,5 +1,4 @@
 rootProject.name = 'lifebook'
-include 'lifebook-core'
 include 'domain'
 include 'application'
 include 'infrastructure'

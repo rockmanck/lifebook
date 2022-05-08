@@ -37,9 +37,9 @@ class OverviewPlansTest {
         final OverviewPlans overviewPlans = overviewPlans(2017, 7);
         int week = 1;
         for (List<ItemsByDay> plans : overviewPlans.getData()) {
-            assertThat(plans.size())
+            assertThat(plans)
                 .as("week #%d contains wrong count of days", week)
-                .isEqualTo(7);
+                .hasSize(7);
             week += 1;
         }
     }

@@ -5,7 +5,6 @@ import pp.ua.lifebook.utils.DateUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Plan {
@@ -85,7 +84,7 @@ public class Plan {
     
     public List<String> getCommentLines() {
         return Stream.of(comments.split("\n"))
-            .collect(Collectors.toList());
+            .toList();
     }
 
     public void setComments(String comments) {

@@ -1,7 +1,17 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        gradlePluginPortal()
+    }
+    plugins {
+        id "${quarkusPluginId}" version "${quarkusPluginVersion}"
+    }
+}
 rootProject.name = 'lifebook'
 include 'domain'
 include 'application'
 include 'infrastructure'
 include 'infrastructure:postgres-db'
 include 'infrastructure:rest-api'
+include 'app-quarkus'
 

@@ -1,4 +1,5 @@
 # lifebook
+[![CI](https://github.com/rockmanck/lifebook/actions/workflows/main.yml/badge.svg)](https://github.com/rockmanck/lifebook/actions/workflows/main.yml)
 
 ### Prerequisites
 PostgreSQL and Apache2 servers are installed on VM.

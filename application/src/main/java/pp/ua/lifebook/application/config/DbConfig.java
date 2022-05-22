@@ -25,7 +25,6 @@ public class DbConfig {
     public Flyway flyway(@Value("${lb.db.flyway}") String action, DataSource dataSource) {
         final Flyway flyway = Flyway.configure()
             .dataSource(dataSource)
-            .locations("classpath:db/lifebook")
             .outOfOrder(true)
             .load();
         FlywayAction.valueOf(action.toUpperCase()).execute(flyway);

@@ -14,4 +14,5 @@ include 'infrastructure'
 include 'infrastructure:postgres-db'
 include 'infrastructure:rest-api'
 include 'app-quarkus'
+include 'db-migrations'
 

@@ -8,8 +8,9 @@ plugins {
 }
 
 dependencies {
-    implementation project(":infrastructure:postgres-db")
     implementation project(":domain")
+    implementation project(":infrastructure:postgres-db")
+    implementation project(":db-migrations")
 
     implementation platform(SpringBootPlugin.BOM_COORDINATES)
 

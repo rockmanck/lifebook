@@ -23,6 +23,7 @@ dependencies {
     testImplementation 'io.quarkus:quarkus-junit5'
     testImplementation 'io.rest-assured:rest-assured'
     testImplementation libs.assertJ
+    testImplementation 'org.testcontainers:postgresql:1.16.3'
     testImplementation "org.junit.jupiter:junit-jupiter:${junit5_version}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit5_version}"
 }

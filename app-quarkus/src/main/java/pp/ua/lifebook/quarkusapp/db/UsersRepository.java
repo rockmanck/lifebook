@@ -1,20 +1,10 @@
 package pp.ua.lifebook.quarkusapp.db;
 
-import pp.ua.lifebook.quarkusapp.db.util.JdbcTemplate;
+import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import pp.ua.lifebook.quarkusapp.db.user.UserEntity;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.util.List;
 
 @ApplicationScoped
-public class UsersRepository {
-
-    @Inject
-    JdbcTemplate jdbc;
-
-
-    public List<String> getAll() {
-        jdbc.statement("select 1");
-        return null;
-    }
+public class UsersRepository implements PanacheRepositoryBase<UserEntity, Integer> {
 }

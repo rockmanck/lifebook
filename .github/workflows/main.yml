@@ -38,19 +38,19 @@ jobs:
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@e6e38bacfdf1a337459f332974bb2327a31aaf4b
 
-      - name: debug
-        run: id -u; whoami
-      - name: uninstall rootful Docker
-        run: sudo apt-get -q -y --purge remove moby-engine moby-buildx && sudo rm -rf /var/run/docker.sock
-      - name: install rootless Docker
-        run: |
-          mkdir -p $XDG_RUNTIME_DIR || true
-          curl -fsSL https://get.docker.com/rootless | sh > init.sh
-          cat init.sh
-          source <(grep '^export' init.sh)
-          PATH=$HOME/bin:$PATH dockerd-rootless.sh --experimental --storage-driver vfs &
-          sleep 1
-          DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock docker info || ls -la $XDG_RUNTIME_DIR
+#      - name: debug
+#        run: id -u; whoami
+#      - name: uninstall rootful Docker
+#        run: sudo apt-get -q -y --purge remove moby-engine moby-buildx && sudo rm -rf /var/run/docker.sock
+#      - name: install rootless Docker
+#        run: |
+#          mkdir -p $XDG_RUNTIME_DIR || true
+#          curl -fsSL https://get.docker.com/rootless | sh > init.sh
+#          cat init.sh
+#          source <(grep '^export' init.sh)
+#          PATH=$HOME/bin:$PATH dockerd-rootless.sh --experimental --storage-driver vfs &
+#          sleep 1
+#          DOCKER_HOST=unix://$XDG_RUNTIME_DIR/docker.sock docker info || ls -la $XDG_RUNTIME_DIR
 
       - name: Build with Gradle
         uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee

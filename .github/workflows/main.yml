@@ -37,8 +37,14 @@ jobs:
         if: always()
         with:
           files: "**/test-results/**/*.xml"
-      - name: Code Coverage Summary Report
-        uses: irongut/CodeCoverageSummary@v1.2.0
+      - name: Generate JaCoCo Badge
+        uses: cicirello/jacoco-badge-generator@v2
         with:
-          filename: coverage.cobertura.xml
-          badge: true
+          generate-branches-badge: true
+          jacoco-csv-file: >
+            application/build/reports/jacoco/test/jacocoTestReport.csv
+            app-quarkus/build/reports/jacoco/test/jacocoTestReport.csv
+            domain/build/reports/jacoco/test/jacocoTestReport.csv
+            db-migrations/build/reports/jacoco/test/jacocoTestReport.csv
+            infrastructure/postgres-db/build/reports/jacoco/test/jacocoTestReport.csv
+            infrastructure/rest-api/build/reports/jacoco/test/jacocoTestReport.csv

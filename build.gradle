@@ -40,6 +40,7 @@ ext['junit-jupiter.version'] = "${junit5_version}"
 
 allprojects {
     apply plugin: 'java'
+    apply plugin: 'jacoco'
 
     group 'pp.ua.lifebook'
     // todo add checkstyle plugin
@@ -50,6 +51,16 @@ allprojects {
     test {
         useJUnitPlatform()
     }
+
+    jacocoTestReport {
+        reports {
+            xml.required = false
+            csv.required = true
+            html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+        }
+    }
+
+    test.finalizedBy jacocoTestReport
 }
 
 dependencies {

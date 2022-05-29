@@ -37,3 +37,8 @@ jobs:
         if: always()
         with:
           files: "**/test-results/**/*.xml"
+      name: Code Coverage Summary Report
+      uses: irongut/CodeCoverageSummary@v1.2.0
+      with:
+        filename: coverage.cobertura.xml
+        badge: true

@@ -17,4 +17,4 @@ SSH to VM and execute: sudo openssl req -new -newkey rsa:2048 -nodes -out lifebo
 visit ssl.com and paste generated .csr
 copy .crt file to VM
 make sure /etc/apache2/sites-available/default-ssl.conf contains correct paths to .csr and .key files
-restart apache: sudo systemctl restart apache
+restart apache: sudo systemctl restart apache2

@@ -43,6 +43,8 @@ public class ListsService {
     }
 
     private void setListIdTo(List<ListItemsRecord> items, int listId) {
+        if (CollectionUtils.isEmpty(items)) return;
+
         for (ListItemsRecord item : items) {
             item.setListId(listId);
         }

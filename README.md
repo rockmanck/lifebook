@@ -90,5 +90,84 @@ java -Dspring.datasource.username={{db_user}} -Dspring.datasource.password={{db_
 
 Make sure application.war located in ~/app folder.
 
-#### Setup SSL
-TODO
+#### Setup SSL ([example config](https://www.arubacloud.com/tutorial/how-to-enable-https-protocol-with-apache-2-on-ubuntu-20-04.aspx))
+* Generate certificate
+    * run `sudo openssl req -new -newkey rsa:2048 -nodes -out <filename.csr> -keyout <private.key> -subj "/C=ua/ST=<state>/L=<city>/O=<org name>/CN=<domain>/emailAddress=<email>"` in target folder
+    * copy .csr content, paste into SSL provider and generate .crt file
+    * upload .crt file to VM
+* Create params file
+```shell
+sudo vim /etc/apache2/conf-available/ssl-params.conf
+```
+
+With content:
+```properties
+SSLCipherSuite EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH
+    
+SSLProtocol All -SSLv2 -SSLv3 -TLSv1 -TLSv1.1
+
+SSLHonorCipherOrder On
+
+
+Header always set X-Frame-Options DENY
+
+Header always set X-Content-Type-Options nosniff
+
+# Requires Apache >= 2.4
+
+SSLCompression off
+
+SSLUseStapling on
+
+SSLStaplingCache "shmcb:logs/stapling-cache(150000)"
+
+
+# Requires Apache >= 2.4.11
+
+SSLSessionTickets Off
+```
+
+* Update virtual host
+```shell
+sudo vim /etc/apache2/sites-available/000-default.conf
+```
+
+Insert at the end of file:
+```properties
+<IfModule mod_ssl.c>
+        <VirtualHost _default_:443>
+                ServerAdmin <your email>
+                DocumentRoot /var/www/html
+                ErrorLog ${APACHE_LOG_DIR}/error.log
+                CustomLog ${APACHE_LOG_DIR}/access.log combined 
+
+                SSLEngine on
+                SSLCertificateFile      <path to crt/pem file>
+                SSLCertificateKeyFile   <path to private key>
+
+                <FilesMatch "\.(cgi|shtml|phtml|php)$">
+                        SSLOptions +StdEnvVars
+                </FilesMatch>
+                <Directory /usr/lib/cgi-bin>
+                        SSLOptions +StdEnvVars
+                </Directory>
+        </VirtualHost>
+</IfModule>
+```
+
+Add redirect to https (at the end of *80 virtual host):
+```properties
+<VirtualHost *:80>
+...
+    Redirect permanent / https://<your host>/
+...
+</VirtualHost>
+```
+
+* Enable modules and restart Apache server
+```shell
+sudo a2enmod ssl
+sudo a2enmod headers
+sudo a2enconf ssl-params
+sudo systemctl restart apache2
+```

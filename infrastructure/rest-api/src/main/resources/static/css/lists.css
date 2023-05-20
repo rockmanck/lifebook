@@ -1,0 +1,37 @@
+.panel-heading .accordion-toggle:after {
+    /* symbol for "opening" panels */
+    font-family: 'Glyphicons Halflings';  /* essential for enabling glyphicon */
+    content: "\e114";    /* adjust as needed, taken from bootstrap.css */
+    float: right;        /* adjust as needed */
+    color: grey;         /* adjust as needed */
+}
+.panel-heading .accordion-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\e080";    /* adjust as needed, taken from bootstrap.css */
+}
+
+.panel-title > div.cancel-button {
+    background-image: url("cancel.png");
+    width: 20px;
+    height: 20px;
+    float: right;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+td > div.cancel-button {
+    background-image: url("cancel.png");
+    width: 20px;
+    height: 20px;
+    margin-left: 3px;
+    cursor: pointer;
+}
+
+.panel-title > div.edit-button {
+    background-image: url("edit.png");
+    width: 20px;
+    height: 20px;
+    float: right;
+    margin-right: 10px;
+    cursor: pointer;
+}

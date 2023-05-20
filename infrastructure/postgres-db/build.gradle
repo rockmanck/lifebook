@@ -4,6 +4,7 @@ plugins {
     id 'java'
     id 'info.solidsoft.pitest'
     id 'org.springframework.boot' apply(false)
+    id 'nu.studer.jooq' version '6.0.1'
 }
 
 pitest {
@@ -16,6 +17,7 @@ dependencies {
     implementation project(':domain')
 
     implementation platform(SpringBootPlugin.BOM_COORDINATES)
+    implementation "org.springframework:spring-context-support"
 
     implementation libs.logging
     implementation 'com.google.guava:guava:19.0'
@@ -24,6 +26,74 @@ dependencies {
     implementation 'org.apache.velocity:velocity:1.7'
     implementation "org.springframework:spring-jdbc"
 
+    implementation 'org.postgresql:postgresql:42.3.8'
+    jooqGenerator 'org.postgresql:postgresql:42.3.8'
+    implementation "org.jooq:jooq:${jooq_version}"
+    implementation "org.jooq:jooq-codegen:${jooq_version}"
+    implementation "org.jooq:jooq-meta:${jooq_version}"
+
     testImplementation "org.junit.jupiter:junit-jupiter:${junit5_version}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit5_version}"
+}
+
+ext['jooq.version'] = "${jooq_version}"
+
+jooq {
+    version = "${jooq_version}"
+
+    configurations {
+        main {  // name of the jOOQ configuration
+            generateSchemaSourceOnCompilation = false
+
+            generationTool {
+                logging = org.jooq.meta.jaxb.Logging.WARN
+                jdbc {
+                    driver = 'org.postgresql.Driver'
+                    url = 'jdbc:postgresql://localhost:5432/lifebook'
+                    user = 'postgres'
+                    password = '123'
+                    properties {
+                        property {
+                            key = 'ssl'
+                            value = 'false'
+                        }
+                    }
+                }
+                generator {
+                    name = 'org.jooq.codegen.DefaultGenerator'
+                    database {
+                        name = 'org.jooq.meta.postgres.PostgresDatabase'
+                        inputSchema = 'public'
+                        forcedTypes {
+                            forcedType {
+                                name = 'varchar'
+                                includeExpression = '.*'
+                                includeTypes = 'JSONB?'
+                            }
+                            forcedType {
+                                name = 'varchar'
+                                includeExpression = '.*'
+                                includeTypes = 'INET'
+                            }
+                        }
+                        excludes = '''
+                            flyway_schema_history
+                        '''
+                    }
+                    generate {
+                        deprecated = false
+                        records = true
+                        immutablePojos = true
+                        fluentSetters = true
+                        pojosEqualsAndHashCode = true
+                    }
+                    target {
+                        packageName = 'pp.ua.lifebook.storage.db.scheme'
+                        directory = 'generated-src/jooq/main'  // default (can be omitted)
+                    }
+                    strategy.name = 'org.jooq.codegen.DefaultGeneratorStrategy'
+                }
+            }
+        }
+    }
 }

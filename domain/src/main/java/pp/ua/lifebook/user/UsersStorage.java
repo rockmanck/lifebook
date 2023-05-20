@@ -8,4 +8,6 @@ public interface UsersStorage {
     User getUser(String login, String password);
 
     void addUser(User user);
+
+    User findByLogin(String login);
 }

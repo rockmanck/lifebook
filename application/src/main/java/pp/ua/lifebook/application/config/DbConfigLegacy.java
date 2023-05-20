@@ -1,6 +1,8 @@
 package pp.ua.lifebook.application.config;
 
 import org.flywaydb.core.Flyway;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +21,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableJpaRepositories(basePackages = "pp.ua.lifebook.storage")
 @EntityScan(basePackages = "pp.ua.lifebook.storage")
-public class DbConfig {
+public class DbConfigLegacy {
 
     @Bean
     public Flyway flyway(@Value("${lb.db.flyway}") String action, DataSource dataSource) {
@@ -38,7 +40,7 @@ public class DbConfig {
 
     @Bean
     public UsersStorage usersJdbc(DataSource dataSource) {
-        return new UsersDbStorage(dataSource);
+        return new UsersDbStorage(dataSource, DSL.using(dataSource, SQLDialect.POSTGRES));
     }
 
     @Bean

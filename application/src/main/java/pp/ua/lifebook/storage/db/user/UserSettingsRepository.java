@@ -5,17 +5,19 @@ import org.springframework.stereotype.Repository;
 import pp.ua.lifebook.user.parameters.DefaultTab;
 import pp.ua.lifebook.user.parameters.UserSettings;
 import pp.ua.lifebook.user.parameters.ViewOption;
+import pp.ua.lifebook.user.port.UserSettingsRepositoryPort;
 
 import javax.sql.DataSource;
 
 @Repository
-public class UserSettingsRepository {
+public class UserSettingsRepository implements UserSettingsRepositoryPort {
     private final JdbcTemplate jdbc;
 
     public UserSettingsRepository(DataSource dataSource) {
         this.jdbc = new JdbcTemplate(dataSource);
     }
 
+    @Override
     public UserSettings get(int userId) {
         final UserSettings result = new UserSettings();
         jdbc.query("select view_options, default_tab from user_settings where user_id = ?", rs -> {

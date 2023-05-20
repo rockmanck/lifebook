@@ -4,6 +4,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 class UsersStorageMock extends UsersDbStorage {
     UsersStorageMock() {
-        super(new BasicDataSource());
+        super(new BasicDataSource(), null);
     }
 }

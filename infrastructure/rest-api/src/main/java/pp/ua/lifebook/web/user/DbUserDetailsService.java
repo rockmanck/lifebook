@@ -4,25 +4,24 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pp.ua.lifebook.storage.db.user.UserEntity;
-import pp.ua.lifebook.storage.db.user.UserEntityRepository;
-import pp.ua.lifebook.storage.db.user.UserSettingsRepository;
 import pp.ua.lifebook.user.User;
+import pp.ua.lifebook.user.UsersStorage;
+import pp.ua.lifebook.user.port.UserSettingsRepositoryPort;
 
 @Service
 public class DbUserDetailsService implements UserDetailsService {
 
-    private final UserEntityRepository userRepository;
-    private final UserSettingsRepository userSettingsRepository;
+    private final UsersStorage userRepository;
+    private final UserSettingsRepositoryPort userSettingsRepository;
 
-    public DbUserDetailsService(UserEntityRepository userRepository, UserSettingsRepository userSettingsRepository) {
+    public DbUserDetailsService(UsersStorage userRepository, UserSettingsRepositoryPort userSettingsRepository) {
         this.userRepository = userRepository;
         this.userSettingsRepository = userSettingsRepository;
     }
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        final UserEntity byLogin = userRepository.findByLogin(login);
+        final User byLogin = userRepository.findByLogin(login);
 
         if (byLogin == null) throw new UsernameNotFoundException(login);
 

@@ -3,6 +3,9 @@ package pp.ua.lifebook.db.user;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.StringUtils;
+import org.jooq.DSLContext;
+import pp.ua.lifebook.storage.db.scheme.Tables;
+import pp.ua.lifebook.storage.db.scheme.tables.records.UsersRecord;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.UsersStorage;
 import pp.ua.lifebook.user.parameters.DefaultTab;
@@ -13,13 +16,15 @@ import java.util.concurrent.TimeUnit;
 
 public class UsersDbStorage implements UsersStorage {
     private final UsersJdbc usersJdbc;
+    private final DSLContext dslContext;
     private final Cache<UserKey, User> authorizationCache = CacheBuilder.newBuilder()
         .softValues()
         .expireAfterWrite(10, TimeUnit.MINUTES)
         .build();
 
-    public UsersDbStorage(DataSource dataSource) {
+    public UsersDbStorage(DataSource dataSource, DSLContext dslContext) {
         this.usersJdbc = new UsersJdbc(dataSource);
+        this.dslContext = dslContext;
     }
 
     /**
@@ -73,6 +78,16 @@ public class UsersDbStorage implements UsersStorage {
         // TODO add new user to db
 
         putToCache(UserKey.forUser(user), user);
+    }
+
+    @Override
+    public User findByLogin(String login) {
+        UsersRecord user = dslContext.select()
+            .from(Tables.USERS)
+            .where(Tables.USERS.LOGIN.eq(login))
+            .fetchOne()
+            .into(UsersRecord.class);
+        return user != null ? UserMapper.from(user) : null;
     }
 
     private boolean isValidLogin(String login) {

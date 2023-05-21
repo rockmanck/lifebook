@@ -17,6 +17,7 @@ public class Plan {
     private Category category;
     private User user;
     private boolean isOutdated;
+    private List<String> tags;
 
     public Plan () {}
 
@@ -125,6 +126,14 @@ public class Plan {
 
     public static PlanBuilder builder() {
         return new PlanBuilder();
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 
     public static final class PlanBuilder {

@@ -1,22 +1,22 @@
 @import url("http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,400italic");
 @import url("//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.css");
 body {
-    padding: 10px 0px;
+    padding: 10px 0;
     /*background-color: rgb(220, 220, 220);*/
 }
 
 .event-list {
     list-style: none;
     font-family: 'Lato', sans-serif;
-    margin: 8px 0px 0px 0px;
-    padding: 0px;
+    margin: 8px 0 0 0;
+    padding: 0;
 }
 .event-list > li {
     background-color: rgb(255, 255, 255);
-    box-shadow: 0px 0px 5px rgb(51, 51, 51);
-    box-shadow: 0px 0px 5px rgba(51, 51, 51, 0.7);
-    padding: 0px;
-    margin: 0px 0px 10px;
+    box-shadow: 0 0 5px rgb(51, 51, 51);
+    box-shadow: 0 0 5px rgba(51, 51, 51, 0.7);
+    padding: 0;
+    margin: 0 0 10px;
 }
 .event-list > li.done {
     opacity: 0.7;
@@ -79,14 +79,14 @@ body {
 .event-list > li > .info > .title {
     font-size: 17pt;
     font-weight: 700;
-    margin: 0px;
+    margin: 0;
 }
 .event-list > li > .info > .desc {
     font-size: 13pt;
-    font-weight: 300;
+    font-weight: 350;
     margin: 0;
     overflow-y: hidden;
-    max-height: 75px;
+    height: 75px;
 }
 .event-list > li > .info > .desc:hover {
     overflow-y: auto;
@@ -95,13 +95,13 @@ body {
 .event-list > li > .social > ul {
     display: table;
     list-style: none;
-    margin: 10px 0px 0px;
-    padding: 0px;
+    margin: 10px 0 0;
+    padding: 0;
     width: 100%;
     text-align: center;
 }
 .event-list > li > .social > ul {
-    margin: 0px;
+    margin: 0;
 }
 .event-list > li > .info > ul > li,
 .event-list > li > .social > ul > li {
@@ -110,7 +110,7 @@ body {
     color: rgb(30, 30, 30);
     font-size: 11pt;
     font-weight: 300;
-    padding: 3px 0px;
+    padding: 3px 0;
 }
 .event-list > li > .info > ul > li > a {
     display: block;
@@ -119,10 +119,10 @@ body {
     text-decoration: none;
 }
 .event-list > li > .social > ul > li {
-    padding: 0px;
+    padding: 0;
 }
 .event-list > li > .social > ul > li > a {
-    padding: 3px 0px;
+    padding: 3px 0;
 }
 .event-list > li > .info > ul > li:hover,
 .event-list > li > .social > ul > li:hover {
@@ -148,15 +148,15 @@ body {
 }
 
 .plan-action > span.edit-button {
-    background-image: url("edit.png");
+    background-image: url("../img/edit.png");
 }
 
 .plan-action > span.done-button {
-    background-image: url("done.png");
+    background-image: url("../img/done.png");
 }
 
 .plan-action > span.cancel-button {
-    background-image: url("cancel.png");
+    background-image: url("../img/cancel.png");
 }
 
 .facebook a,
@@ -190,8 +190,8 @@ body {
         position: relative;
         display: block;
         width: 100%;
-        height: 105px;
-        padding: 0px;
+        height: 135px;
+        padding: 0;
     }
     .event-list > li > time,
     .event-list > li > img  {
@@ -209,42 +209,54 @@ body {
     .event-list > li > time,
     .event-list > li > img {
         width: 120px;
-        height: 105px;
-        padding: 0px;
-        margin: 0px;
+        height: 135px;
+        padding: 0;
+        margin: 0;
     }
     .event-list > li > .info {
         position: relative;
-        height: 105px;
+        height: 135px;
         text-align: left;
         padding-right: 40px;
     }
     .event-list > li > .info > .title,
-    .event-list > li > .info > .desc {
-        padding: 0px 10px;
+    .event-list > li > .info > .desc,
+    .event-list > li > .info > .tags {
+        padding: 0 10px;
+    }
+    .event-list > li > .info > .tags {
+        padding-top: 3px;
+    }
+    .event-list > li > .info > .tags > .tag {
+        margin-right: 4px;
+        padding: 3px 10px;
+        border-radius: 10px;
+        font-size: 12.5px;
     }
     .event-list > li > .info > ul {
         position: absolute;
-        left: 0px;
-        bottom: 0px;
+        left: 0;
+        bottom: 0;
     }
     .event-list > li > .social {
         position: absolute;
-        top: 0px;
-        right: 0px;
+        top: 0;
+        right: 0;
         display: block;
         width: 40px;
+        height: 135px;
     }
     .event-list > li > .social > ul {
+        height: 135px;
         border-left: 1px solid rgb(230, 230, 230);
     }
     .event-list > li > .social > ul > li {
         display: block;
-        padding: 0px;
+        padding: 0;
     }
     .event-list > li > .social > ul > li > a {
         display: block;
         width: 40px;
-        padding: 10px 0px 9px;
+        padding: 10px 0 9px;
     }
 }

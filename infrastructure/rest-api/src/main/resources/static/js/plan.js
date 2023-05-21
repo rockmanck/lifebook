@@ -80,12 +80,34 @@ function PlanClass() {
 
     function loadPlanById(id, defaultDate, viewType) {
         $.get('./plan/' + id + '/edit.html', function (data) {
-            var form = $('#planModal');
+            let form = $('#planModal');
             form.html(data);
             updateDueDate(form, defaultDate);
             form.modal({backdrop: 'static'});
             form.find('#viewType').val(viewType);
+            form.find('#tagSuggest').autocomplete({
+                source: "./tags/suggest",
+                minLength: 2,
+                select: function( event, ui ) {
+                    addTag(form, ui.item);
+                }
+            });
         });
+    }
+
+    function addTag(form, item) {
+        let container = form.find('.tags');
+
+        let tagVisual = document.createElement('span');
+        tagVisual.setAttribute('class', 'tag default-tag');
+        tagVisual.innerText = item.label;
+        container.append(tagVisual);
+
+        let tagHidden = document.createElement('input');
+        tagHidden.setAttribute('name', 'tags');
+        tagHidden.setAttribute('type', 'hidden');
+        tagHidden.setAttribute('value', item.value);
+        container.append(tagHidden);
     }
 
     function updateDueDate(form, defaultDate) {

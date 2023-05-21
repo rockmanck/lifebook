@@ -3,7 +3,7 @@ package pp.ua.lifebook;
 import pp.ua.lifebook.moments.Moment;
 import pp.ua.lifebook.moments.MomentStorage;
 import pp.ua.lifebook.plan.Plan;
-import pp.ua.lifebook.plan.PlansStorage;
+import pp.ua.lifebook.plan.port.PlansStoragePort;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.parameters.ViewOption;
 import pp.ua.lifebook.utils.collections.ListMultimap;
@@ -21,11 +21,11 @@ import java.util.stream.Collectors;
 public class DayItemsManager {
     private static final Set<ViewOption> monthlyViewOptions = Set.of(ViewOption.SHOW_DONE, ViewOption.SHOW_CANCELED);
 
-    private final PlansStorage plansStorage;
+    private final PlansStoragePort plansStoragePort;
     private final MomentStorage momentStorage;
 
-    public DayItemsManager(PlansStorage plansStorage, MomentStorage momentStorage) {
-        this.plansStorage = plansStorage;
+    public DayItemsManager(PlansStoragePort plansStoragePort, MomentStorage momentStorage) {
+        this.plansStoragePort = plansStoragePort;
         this.momentStorage = momentStorage;
     }
 
@@ -79,7 +79,7 @@ public class DayItemsManager {
     }
 
     private ListMultimap<LocalDate, Plan> getPlans(LocalDate start, LocalDate end, User user, Set<ViewOption> viewOptions) {
-        final List<Plan> plans = plansStorage.getPlans(start, end, user, viewOptions);
+        final List<Plan> plans = plansStoragePort.getPlans(start, end, user, viewOptions);
         final ListMultimap<LocalDate, Plan> result = new ListMultimap<>();
         for (Plan p : plans) {
             final LocalDate date = p.getDueDate().toLocalDate();

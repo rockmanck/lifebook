@@ -11,8 +11,8 @@ import pp.ua.lifebook.DayItemsManager;
 import pp.ua.lifebook.moments.MomentService;
 import pp.ua.lifebook.moments.MomentStorage;
 import pp.ua.lifebook.notification.MailManager;
-import pp.ua.lifebook.plan.PlansManager;
-import pp.ua.lifebook.plan.PlansStorage;
+import pp.ua.lifebook.plan.PlansService;
+import pp.ua.lifebook.plan.port.PlansStoragePort;
 import pp.ua.lifebook.reminders.RemindersService;
 import pp.ua.lifebook.reminders.RemindersServiceImpl;
 
@@ -41,8 +41,8 @@ public class AppConfig {
     }
 
     @Bean
-    public PlansManager plansManager(PlansStorage storage) {
-        return new PlansManager(storage);
+    public PlansService plansManager(PlansStoragePort storage) {
+        return new PlansService(storage);
     }
 
     @Bean
@@ -51,8 +51,8 @@ public class AppConfig {
     }
 
     @Bean
-    public DayItemsManager dayItemsManager(PlansStorage plansStorage, MomentStorage momentStorage) {
-        return new DayItemsManager(plansStorage, momentStorage);
+    public DayItemsManager dayItemsManager(PlansStoragePort plansStoragePort, MomentStorage momentStorage) {
+        return new DayItemsManager(plansStoragePort, momentStorage);
     }
 
     @Bean

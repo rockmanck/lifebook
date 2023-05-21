@@ -6,8 +6,8 @@ import pp.ua.lifebook.db.sqlbuilder.DynamicSqlBuilder;
 import pp.ua.lifebook.plan.Category;
 import pp.ua.lifebook.plan.Plan;
 import pp.ua.lifebook.plan.PlanStatus;
-import pp.ua.lifebook.plan.PlansStorage;
 import pp.ua.lifebook.plan.RepeatType;
+import pp.ua.lifebook.plan.port.PlansStoragePort;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.parameters.ViewOption;
 import pp.ua.lifebook.utils.DateUtils;
@@ -23,7 +23,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
-public class PlansDbStorage implements PlansStorage {
+public class PlansDbStorage implements PlansStoragePort {
     private final DynamicSqlBuilder sqlBuilder = new DynamicSqlBuilder();
     private final JdbcTemplate jdbc;
 

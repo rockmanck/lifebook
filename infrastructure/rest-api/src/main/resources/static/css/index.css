@@ -2,7 +2,7 @@
 .icon-btn { padding: 1px 15px 3px 2px; border-radius:50px;}
 
 #loading {
-    background: url("loader.gif") center center no-repeat;
+    background: url("../img/loader.gif") center center no-repeat;
     opacity: 0.5;
     cursor: auto;
     width: 100%;
@@ -96,4 +96,8 @@ td.overview {
 .moment:hover {
     overflow-y: auto;
     filter: none;
+}
+
+.default-tag {
+    background: rgba(173, 252, 26, 0.45);
 }

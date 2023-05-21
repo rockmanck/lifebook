@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import pp.ua.lifebook.notification.NotificationService;
 import pp.ua.lifebook.plan.Plan;
-import pp.ua.lifebook.plan.PlansManager;
+import pp.ua.lifebook.plan.PlansService;
 
 import java.time.LocalDateTime;
 
 @Component
 public class RemindersManager {
     @Autowired private RemindersService remindersService;
-    @Autowired private PlansManager plansManager;
+    @Autowired private PlansService plansService;
     @Autowired private NotificationService notificationService;
 
     public void addReminder(int planId, RemindBefore remindBefore) {
@@ -45,7 +45,7 @@ public class RemindersManager {
     }
 
     private LocalDateTime getRemindBeforeTime(int planId, RemindBefore remindBefore) {
-        final Plan plan = plansManager.getPlan(planId);
+        final Plan plan = plansService.getPlan(planId);
         return remindBefore.getRemindTime(plan.getDueDate());
     }
 }

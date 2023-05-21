@@ -6,7 +6,7 @@ import org.mockito.Mockito;
 import pp.ua.lifebook.moments.Moment;
 import pp.ua.lifebook.moments.MomentStorage;
 import pp.ua.lifebook.plan.Plan;
-import pp.ua.lifebook.plan.PlansStorage;
+import pp.ua.lifebook.plan.port.PlansStoragePort;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.parameters.UserSettings;
 
@@ -59,7 +59,7 @@ class DayItemsManagerTest {
         .createMoment();
     private User user;
     private DayItemsManager dayItemsManager;
-    private PlansStorage plansStorage = mock(PlansStorage.class);
+    private PlansStoragePort plansStoragePort = mock(PlansStoragePort.class);
     private MomentStorage momentStorage = mock(MomentStorage.class);
 
     @BeforeEach
@@ -68,12 +68,12 @@ class DayItemsManagerTest {
             .setId(USER_ID)
             .setUserSettings(new UserSettings())
             .createUser();
-        dayItemsManager = new DayItemsManager(plansStorage, momentStorage);
+        dayItemsManager = new DayItemsManager(plansStoragePort, momentStorage);
     }
 
     @Test
     void testGetItemsForSingleDay() {
-        when(plansStorage.getPlans(eq(JULY_15TH), eq(JULY_15TH), eq(user), Mockito.anySet()))
+        when(plansStoragePort.getPlans(eq(JULY_15TH), eq(JULY_15TH), eq(user), Mockito.anySet()))
             .thenReturn(List.of(PLAN_JULY_15));
         when(momentStorage.getByDateRange(user.getId(), JULY_15TH, JULY_15TH))
             .thenReturn(List.of(MOMENT_JULY_15));
@@ -99,7 +99,7 @@ class DayItemsManagerTest {
     void testMonthlyPlans() {
         final LocalDate beginOfJuly = LocalDate.of(2019, 7, 1);
         final LocalDate endOfJuly = LocalDate.of(2019, 7, 31);
-        when(plansStorage.getPlans(eq(beginOfJuly), eq(endOfJuly), eq(user), Mockito.anySet()))
+        when(plansStoragePort.getPlans(eq(beginOfJuly), eq(endOfJuly), eq(user), Mockito.anySet()))
             .thenReturn(List.of(PLAN_JULY_15, PLAN_JULY_25));
         when(momentStorage.getByDateRange(user.getId(), beginOfJuly, endOfJuly))
             .thenReturn(List.of(MOMENT_JULY_15, MOMENT_JULY_25));
@@ -115,7 +115,7 @@ class DayItemsManagerTest {
     void testGetItemsForWeekSortedByDate() {
         final LocalDate begin = LocalDate.of(2019, 7, 10);
         final LocalDate end = LocalDate.of(2019, 7, 17);
-        when(plansStorage.getPlans(eq(begin), eq(end), eq(user), Mockito.anySet()))
+        when(plansStoragePort.getPlans(eq(begin), eq(end), eq(user), Mockito.anySet()))
             .thenReturn(List.of(PLAN_JULY_17, PLAN_JULY_15, PLAN_JULY_18));
         when(momentStorage.getByDateRange(user.getId(), begin, end))
             .thenReturn(List.of(MOMENT_JULY_17, MOMENT_JULY_15, MOMENT_JULY_18));

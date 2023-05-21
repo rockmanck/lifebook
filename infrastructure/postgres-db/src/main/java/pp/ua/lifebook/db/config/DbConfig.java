@@ -12,7 +12,7 @@ import pp.ua.lifebook.db.moment.MomentDbStorage;
 import pp.ua.lifebook.db.plan.PlansDbStorage;
 import pp.ua.lifebook.db.user.UsersDbStorage;
 import pp.ua.lifebook.moments.MomentStorage;
-import pp.ua.lifebook.plan.PlansStorage;
+import pp.ua.lifebook.plan.port.PlansStoragePort;
 import pp.ua.lifebook.user.UsersStorage;
 
 import javax.sql.DataSource;
@@ -41,7 +41,7 @@ public class DbConfig {
     }
 
     @Bean
-    public PlansStorage plansJdbc(DataSource dataSource) {
+    public PlansStoragePort plansJdbc(DataSource dataSource) {
         return new PlansDbStorage(dataSource);
     }
 

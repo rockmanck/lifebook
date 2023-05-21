@@ -21,3 +21,21 @@
 .modal-footer .btn-group:last-child > button {
     border-right: 0;
 }
+
+.modal-body .tags {
+    display: block;
+    padding-top: 5px;
+}
+
+.modal-body .tag {
+    padding: 3px 10px;
+    margin-right: 3px;
+    border-radius: 10px;
+}
+
+.ui-autocomplete {
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}

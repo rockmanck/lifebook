@@ -15,6 +15,8 @@ import pp.ua.lifebook.plan.PlansService;
 import pp.ua.lifebook.plan.port.PlansStoragePort;
 import pp.ua.lifebook.reminders.RemindersService;
 import pp.ua.lifebook.reminders.RemindersServiceImpl;
+import pp.ua.lifebook.tag.TagService;
+import pp.ua.lifebook.tag.port.TagRepositoryPort;
 
 @Configuration
 @ComponentScan(
@@ -70,5 +72,10 @@ public class AppConfig {
         sender.setPassword(password);
         sender.setDefaultEncoding(encoding);
         return sender;
+    }
+
+    @Bean
+    TagService tagService(TagRepositoryPort tagRepositoryPort) {
+        return new TagService(tagRepositoryPort);
     }
 }

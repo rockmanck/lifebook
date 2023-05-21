@@ -51,7 +51,7 @@ public class GatewayFilter implements Filter {
         setCharacterEncoding(servletRequest, servletResponse);
         final HttpServletRequest request = (HttpServletRequest) servletRequest;
         final HttpServletResponse response = (HttpServletResponse) servletResponse;
-        setLocale(request, Language.EN); // TODO @AndrewG: move local setup to better place
+        setLocale(request, Language.EN); // TODO @AndrewG: move locale setup to better place
         chain.doFilter(request, response);
     }
 

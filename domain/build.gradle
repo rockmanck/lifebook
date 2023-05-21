@@ -10,7 +10,8 @@ repositories {
 
 dependencies {
     implementation files('../lib/RockmanUtils.jar')
-
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+    
     testImplementation libs.assertJ
     testImplementation "org.junit.jupiter:junit-jupiter:${junit5_version}"
     testImplementation 'org.mockito:mockito-core:3.0.0'

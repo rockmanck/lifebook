@@ -17,6 +17,7 @@ import pp.ua.lifebook.storage.db.scheme.tables.PlanStatus;
 import pp.ua.lifebook.storage.db.scheme.tables.Plans;
 import pp.ua.lifebook.storage.db.scheme.tables.Reminders;
 import pp.ua.lifebook.storage.db.scheme.tables.RepeatType;
+import pp.ua.lifebook.storage.db.scheme.tables.Tag;
 import pp.ua.lifebook.storage.db.scheme.tables.UserSettings;
 import pp.ua.lifebook.storage.db.scheme.tables.Users;
 import pp.ua.lifebook.storage.db.scheme.tables.records.CategoryRecord;
@@ -27,6 +28,7 @@ import pp.ua.lifebook.storage.db.scheme.tables.records.PlanStatusRecord;
 import pp.ua.lifebook.storage.db.scheme.tables.records.PlansRecord;
 import pp.ua.lifebook.storage.db.scheme.tables.records.RemindersRecord;
 import pp.ua.lifebook.storage.db.scheme.tables.records.RepeatTypeRecord;
+import pp.ua.lifebook.storage.db.scheme.tables.records.TagRecord;
 import pp.ua.lifebook.storage.db.scheme.tables.records.UserSettingsRecord;
 import pp.ua.lifebook.storage.db.scheme.tables.records.UsersRecord;
 
@@ -50,6 +52,7 @@ public class Keys {
     public static final UniqueKey<PlansRecord> PLANS_PK = Internal.createUniqueKey(Plans.PLANS, DSL.name("plans_pk"), new TableField[] { Plans.PLANS.ID }, true);
     public static final UniqueKey<RemindersRecord> REMINDER_PK = Internal.createUniqueKey(Reminders.REMINDERS, DSL.name("reminder_pk"), new TableField[] { Reminders.REMINDERS.ID }, true);
     public static final UniqueKey<RepeatTypeRecord> REPEAT_TYPE_PK = Internal.createUniqueKey(RepeatType.REPEAT_TYPE, DSL.name("repeat_type_pk"), new TableField[] { RepeatType.REPEAT_TYPE.CODE }, true);
+    public static final UniqueKey<TagRecord> TAG_PKEY = Internal.createUniqueKey(Tag.TAG, DSL.name("tag_pkey"), new TableField[] { Tag.TAG.ID }, true);
     public static final UniqueKey<UserSettingsRecord> PK_USER_SETTINGS = Internal.createUniqueKey(UserSettings.USER_SETTINGS, DSL.name("pk_user_settings"), new TableField[] { UserSettings.USER_SETTINGS.USER_ID }, true);
     public static final UniqueKey<UsersRecord> USER_PK = Internal.createUniqueKey(Users.USERS, DSL.name("user_pk"), new TableField[] { Users.USERS.ID, Users.USERS.LOGIN }, true);
     public static final UniqueKey<UsersRecord> USERS_ID_UK = Internal.createUniqueKey(Users.USERS, DSL.name("users_id_uk"), new TableField[] { Users.USERS.ID }, true);

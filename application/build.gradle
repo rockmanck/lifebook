@@ -35,6 +35,8 @@ dependencies {
     testImplementation libs.testcontainers
     testImplementation "org.testcontainers:postgresql:${testcontainersVersion}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'com.h2database:h2:2.1.212'
     testImplementation "org.junit.jupiter:junit-jupiter:${junit5_version}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit5_version}"

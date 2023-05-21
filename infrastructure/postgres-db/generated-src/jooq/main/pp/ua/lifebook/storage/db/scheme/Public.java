@@ -15,6 +15,9 @@ import pp.ua.lifebook.storage.db.scheme.tables.PlanStatus;
 import pp.ua.lifebook.storage.db.scheme.tables.Plans;
 import pp.ua.lifebook.storage.db.scheme.tables.Reminders;
 import pp.ua.lifebook.storage.db.scheme.tables.RepeatType;
+import pp.ua.lifebook.storage.db.scheme.tables.Tag;
+import pp.ua.lifebook.storage.db.scheme.tables.TagMomentRelation;
+import pp.ua.lifebook.storage.db.scheme.tables.TagPlanRelation;
 import pp.ua.lifebook.storage.db.scheme.tables.UserSettings;
 import pp.ua.lifebook.storage.db.scheme.tables.Users;
 
@@ -76,6 +79,21 @@ public class Public extends SchemaImpl {
     public final RepeatType REPEAT_TYPE = RepeatType.REPEAT_TYPE;
 
     /**
+     * The table <code>public.tag</code>.
+     */
+    public final Tag TAG = Tag.TAG;
+
+    /**
+     * The table <code>public.tag_moment_relation</code>.
+     */
+    public final TagMomentRelation TAG_MOMENT_RELATION = TagMomentRelation.TAG_MOMENT_RELATION;
+
+    /**
+     * The table <code>public.tag_plan_relation</code>.
+     */
+    public final TagPlanRelation TAG_PLAN_RELATION = TagPlanRelation.TAG_PLAN_RELATION;
+
+    /**
      * The table <code>public.user_settings</code>.
      */
     public final UserSettings USER_SETTINGS = UserSettings.USER_SETTINGS;
@@ -109,6 +127,9 @@ public class Public extends SchemaImpl {
             Plans.PLANS,
             Reminders.REMINDERS,
             RepeatType.REPEAT_TYPE,
+            Tag.TAG,
+            TagMomentRelation.TAG_MOMENT_RELATION,
+            TagPlanRelation.TAG_PLAN_RELATION,
             UserSettings.USER_SETTINGS,
             Users.USERS
         );

@@ -2,7 +2,11 @@ package pp.ua.lifebook.tag;
 
 import java.util.Objects;
 
-public record Tag(Integer id, int userId, String name) {
+public record Tag(Integer id, int userId, String name, boolean newTag) {
+    public Tag(Integer id, int userId, String name) {
+        this(id, userId, name, false);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

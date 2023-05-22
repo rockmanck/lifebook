@@ -9,7 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
 import pp.ua.lifebook.plan.Plan;
 import pp.ua.lifebook.plan.PlanStatus;
 import pp.ua.lifebook.plan.PlansService;
+import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.web.config.security.SecurityUtil;
+import pp.ua.lifebook.web.plan.PlanDto;
+import pp.ua.lifebook.web.plan.PlanDtoMapper;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -24,8 +27,9 @@ public class PlanController extends BaseController {
     }
 
     @PostMapping("/save.html")
-    public void savePlan(@ModelAttribute Plan plan, HttpServletResponse response) throws IOException {
-        plansService.save(plan, SecurityUtil.getUser().user());
+    public void savePlan(@ModelAttribute PlanDto plan, HttpServletResponse response) throws IOException {
+        User user = SecurityUtil.getUser().user();
+        plansService.save(PlanDtoMapper.toDomain(plan, user.getId()), user);
         ok(response);
     }
 

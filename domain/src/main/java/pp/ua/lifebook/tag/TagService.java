@@ -16,6 +16,20 @@ public class TagService {
         if (StringUtils.isEmpty(term) || StringUtils.isEmpty(term.trim())) {
             return List.of();
         }
-        return tagRepositoryPort.search(userId, term.toLowerCase());
+        List<Tag> result = tagRepositoryPort.search(userId, term.toLowerCase());
+        return appendNewTagSuggestion(result, userId, term);
+    }
+
+    private List<Tag> appendNewTagSuggestion(List<Tag> result, int userId, String term) {
+        if (containsExactMatch(result, term)) {
+            return result;
+        }
+        result.add(new Tag(null, userId, term, true));
+        return result;
+    }
+
+    private boolean containsExactMatch(List<Tag> result, String term) {
+        return result.stream()
+            .anyMatch(t -> t.name().equalsIgnoreCase(term));
     }
 }

@@ -100,13 +100,13 @@ function PlanClass() {
 
         let tagVisual = document.createElement('span');
         tagVisual.setAttribute('class', 'tag default-tag');
-        tagVisual.innerText = item.label;
+        tagVisual.innerText = item.newTag ? "Create: " + item.label : item.label;
         container.append(tagVisual);
 
         let tagHidden = document.createElement('input');
         tagHidden.setAttribute('name', 'tags');
         tagHidden.setAttribute('type', 'hidden');
-        tagHidden.setAttribute('value', item.value);
+        tagHidden.setAttribute('value', item.newTag ? "null:" + item.label : `${item.value}`);
         container.append(tagHidden);
     }
 

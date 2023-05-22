@@ -46,6 +46,13 @@
                     <label for="tagSuggest">Tag</label>
                     <input type="text" class="form-control" id="tagSuggest" name="tagSuggest" value="">
                     <p class="tags">
+                        <span class="tag default-tag">Example</span>
+                        <input type="hidden" name="tags[0].value" value="1">
+                        <input type="hidden" name="tags[0].label" value="Example">
+
+                        <span class="tag default-tag">Other</span>
+                        <input type="hidden" name="tags[1].value" value="">
+                        <input type="hidden" name="tags[1].label" value="Other">
                     </p>
                 </div>
             </form>

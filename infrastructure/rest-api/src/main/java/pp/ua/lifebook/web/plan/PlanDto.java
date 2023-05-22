@@ -1,14 +1,17 @@
-package pp.ua.lifebook.plan;
+package pp.ua.lifebook.web.plan;
 
-import pp.ua.lifebook.tag.Tag;
+import pp.ua.lifebook.plan.Category;
+import pp.ua.lifebook.plan.PlanStatus;
+import pp.ua.lifebook.plan.RepeatType;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.utils.DateUtils;
+import pp.ua.lifebook.web.tag.TagDto;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Stream;
 
-public class Plan {
+public class PlanDto {
     private Integer id;
     private String title;
     private LocalDateTime dueDate;
@@ -18,11 +21,11 @@ public class Plan {
     private Category category;
     private User user;
     private boolean isOutdated;
-    private List<Tag> tags;
+    private List<TagDto> tags;
 
-    public Plan () {}
+    public PlanDto() {}
 
-    private Plan(
+    private PlanDto(
         Integer id,
         String title,
         LocalDateTime dueDate,
@@ -129,11 +132,11 @@ public class Plan {
         return new PlanBuilder();
     }
 
-    public List<Tag> getTags() {
+    public List<TagDto> getTags() {
         return tags;
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(List<TagDto> tags) {
         this.tags = tags;
     }
 
@@ -198,8 +201,8 @@ public class Plan {
             return this;
         }
 
-        public Plan createPlan() {
-            return new Plan(id, title, dueDate, repeated, comments, status, category, user, isOutdated);
+        public PlanDto createPlan() {
+            return new PlanDto(id, title, dueDate, repeated, comments, status, category, user, isOutdated);
         }
     }
 }

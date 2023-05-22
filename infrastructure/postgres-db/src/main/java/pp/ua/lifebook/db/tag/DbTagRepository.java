@@ -9,6 +9,7 @@ import pp.ua.lifebook.tag.port.TagRepositoryPort;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DbTagRepository implements TagRepositoryPort {
 
@@ -27,7 +28,7 @@ public class DbTagRepository implements TagRepositoryPort {
             .stream()
             .map(TagMapper::toDomainTag)
             .sorted(startWithFirstAndAlphabetically(term))
-            .toList();
+            .collect(Collectors.toList());
     }
 
     private static Comparator<Tag> startWithFirstAndAlphabetically(String term) {

@@ -1,32 +1,42 @@
-SELECT
-	p.id plan_id,
-	p.title,
-	p.repeated,
-	p.comments,
-	p.status,
-	p.due_time,
-	c.name category_name,
-	c.id category_id,
-	0 AS outdated
+WITH tags AS (SELECT tpr.plan_id, array_agg('[' || tag_id || ',' || t.name || ']') AS values
+              FROM tag_plan_relation tpr
+                   JOIN tag t on t.id = tpr.tag_id
+              WHERE t.user_id = $userId
+              GROUP BY tpr.plan_id)
+
+SELECT p.id   plan_id,
+       p.title,
+       p.repeated,
+       p.comments,
+       p.status,
+       p.due_time,
+       c.name category_name,
+       c.id   category_id,
+       0 AS   outdated,
+       t.values AS tags
 FROM plans p
-  LEFT JOIN category c ON c.id = p.category
-WHERE CAST(due_time AS DATE) BETWEEN '$startDate' AND '$endDate' AND user_id = $userId
-	AND p.status IN ('SCHDL' #if($show_done),'DN'#end #if($show_canceled),'CNCL'#end)
+    LEFT JOIN category c ON c.id = p.category
+    LEFT JOIN tags t ON t.plan_id = p.id
+WHERE CAST(due_time AS DATE) BETWEEN '$startDate' AND '$endDate'
+    AND user_id = $userId
+    AND p.status IN ('SCHDL' #if($show_done),'DN'#end #if($show_canceled),'CNCL'#end)
 
 #if ($show_outdated)
 UNION
-SELECT
-	p.id plan_id,
-  	p.title,
-  	p.repeated,
-  	p.comments,
-  	p.status,
-  	p.due_time,
-	c.name category_name,
-	c.id category_id,
-	1 AS outdated
+SELECT p.id   plan_id,
+       p.title,
+       p.repeated,
+       p.comments,
+       p.status,
+       p.due_time,
+       c.name category_name,
+       c.id   category_id,
+       1 AS   outdated,
+       t.values AS tags
 FROM plans p
-  LEFT JOIN category c ON c.id = p.category
+    LEFT JOIN category c ON c.id = p.category
+    LEFT JOIN tags t ON t.plan_id = p.id
 WHERE CAST(p.due_time AS DATE) BETWEEN CAST('$startDate' AS DATE) - INTERVAL '1 month' AND CAST('$startDate' AS DATE) - INTERVAL '1 day'
-	AND p.status = 'SCHDL' AND user_id = $userId
+  AND p.status = 'SCHDL'
+  AND user_id = $userId
 #end

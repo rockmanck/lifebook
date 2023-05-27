@@ -35,7 +35,8 @@ public class PlanController extends BaseController {
 
     @RequestMapping("/{id}/edit.html")
     public ModelAndView editPlan(@PathVariable int id) {
-        final Plan plan = plansService.getPlan(id);
+        User user = SecurityUtil.getUser().user();
+        final Plan plan = plansService.getPlan(id, user.getId());
         return new ModelAndView("plans/planForm")
             .addObject("plan", plan)
             .addObject("planStatuses", PlanStatus.values());

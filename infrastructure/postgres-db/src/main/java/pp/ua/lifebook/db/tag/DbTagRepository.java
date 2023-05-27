@@ -2,7 +2,6 @@ package pp.ua.lifebook.db.tag;
 
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
-import pp.ua.lifebook.storage.db.scheme.Tables;
 import pp.ua.lifebook.storage.db.scheme.tables.records.TagRecord;
 import pp.ua.lifebook.tag.Tag;
 import pp.ua.lifebook.tag.port.TagRepositoryPort;
@@ -10,6 +9,8 @@ import pp.ua.lifebook.tag.port.TagRepositoryPort;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static pp.ua.lifebook.storage.db.scheme.Tables.TAG;
 
 public class DbTagRepository implements TagRepositoryPort {
 
@@ -22,8 +23,8 @@ public class DbTagRepository implements TagRepositoryPort {
     @Override
     public List<Tag> search(int userId, String term) {
         return dsl.select()
-            .from(Tables.TAG)
-            .where(DSL.lower(Tables.TAG.NAME).like("%" + term + "%"))
+            .from(TAG)
+            .where(DSL.lower(TAG.NAME).like("%" + term + "%"))
             .fetchInto(TagRecord.class)
             .stream()
             .map(TagMapper::toDomainTag)

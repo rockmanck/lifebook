@@ -12,7 +12,7 @@ import java.util.Set;
 public interface PlansStoragePort {
     void savePlan(Plan plan);
 
-    Plan getPlan(Integer id);
+    Plan getPlan(Integer id, int userId);
 
     /**
      * Returns all plan for specified date and user. Sorts collection by due time.

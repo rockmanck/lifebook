@@ -14,8 +14,8 @@ public class RemindersManager {
     @Autowired private PlansService plansService;
     @Autowired private NotificationService notificationService;
 
-    public void addReminder(int planId, RemindBefore remindBefore) {
-        final LocalDateTime remindTime = getRemindBeforeTime(planId, remindBefore);
+    public void addReminder(int planId, RemindBefore remindBefore, int userId) {
+        final LocalDateTime remindTime = getRemindBeforeTime(planId, remindBefore, userId);
         addReminder(planId, remindTime);
     }
 
@@ -24,9 +24,9 @@ public class RemindersManager {
         notificationService.updateNotification(reminder);
     }
 
-    public void updateReminder(int reminderId, RemindBefore remindBefore) {
+    public void updateReminder(int reminderId, RemindBefore remindBefore, int userId) {
         final Reminder reminder = remindersService.getReminder(reminderId);
-        final LocalDateTime remindExactTime = getRemindBeforeTime(reminder.getPlanId(), remindBefore);
+        final LocalDateTime remindExactTime = getRemindBeforeTime(reminder.getPlanId(), remindBefore, userId);
         updateReminder(reminderId, remindExactTime);
         notificationService.updateNotification(remindersService.getReminder(reminderId));
     }
@@ -44,8 +44,8 @@ public class RemindersManager {
         remindersService.removeReminder(reminderId);
     }
 
-    private LocalDateTime getRemindBeforeTime(int planId, RemindBefore remindBefore) {
-        final Plan plan = plansService.getPlan(planId);
+    private LocalDateTime getRemindBeforeTime(int planId, RemindBefore remindBefore, int userId) {
+        final Plan plan = plansService.getPlan(planId, userId);
         return remindBefore.getRemindTime(plan.getDueDate());
     }
 }

@@ -15,8 +15,8 @@ public class PlansService {
         plansStoragePort.savePlan(plan);
     }
 
-    public Plan getPlan(int id) {
-        return plansStoragePort.getPlan(id);
+    public Plan getPlan(int id, int userId) {
+        return plansStoragePort.getPlan(id, userId);
     }
 
     public void donePlan(int id) {

@@ -1,5 +1,6 @@
 package pp.ua.lifebook.db.plan;
 
+import org.json.JSONArray;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pp.ua.lifebook.db.sqlbuilder.DynamicSqlBuilder;
@@ -8,11 +9,13 @@ import pp.ua.lifebook.plan.Plan;
 import pp.ua.lifebook.plan.PlanStatus;
 import pp.ua.lifebook.plan.RepeatType;
 import pp.ua.lifebook.plan.port.PlansStoragePort;
+import pp.ua.lifebook.tag.Tag;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.parameters.ViewOption;
 import pp.ua.lifebook.utils.DateUtils;
 
 import javax.sql.DataSource;
+import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -22,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public class PlansDbStorage implements PlansStoragePort {
     private final DynamicSqlBuilder sqlBuilder = new DynamicSqlBuilder();
@@ -48,10 +52,10 @@ public class PlansDbStorage implements PlansStoragePort {
     }
 
     @Override
-    public Plan getPlan(Integer id) {
+    public Plan getPlan(Integer id, int userId) {
         final String sql = sqlBuilder.sql("GetPlan").build();
         try {
-            return jdbc.queryForObject(sql, (rs, rowNum) -> plan(rs), id);
+            return jdbc.queryForObject(sql, (rs, rowNum) -> plan(rs, userId), id, id);
         } catch (EmptyResultDataAccessException e) {
             return Plan.builder().createPlan();
         }
@@ -70,7 +74,7 @@ public class PlansDbStorage implements PlansStoragePort {
 
         final List<Plan> result = new ArrayList<>();
         jdbc.query(sql, rs -> {
-            final Plan plan = plan(rs);
+            final Plan plan = plan(rs, user.getId());
             plan.setUser(user);
             result.add(plan);
         });
@@ -83,7 +87,7 @@ public class PlansDbStorage implements PlansStoragePort {
         jdbc.update("UPDATE plans SET status = ? WHERE id = ?", status.getCode(), planId);
     }
 
-    private Plan plan(ResultSet rs) throws SQLException {
+    private Plan plan(ResultSet rs, Integer userId) throws SQLException {
         final Plan plan = Plan.builder().createPlan();
         plan.setId(rs.getInt("plan_id"));
         plan.setCategory(category(rs));
@@ -94,7 +98,22 @@ public class PlansDbStorage implements PlansStoragePort {
         plan.setDueDate(DateUtils.dateToLocalDateTime(dueTime));
         plan.setRepeated(RepeatType.byCode(rs.getString("repeated")));
         plan.setOutdated(rs.getBoolean("outdated"));
+        Array rsArray = rs.getArray("tags");
+        plan.setTags(toTags(rsArray, userId));
         return plan;
+    }
+
+    private List<Tag> toTags(Array array, int userId) throws SQLException {
+        if (array == null) {
+            return List.of();
+        }
+
+        return Stream.of((String[]) array.getArray())
+            .map(e -> {
+                JSONArray values = new JSONArray(e);
+                return new Tag(values.getInt(0), userId, values.getString(1));
+            })
+            .toList();
     }
 
     private Category category(ResultSet rs) throws SQLException {

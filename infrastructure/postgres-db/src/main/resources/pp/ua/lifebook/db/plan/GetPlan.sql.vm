@@ -1,13 +1,19 @@
-SELECT
-  p.id plan_id,
-  p.title,
-  p.repeated,
-  p.comments,
-  p.status,
-  p.due_time,
-  c.name category_name,
-  c.id category_id,
-  0 AS outdated
+WITH tags AS (SELECT tpr.plan_id, array_agg('[' || tag_id || ',' || t.name || ']') AS values
+              FROM tag_plan_relation tpr
+                   JOIN tag t on t.id = tpr.tag_id
+              WHERE tpr.plan_id = ?
+              GROUP BY tpr.plan_id)
+SELECT p.id   plan_id,
+       p.title,
+       p.repeated,
+       p.comments,
+       p.status,
+       p.due_time,
+       c.name category_name,
+       c.id   category_id,
+       0 AS   outdated,
+       t.values AS tags
 FROM plans p
-  LEFT JOIN category c ON c.id = p.category
+    LEFT JOIN category c ON c.id = p.category
+    LEFT JOIN tags t ON t.plan_id = p.id
 WHERE p.id = ?

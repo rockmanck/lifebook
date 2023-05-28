@@ -19,7 +19,8 @@ public class TagDtoMapper {
                 dto.getValue(),
                 userId,
                 dto.getLabel(),
-                dto.getValue() == null
+                dto.getValue() == null,
+                dto.isRemoved()
             )).toList();
     }
 }

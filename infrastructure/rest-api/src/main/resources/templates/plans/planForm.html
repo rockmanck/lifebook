@@ -47,14 +47,20 @@
                     <input type="text" class="form-control" id="tagSuggest" name="tagSuggest" value="">
                     <p class="tags">
                         <th:block th:each="tag, i: ${plan?.tags}">
-                            <span class="tag default-tag">[[${tag.name}]]</span>
+                            <span class="tag default-tag">
+                                [[${tag.name}]]&nbsp;
+                                <span class="tag-remove" th:data-index="${i.index}">&times;</span>
+                            </span>
                             <input class="tag-id"
                                    type="hidden"
                                    th:name="${'tags[' + i.index + '].value'}"
                                    th:value="${tag.id}"
                                    th:data-index="${i.index}"
                             >
-                            <input type="hidden" th:name="${'tags[' + i.index + '].label'}" th:value="${tag.name}">
+                            <input type="hidden"
+                                   th:name="${'tags[' + i.index + '].label'}"
+                                   th:value="${tag.name}"
+                            >
                         </th:block>
                     </p>
                 </div>

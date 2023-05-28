@@ -4,6 +4,7 @@ public class TagDto {
     private Integer value;
     private String label;
     private boolean newTag;
+    private boolean removed;
 
     public Integer getValue() {
         return value;
@@ -27,5 +28,13 @@ public class TagDto {
 
     public void setNewTag(boolean newTag) {
         this.newTag = newTag;
+    }
+
+    public boolean isRemoved() {
+        return removed;
+    }
+
+    public void setRemoved(boolean removed) {
+        this.removed = removed;
     }
 }

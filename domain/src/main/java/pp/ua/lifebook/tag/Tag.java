@@ -2,9 +2,15 @@ package pp.ua.lifebook.tag;
 
 import java.util.Objects;
 
-public record Tag(Integer id, int userId, String name, boolean newTag) {
+public record Tag(
+    Integer id,
+    int userId,
+    String name,
+    boolean newTag,
+    boolean removed
+) {
     public Tag(Integer id, int userId, String name) {
-        this(id, userId, name, false);
+        this(id, userId, name, false, false);
     }
 
     @Override

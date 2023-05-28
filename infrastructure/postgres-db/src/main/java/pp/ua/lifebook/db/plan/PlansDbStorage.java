@@ -170,18 +170,26 @@ public class PlansDbStorage implements PlansStoragePort {
 
     private void saveTags(Set<Tag> tags, Integer userId, Integer planId) {
         Set<Tag> updatedTags = createNewTags(tags, userId);
-        for (Tag tag : updatedTags) {
-            dslContext.insertInto(TAG_PLAN_RELATION, TAG_PLAN_RELATION.PLAN_ID, TAG_PLAN_RELATION.TAG_ID)
+
+        // firstly remove to make sure re-added tags during edit will be saved
+        updatedTags.stream()
+            .filter(Tag::removed)
+            .forEach(tag -> dslContext.delete(TAG_PLAN_RELATION)
+                .where(TAG_PLAN_RELATION.PLAN_ID.eq(planId).and(TAG_PLAN_RELATION.TAG_ID.eq(tag.id())))
+                .execute());
+
+        updatedTags.stream()
+            .filter(t -> !t.removed())
+            .forEach(tag -> dslContext.insertInto(TAG_PLAN_RELATION, TAG_PLAN_RELATION.PLAN_ID, TAG_PLAN_RELATION.TAG_ID)
                 .values(planId, tag.id())
                 .onConflictDoNothing()
-                .execute();
-        }
+                .execute());
     }
 
     private Set<Tag> createNewTags(Set<Tag> tags, Integer userId) {
         return tags.stream()
             .map(t -> {
-                if (t.id() == null) {
+                if (t.id() == null && !t.removed()) {
                     Integer tagId = dslContext.insertInto(TAG, TAG.NAME, TAG.USER_ID)
                         .values(t.name(), userId)
                         .returningResult(TAG.ID)

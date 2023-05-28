@@ -33,6 +33,19 @@
     border-radius: 10px;
 }
 
+.modal-body .tag-remove {
+    color: black;
+    font-weight: 300;
+    font-family: Arial, sans-serif;
+    border-left: solid .2px gray;
+    padding-left: 4px;
+    cursor: pointer;
+}
+
+.modal-body .tag-remove:hover {
+    opacity: .7;
+}
+
 .ui-autocomplete {
     max-height: 100px;
     overflow-y: auto;

@@ -8,6 +8,6 @@ public class TagBuilder {
     }
 
     public static Tag aNewTag(int userId, String name) {
-        return new Tag(null, userId, name, true);
+        return new Tag(null, userId, name, true, false);
     }
 }

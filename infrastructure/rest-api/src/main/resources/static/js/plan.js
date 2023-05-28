@@ -79,6 +79,16 @@ function PlanClass() {
         });
     };
 
+    this.removeTag = function(target) {
+        const index = target.getAttribute('data-index');
+        const input = document.createElement('input');
+        input.setAttribute('type', 'hidden');
+        input.setAttribute('name', `tags[${index}].removed`);
+        input.setAttribute('value', 'true');
+        target.parentNode.after(input);
+        target.parentNode.remove();
+    };
+
     function loadPlanById(id, defaultDate, viewType) {
         $.get('./plan/' + id + '/edit.html', function (data) {
             let form = $('#planModal');
@@ -106,6 +116,17 @@ function PlanClass() {
                         tagIndex = index;
                     }
                 });
+
+            form.find('.tag-remove')
+                .on('click', function(e) {
+                    const target = $(this);
+                    const index = target.data('index');
+                    const input = $(
+                        '<input type="hidden" name="tags[' + index + '].removed" value="true">'
+                    );
+                    input.insertAfter(target.parent());
+                    target.parent().remove();
+                });
         });
     }
 
@@ -115,8 +136,15 @@ function PlanClass() {
         tagIndex += 1;
         let tagVisual = document.createElement('span');
         tagVisual.setAttribute('class', 'tag default-tag');
-        tagVisual.innerText = item.newTag ? "Create: " + item.label : item.label;
+        tagVisual.innerText = (item.newTag ? "Create: " + item.label : item.label) + ' ';
         container.append(tagVisual);
+
+        const tagRemove = document.createElement('span');
+        tagRemove.setAttribute('class', 'tag-remove');
+        tagRemove.innerHTML = '&times;';
+        tagRemove.setAttribute('onclick', 'Plan.removeTag(this);');
+        tagRemove.setAttribute('data-index', tagIndex);
+        tagVisual.append(tagRemove);
 
         let tagIdHidden = document.createElement('input');
         tagIdHidden.setAttribute('name', `tags[${tagIndex}].value`);

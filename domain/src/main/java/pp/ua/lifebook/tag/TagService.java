@@ -24,7 +24,7 @@ public class TagService {
         if (containsExactMatch(result, term)) {
             return result;
         }
-        result.add(new Tag(null, userId, term, true));
+        result.add(new Tag(null, userId, term, true, false));
         return result;
     }
 

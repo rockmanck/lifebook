@@ -1,5 +1,6 @@
 package pp.ua.lifebook.db.plan;
 
+import org.jooq.DSLContext;
 import org.json.JSONArray;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,36 +20,33 @@ import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
-import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static pp.ua.lifebook.storage.db.scheme.Tables.PLANS;
+import static pp.ua.lifebook.storage.db.scheme.Tables.TAG;
+import static pp.ua.lifebook.storage.db.scheme.Tables.TAG_PLAN_RELATION;
 
 public class PlansDbStorage implements PlansStoragePort {
     private final DynamicSqlBuilder sqlBuilder = new DynamicSqlBuilder();
     private final JdbcTemplate jdbc;
+    private final DSLContext dslContext;
 
-    public PlansDbStorage(DataSource dataSource) {
+    public PlansDbStorage(DataSource dataSource, DSLContext dslContext) {
         this.jdbc = new JdbcTemplate(dataSource);
+        this.dslContext = dslContext;
     }
 
     @Override
     public void savePlan(Plan plan) {
-        final String sql;
-        if (plan.getId() == null) {
-            sql = "INSERT INTO plans (title, repeated, comments, status, user_id, category, due_time) VALUES (?,?,?,?,?,?,?)";
-        } else {
-            sql = "UPDATE plans SET title = ?, repeated = ?, comments = ?, status = ?, user_id = ?, category = ?, due_time = ? WHERE Id = " + plan.getId();
-        }
-        final RepeatType repeated = plan.getRepeated();
-        final Category category = plan.getCategory();
-        final Timestamp timestamp = new Timestamp(DateUtils.getMillisFromLocalDateTime(plan.getDueDate()));
-        final Object[] values = {plan.getTitle(), repeated != null ? repeated.getCode() : null, plan.getComments(),
-            plan.getStatus().getCode(), plan.getUser().getId(), category != null ? category.getId() : null, timestamp};
-        jdbc.update(sql, values, new int[]{Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER, Types.TIMESTAMP});
+        upsert(plan);
+        saveTags(new HashSet<>(plan.getTags()), plan.getUser().getId(), plan.getId());
     }
 
     @Override
@@ -85,6 +83,48 @@ public class PlansDbStorage implements PlansStoragePort {
     @Override
     public void updatePlanStatus(int planId, PlanStatus status) {
         jdbc.update("UPDATE plans SET status = ? WHERE id = ?", status.getCode(), planId);
+    }
+
+    private void upsert(Plan plan) {
+        final String repeated = plan.getRepeated() != null ? plan.getRepeated().getCode() : null;
+        final Integer category = plan.getCategory() != null ? plan.getCategory().getId() : null;
+        if (plan.getId() == null) {
+            final int planId = dslContext.insertInto(
+                    PLANS,
+                    PLANS.TITLE,
+                    PLANS.REPEATED,
+                    PLANS.COMMENTS,
+                    PLANS.STATUS,
+                    PLANS.USER_ID,
+                    PLANS.CATEGORY,
+                    PLANS.DUE_TIME
+                )
+                .values(
+                    plan.getTitle(),
+                    repeated,
+                    plan.getComments(),
+                    plan.getStatus().getCode(),
+                    plan.getUser().getId(),
+                    category,
+                    plan.getDueDate()
+                )
+                .returningResult(PLANS.ID)
+                .fetchOne()
+                .getValue(PLANS.ID);
+
+            plan.setId(planId);
+        } else {
+            dslContext.update(PLANS)
+                .set(PLANS.TITLE, plan.getTitle())
+                .set(PLANS.REPEATED, repeated)
+                .set(PLANS.COMMENTS, plan.getComments())
+                .set(PLANS.STATUS, plan.getStatus().getCode())
+                .set(PLANS.USER_ID, plan.getUser().getId())
+                .set(PLANS.CATEGORY, category)
+                .set(PLANS.DUE_TIME, plan.getDueDate())
+                .where(PLANS.ID.eq(plan.getId()))
+                .execute();
+        }
     }
 
     private Plan plan(ResultSet rs, Integer userId) throws SQLException {
@@ -126,5 +166,31 @@ public class PlansDbStorage implements PlansStoragePort {
         } else {
             return null;
         }
+    }
+
+    private void saveTags(Set<Tag> tags, Integer userId, Integer planId) {
+        Set<Tag> updatedTags = createNewTags(tags, userId);
+        for (Tag tag : updatedTags) {
+            dslContext.insertInto(TAG_PLAN_RELATION, TAG_PLAN_RELATION.PLAN_ID, TAG_PLAN_RELATION.TAG_ID)
+                .values(planId, tag.id())
+                .onConflictDoNothing()
+                .execute();
+        }
+    }
+
+    private Set<Tag> createNewTags(Set<Tag> tags, Integer userId) {
+        return tags.stream()
+            .map(t -> {
+                if (t.id() == null) {
+                    Integer tagId = dslContext.insertInto(TAG, TAG.NAME, TAG.USER_ID)
+                        .values(t.name(), userId)
+                        .returningResult(TAG.ID)
+                        .fetchOne()
+                        .getValue(TAG.ID);
+                    return new Tag(tagId, userId, t.name());
+                } else {
+                    return t;
+                }
+            }).collect(Collectors.toSet());
     }
 }

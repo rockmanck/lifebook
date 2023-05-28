@@ -27,7 +27,7 @@ public class DbTagRepository implements TagRepositoryPort {
             .where(DSL.lower(TAG.NAME).like("%" + term + "%"))
             .fetchInto(TagRecord.class)
             .stream()
-            .map(TagMapper::toDomainTag)
+            .map(DbTagMapper::toDomainTag)
             .sorted(startWithFirstAndAlphabetically(term))
             .collect(Collectors.toList());
     }

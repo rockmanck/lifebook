@@ -48,7 +48,12 @@
                     <p class="tags">
                         <th:block th:each="tag, i: ${plan?.tags}">
                             <span class="tag default-tag">[[${tag.name}]]</span>
-                            <input type="hidden" th:name="${'tags[' + i.index + '].value'}" th:value="${tag.id}">
+                            <input class="tag-id"
+                                   type="hidden"
+                                   th:name="${'tags[' + i.index + '].value'}"
+                                   th:value="${tag.id}"
+                                   th:data-index="${i.index}"
+                            >
                             <input type="hidden" th:name="${'tags[' + i.index + '].label'}" th:value="${tag.name}">
                         </th:block>
                     </p>

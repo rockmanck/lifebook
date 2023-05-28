@@ -43,8 +43,8 @@ public class DbConfig {
     }
 
     @Bean
-    public PlansStoragePort plansJdbc(DataSource dataSource) {
-        return new PlansDbStorage(dataSource);
+    public PlansStoragePort plansJdbc(DataSource dataSource, DSLContext dslContext) {
+        return new PlansDbStorage(dataSource, dslContext);
     }
 
     @Bean

@@ -1,6 +1,7 @@
 function PlanClass() {
-	var _self = this;
-	var sevenDays = 7 * 24 * 60 * 60 * 1000;
+	let _self = this;
+	let sevenDays = 7 * 24 * 60 * 60 * 1000;
+    let tagIndex = -1;
 
 	this.loadDailyPlans = function() {
 		var date = $('#datepicker-daily').data('date');
@@ -88,26 +89,46 @@ function PlanClass() {
             form.find('#tagSuggest').autocomplete({
                 source: "./tags/suggest",
                 minLength: 2,
-                select: function( event, ui ) {
+                select: function(event, ui) {
                     addTag(form, ui.item);
+                },
+                close: function (event, ui) {
+                    document.getElementById('tagSuggest').value = '';
                 }
             });
+            form.find('#tagSuggest').on( "autocompleteselect", function( event, ui ) {} );
+
+            tagIndex = -1;
+            form.find('.tag-id')
+                .each(function (i) {
+                    const index = $(this).data('index');
+                    if (index > tagIndex) {
+                        tagIndex = index;
+                    }
+                });
         });
     }
 
     function addTag(form, item) {
         let container = form.find('.tags');
 
+        tagIndex += 1;
         let tagVisual = document.createElement('span');
         tagVisual.setAttribute('class', 'tag default-tag');
         tagVisual.innerText = item.newTag ? "Create: " + item.label : item.label;
         container.append(tagVisual);
 
-        let tagHidden = document.createElement('input');
-        tagHidden.setAttribute('name', 'tags');
-        tagHidden.setAttribute('type', 'hidden');
-        tagHidden.setAttribute('value', item.newTag ? "null:" + item.label : `${item.value}`);
-        container.append(tagHidden);
+        let tagIdHidden = document.createElement('input');
+        tagIdHidden.setAttribute('name', `tags[${tagIndex}].value`);
+        tagIdHidden.setAttribute('type', 'hidden');
+        tagIdHidden.setAttribute('value', item.newTag ? '' : `${item.value}`);
+        container.append(tagIdHidden);
+
+        let tagLabelHidden = document.createElement('input');
+        tagLabelHidden.setAttribute('name', `tags[${tagIndex}].label`);
+        tagLabelHidden.setAttribute('type', 'hidden');
+        tagLabelHidden.setAttribute('value', item.label);
+        container.append(tagLabelHidden);
     }
 
     function updateDueDate(form, defaultDate) {

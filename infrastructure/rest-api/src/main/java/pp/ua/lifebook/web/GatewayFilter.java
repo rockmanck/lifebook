@@ -19,24 +19,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.function.Predicate;
 
 public class GatewayFilter implements Filter {
-    private UsersStorage usersStorage;
-    private static final List<Predicate<String>> rulesAllowedLinks = new ArrayList<>();
-    static {
-        rulesAllowedLinks.add(e -> e.startsWith("/css/"));
-        rulesAllowedLinks.add(e -> e.startsWith("/img/"));
-        rulesAllowedLinks.add(e -> e.startsWith("/js/"));
-    }
-
     private static final EncodingControl ENCODING_CONTROL = new EncodingControl(StandardCharsets.UTF_8);
     private static final Map<Language, ResourceBundle> bundles = new EnumMap<>(Language.class);
+    private UsersStorage usersStorage;
 
     @Value("${lb.devMode}")
     private boolean devMode;

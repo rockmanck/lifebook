@@ -1,10 +1,12 @@
 package pp.ua.lifebook.web.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import pp.ua.lifebook.plan.Plan;
 import pp.ua.lifebook.plan.PlanStatus;
@@ -14,12 +16,9 @@ import pp.ua.lifebook.web.config.security.SecurityUtil;
 import pp.ua.lifebook.web.plan.PlanDto;
 import pp.ua.lifebook.web.plan.PlanDtoMapper;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
 @RequestMapping("/plan")
 @Controller
-public class PlanController extends BaseController {
+public class PlanController {
     private final PlansService plansService;
 
     public PlanController(PlansService plansService) {
@@ -27,10 +26,10 @@ public class PlanController extends BaseController {
     }
 
     @PostMapping("/save.html")
-    public void savePlan(@ModelAttribute PlanDto plan, HttpServletResponse response) throws IOException {
+    @ResponseStatus(HttpStatus.OK)
+    public void savePlan(@ModelAttribute PlanDto plan) {
         User user = SecurityUtil.getUser().user();
         plansService.save(PlanDtoMapper.toDomain(plan, user.getId()), user);
-        ok(response);
     }
 
     @RequestMapping("/{id}/edit.html")
@@ -43,19 +42,19 @@ public class PlanController extends BaseController {
     }
 
     @RequestMapping("/{id}/done.html")
-    public void done(@PathVariable int id, HttpServletResponse response) throws IOException {
+    @ResponseStatus(HttpStatus.OK)
+    public void done(@PathVariable int id) {
         plansService.donePlan(id);
-        ok(response);
     }
 
     @RequestMapping("/{id}/cancel.html")
-    public void cancel(@PathVariable int id, HttpServletResponse response) throws IOException {
+    @ResponseStatus(HttpStatus.OK)
+    public void cancel(@PathVariable int id) {
         plansService.cancelPlan(id);
-        ok(response);
     }
 
     @RequestMapping("/{id}/addRemind.html")
-    public void addRemind(@PathVariable int planId, HttpServletResponse response) throws IOException {
-        ok(response);
+    @ResponseStatus(HttpStatus.OK)
+    public void addRemind(@PathVariable int planId) {
     }
 }

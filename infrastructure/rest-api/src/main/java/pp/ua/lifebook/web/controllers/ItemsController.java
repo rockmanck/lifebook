@@ -14,7 +14,7 @@ import java.util.List;
 
 @RequestMapping("/items")
 @Controller
-public class ItemsController extends BaseController {
+public class ItemsController {
     private final DayItemsManager dayItemsManager;
 
     public ItemsController(DayItemsManager dayItemsManager) {

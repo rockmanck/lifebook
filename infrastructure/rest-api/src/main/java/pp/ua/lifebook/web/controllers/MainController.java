@@ -1,10 +1,12 @@
 package pp.ua.lifebook.web.controllers;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import pp.ua.lifebook.DayItemsManager;
 import pp.ua.lifebook.ItemsByDay;
@@ -30,7 +32,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
-public class MainController extends BaseController {
+public class MainController {
 
     private final DayItemsManager dayItemsManager;
     private final UsersStorage usersStorage;
@@ -82,13 +84,9 @@ public class MainController extends BaseController {
     }
 
     @RequestMapping("/updateUserSettings.html")
-    public void updateViewOptions(
-        @RequestParam String viewOptions,
-        @RequestParam String defaultTab,
-        HttpServletResponse response
-    ) throws IOException {
+    @ResponseStatus(HttpStatus.OK)
+    public void updateViewOptions(@RequestParam String viewOptions, @RequestParam String defaultTab) {
         usersStorage.updateSettings(viewOptions, defaultTab, SecurityUtil.getUser().user());
-        ok(response);
     }
 
     @RequestMapping("/logout.html")

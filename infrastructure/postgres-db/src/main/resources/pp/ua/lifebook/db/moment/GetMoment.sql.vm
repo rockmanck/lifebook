@@ -1,7 +1,7 @@
 WITH tags AS (SELECT tpr.moment_id, array_agg('[' || tag_id || ',' || t.name || ']') AS values
               FROM tag_moment_relation tpr
                   JOIN tag t on t.id = tpr.tag_id
-              WHERE t.user_id = $userId
+              WHERE tpr.moment_id = $momentId
               GROUP BY tpr.moment_id)
 SELECT m.id,
        m.description,
@@ -10,5 +10,4 @@ SELECT m.id,
        t.values AS tags
 FROM moments m
     LEFT JOIN tags t ON t.moment_id = m.id
-WHERE m.date BETWEEN '$startDate' AND '$endDate'
-    AND user_id = $userId
+WHERE m.id = $momentId

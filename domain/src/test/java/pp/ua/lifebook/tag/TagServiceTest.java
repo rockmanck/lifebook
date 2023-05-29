@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 import pp.ua.lifebook.tag.port.TagRepositoryPort;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -63,6 +64,11 @@ class TagServiceTest {
         public List<Tag> search(int userId, String term) {
             repositoryInvoked = true;
             return stub;
+        }
+
+        @Override
+        public Collection<Tag> create(Collection<Tag> tags, int userId) {
+            return null;
         }
     }
 }

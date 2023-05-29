@@ -1,5 +1,8 @@
-function ListsClass() {
-    var _self = this;
+import {LoaderClass} from "./loader.js";
+
+export function ListsClass() {
+    const _self = this;
+    const Loader = new LoaderClass();
 
     this.edit = function(id) {
         loadListById(id);
@@ -10,9 +13,9 @@ function ListsClass() {
     };
 
     this.save = function() {
-        var listModal = $('#listModal');
-        var form = listModal.find('form');
-        var data = form.serialize();
+        const listModal = $('#listModal');
+        const form = listModal.find('form');
+        const data = form.serialize();
         $.post(form.attr('action'), data).done(function () {
             listModal.modal('hide');
             _self.loadLists();
@@ -70,7 +73,7 @@ function ListsClass() {
 
     function loadListById(id) {
         $.get('./lists/' + id, function (data) {
-            var form = $('#listModal');
+            const form = $('#listModal');
             form.html(data);
             form.modal({backdrop: 'static'});
         });
@@ -83,5 +86,3 @@ function ListsClass() {
         return index;
     }
 }
-
-var Lists = new ListsClass();

@@ -43,9 +43,9 @@
                         </th:block>
                     </p>
                     <p class="tags">
-                        <span class="tag default-tag">Education</span>
-                        <span class="tag default-tag">Work</span>
-                        <span class="tag default-tag">Family</span>
+                        <th:block th:each="tag, i: ${moment?.tags}">
+                            <span class="tag default-tag">[[${tag.name}]]</span>
+                        </th:block>
                     </p>
                 </div>
                 <div class="social">

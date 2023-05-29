@@ -1,6 +1,7 @@
 package pp.ua.lifebook.moments;
 
 
+import pp.ua.lifebook.tag.Tag;
 import pp.ua.lifebook.utils.DateUtils;
 
 import java.time.LocalDate;
@@ -12,6 +13,7 @@ public class Moment {
     private LocalDate date;
     private String description;
     private int userId;
+    private List<Tag> tags;
 
     public Moment() {}
 
@@ -61,6 +63,14 @@ public class Moment {
 
     public String getRawDate() {
         return date != null ? DateUtils.format(date) : "";
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     public static MomentBuilder builder() {

@@ -1,7 +1,7 @@
-function LoaderClass() {
-    var _loader = $('#loading');
-    var _inShowMode = false;
-    var _timerId = null;
+export function LoaderClass() {
+    let _loader = $('#loading');
+    let _inShowMode = false;
+    let _timerId = null;
 
     /**
      * Shows loader in singleton mode after 300 milliseconds after call

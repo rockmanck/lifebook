@@ -11,7 +11,7 @@
                 </th:block>
             </h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body ui-front">
             <form action="/moment/save.html" method="post">
                 <input type="hidden" th:value="${moment?.id}" name="id">
                 <input type="hidden" th:value="${moment?.rawDate}" id="momentDateRaw">
@@ -28,6 +28,28 @@
                 <div class="form-group">
                     <label for="momentDescription">[[${session.i18n.getString("momentDescriptionLabel")}]]</label>
                     <textarea name="description" id="momentDescription" rows="20" cols="78" style="resize: none;">[[${moment?.description}]]</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="momentTagSuggest">Tag</label>
+                    <input type="text" class="form-control" id="momentTagSuggest" name="tagSuggest" value="">
+                    <p class="tags">
+                        <th:block th:each="tag, i: ${moment?.tags}">
+                            <span class="tag default-tag">
+                                [[${tag.name}]]&nbsp;
+                                <span class="tag-remove" th:data-index="${i.index}">&times;</span>
+                            </span>
+                            <input class="tag-id"
+                                   type="hidden"
+                                   th:name="${'tags[' + i.index + '].value'}"
+                                   th:value="${tag.id}"
+                                   th:data-index="${i.index}"
+                            >
+                            <input type="hidden"
+                                   th:name="${'tags[' + i.index + '].label'}"
+                                   th:value="${tag.name}"
+                            >
+                        </th:block>
+                    </p>
                 </div>
             </form>
         </div>

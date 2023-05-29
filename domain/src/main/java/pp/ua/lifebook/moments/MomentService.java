@@ -14,7 +14,7 @@ public class MomentService {
         storage.save(moment);
     }
 
-    public Moment getMoment(int id) {
-        return storage.getById(id);
+    public Moment getMoment(int id, int userId) {
+        return storage.getById(id, userId);
     }
 }

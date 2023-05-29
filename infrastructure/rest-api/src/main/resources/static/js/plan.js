@@ -1,10 +1,16 @@
-function PlanClass() {
+import {Tagging} from "./tagging.js";
+import {LoaderClass} from "./loader.js";
+import {PlansListCollapseClass} from "./plansListCollapse.js";
+
+export function PlanClass() {
+    const Loader = new LoaderClass();
+    const PlansListCollapse = new PlansListCollapseClass();
 	let _self = this;
 	let sevenDays = 7 * 24 * 60 * 60 * 1000;
-    let tagIndex = -1;
+    let tagging;
 
 	this.loadDailyPlans = function() {
-		var date = $('#datepicker-daily').data('date');
+		const date = $('#datepicker-daily').data('date');
         Loader.show();
 		$.get('./items/daily.html?date=' + encodeURI(date), function (data) {
             Loader.hide();
@@ -14,7 +20,7 @@ function PlanClass() {
     };
 
     this.loadWeeklyPlans = function() {
-        var date = $('#datepicker-weekly').data('date');
+        const date = $('#datepicker-weekly').data('date');
         Loader.show();
         $.get('./items/weekly.html?date=' + encodeURI(date), function (data) {
             Loader.hide();
@@ -25,9 +31,9 @@ function PlanClass() {
 
     this.loadOverview = function() {
         Loader.show();
-        var monthAndYear = $('#monthPicker').data('date').split("/");
-        var year = monthAndYear[1];
-        var month = monthAndYear[0];
+        const monthAndYear = $('#monthPicker').data('date').split("/");
+        const year = monthAndYear[1];
+        const month = monthAndYear[0];
         $.get('./overview.html?year=' + year + '&month=' + month, function (data) {
             Loader.hide();
             $('#overviewContent').html(data);
@@ -39,15 +45,15 @@ function PlanClass() {
 	};
 
 	this.new = function(datePickerId, viewType) {
-		var dateVal = $('#' + datePickerId).data('date');
+		const dateVal = $('#' + datePickerId).data('date');
 		loadPlanById(-1, new Date(dateVal), viewType);
 	};
 
 	this.save = function() {
-		var planModal = $('#planModal');
-		var form = planModal.find('form');
-		var viewType = form.find('#viewType').val();
-		var data = form.serialize();
+		const planModal = $('#planModal');
+		const form = planModal.find('form');
+		const viewType = form.find('#viewType').val();
+		const data = form.serialize();
 		$.post(form.attr('action'), data).done(function () {
 			planModal.modal('hide');
 			switch (viewType) {
@@ -58,7 +64,7 @@ function PlanClass() {
 	};
 
 	this.done = function(id, viewType, day) {
-	    var container = PlansContainer.getContainer(viewType);
+	    const container = PlansContainer.getContainer(viewType);
 
 		$.post('./plan/' + id + '/done.html').done(function() {
             switch (viewType) {
@@ -69,7 +75,7 @@ function PlanClass() {
 	};
 
     this.cancel = function(id, viewType, day) {
-        var container = PlansContainer.getContainer(viewType);
+        const container = PlansContainer.getContainer(viewType);
 
         $.post('./plan/' + id + '/cancel.html').done(function() {
             switch (viewType) {
@@ -96,72 +102,13 @@ function PlanClass() {
             updateDueDate(form, defaultDate);
             form.modal({backdrop: 'static'});
             form.find('#viewType').val(viewType);
-            form.find('#tagSuggest').autocomplete({
-                source: "./tags/suggest",
-                minLength: 2,
-                select: function(event, ui) {
-                    addTag(form, ui.item);
-                },
-                close: function (event, ui) {
-                    document.getElementById('tagSuggest').value = '';
-                }
-            });
-            form.find('#tagSuggest').on( "autocompleteselect", function( event, ui ) {} );
-
-            tagIndex = -1;
-            form.find('.tag-id')
-                .each(function (i) {
-                    const index = $(this).data('index');
-                    if (index > tagIndex) {
-                        tagIndex = index;
-                    }
-                });
-
-            form.find('.tag-remove')
-                .on('click', function(e) {
-                    const target = $(this);
-                    const index = target.data('index');
-                    const input = $(
-                        '<input type="hidden" name="tags[' + index + '].removed" value="true">'
-                    );
-                    input.insertAfter(target.parent());
-                    target.parent().remove();
-                });
+            tagging = new Tagging(form, 'tagSuggest');
         });
     }
 
-    function addTag(form, item) {
-        let container = form.find('.tags');
-
-        tagIndex += 1;
-        let tagVisual = document.createElement('span');
-        tagVisual.setAttribute('class', 'tag default-tag');
-        tagVisual.innerText = (item.newTag ? "Create: " + item.label : item.label) + ' ';
-        container.append(tagVisual);
-
-        const tagRemove = document.createElement('span');
-        tagRemove.setAttribute('class', 'tag-remove');
-        tagRemove.innerHTML = '&times;';
-        tagRemove.setAttribute('onclick', 'Plan.removeTag(this);');
-        tagRemove.setAttribute('data-index', tagIndex);
-        tagVisual.append(tagRemove);
-
-        let tagIdHidden = document.createElement('input');
-        tagIdHidden.setAttribute('name', `tags[${tagIndex}].value`);
-        tagIdHidden.setAttribute('type', 'hidden');
-        tagIdHidden.setAttribute('value', item.newTag ? '' : `${item.value}`);
-        container.append(tagIdHidden);
-
-        let tagLabelHidden = document.createElement('input');
-        tagLabelHidden.setAttribute('name', `tags[${tagIndex}].label`);
-        tagLabelHidden.setAttribute('type', 'hidden');
-        tagLabelHidden.setAttribute('value', item.label);
-        container.append(tagLabelHidden);
-    }
-
     function updateDueDate(form, defaultDate) {
-        var dueDate = form.find('#planTimeRaw').val();
-        var date = dueDate !== '' ? new Date(dueDate) : defaultDate;
+        const dueDate = form.find('#planTimeRaw').val();
+        const date = dueDate !== '' ? new Date(dueDate) : defaultDate;
         form.find('#planTime').datetimepicker({
             minDate: new Date() - sevenDays,
             sideBySide: true,
@@ -170,7 +117,7 @@ function PlanClass() {
     }
 }
 
-function PlansContainerResolver() {
+export function PlansContainerResolver() {
     this.getContainer = function(viewType) {
         switch (viewType) {
             case 'ViewType.DAILY': return $('#dailyList');
@@ -180,5 +127,4 @@ function PlansContainerResolver() {
     }
 }
 
-var PlansContainer = new PlansContainerResolver();
-var Plan = new PlanClass();
+const PlansContainer = new PlansContainerResolver();

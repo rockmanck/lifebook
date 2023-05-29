@@ -9,5 +9,5 @@ public interface MomentStorage {
 
     List<Moment> getByDateRange(int userId, LocalDate start, LocalDate end);
 
-    Moment getById(int id);
+    Moment getById(int id, int userId);
 }

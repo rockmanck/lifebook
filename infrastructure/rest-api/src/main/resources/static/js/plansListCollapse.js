@@ -1,10 +1,14 @@
-function PlansListCollapseClass() {
+import {PlansContainerResolver} from "./plan.js";
+import {AnimationClass} from "./animation.js";
+
+export function PlansListCollapseClass() {
+    const animation = new AnimationClass();
 
     this.init = function(viewType) {
-        var container = PlansContainer.getContainer(viewType);
+        const container = new PlansContainerResolver().getContainer(viewType);
         container.find('.plans-day-strip').click(function () {
-            var dayBar = $(this);
-            var plansList = $(dayBar).next('div');
+            const dayBar = $(this);
+            const plansList = $(dayBar).next('div');
             if (dayBar.hasClass('expanded')) {
                 animation.hide(plansList, 150);
             } else {
@@ -16,13 +20,11 @@ function PlansListCollapseClass() {
     };
 
     this.cleanup = function (viewType, day) {
-        var container = PlansContainer.getContainer(viewType);
-        var strip = container.find('div[data-forDay="' + day + '"]');
-        var list = strip.next('div');
+        const container = new PlansContainerResolver().getContainer(viewType);
+        const strip = container.find('div[data-forDay="' + day + '"]');
+        const list = strip.next('div');
         if (list.has('li').length > 0) return;
 
         animation.remove(strip, 150);
     };
 }
-
-var PlansListCollapse = new PlansListCollapseClass();

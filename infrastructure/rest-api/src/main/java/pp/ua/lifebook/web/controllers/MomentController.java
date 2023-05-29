@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 import pp.ua.lifebook.moments.Moment;
 import pp.ua.lifebook.moments.MomentService;
+import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.web.config.security.SecurityUtil;
+import pp.ua.lifebook.web.moment.MomentDto;
+import pp.ua.lifebook.web.moment.MomentDtoMapper;
 
 @RequestMapping("/moment")
 @Controller
@@ -23,13 +26,16 @@ public class MomentController {
 
     @PostMapping("/save.html")
     @ResponseStatus(HttpStatus.OK)
-    public void savePlan(@ModelAttribute Moment moment) {
-        momentService.save(moment, SecurityUtil.getUser().user());
+    public void saveMoment(@ModelAttribute MomentDto dto) {
+        final User user = SecurityUtil.getUser().user();
+        final Moment moment = MomentDtoMapper.toDomain(dto, user.getId());
+        momentService.save(moment, user);
     }
 
     @RequestMapping("/{id}/edit.html")
     public ModelAndView editPlan(@PathVariable int id) {
-        final Moment moment = momentService.getMoment(id);
+        final Integer userId = SecurityUtil.getUser().user().getId();
+        final Moment moment = momentService.getMoment(id, userId);
         return new ModelAndView("momentForm")
             .addObject("moment", moment);
     }

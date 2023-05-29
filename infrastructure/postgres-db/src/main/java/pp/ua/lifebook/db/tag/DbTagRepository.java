@@ -6,6 +6,7 @@ import pp.ua.lifebook.storage.db.scheme.tables.records.TagRecord;
 import pp.ua.lifebook.tag.Tag;
 import pp.ua.lifebook.tag.port.TagRepositoryPort;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,6 +31,23 @@ public class DbTagRepository implements TagRepositoryPort {
             .map(DbTagMapper::toDomainTag)
             .sorted(startWithFirstAndAlphabetically(term))
             .collect(Collectors.toList());
+    }
+
+    @Override
+    public Collection<Tag> create(Collection<Tag> tags, int userId) {
+        return tags.stream()
+            .map(t -> {
+                if (t.id() == null && !t.removed()) {
+                    Integer tagId = dsl.insertInto(TAG, TAG.NAME, TAG.USER_ID)
+                        .values(t.name(), userId)
+                        .returningResult(TAG.ID)
+                        .fetchOne()
+                        .getValue(TAG.ID);
+                    return new Tag(tagId, userId, t.name());
+                } else {
+                    return t;
+                }
+            }).collect(Collectors.toSet());
     }
 
     private static Comparator<Tag> startWithFirstAndAlphabetically(String term) {

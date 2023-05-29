@@ -1,5 +1,16 @@
-var UserSettings;
-var Loader;
+import {UserSettingsClass} from "./user-settings.js";
+import {LoaderClass} from "./loader.js";
+import {PlansListCollapseClass} from "./plansListCollapse.js";
+import {PlanClass} from "./plan.js";
+import {MomentClass} from "./moment.js";
+import {ListsClass} from "./lists.js";
+
+window.Plan = new PlanClass();
+window.Moment = new MomentClass();
+window.Lists = new ListsClass();
+let UserSettings;
+let Loader;
+const PlansListCollapse = new PlansListCollapseClass();
 
 $(document).ready(function(){
 	$('.nav-tabs a').on('shown.bs.tab', function(event) {
@@ -60,8 +71,8 @@ $(document).ready(function(){
 
     UserSettings = new UserSettingsClass();
     Loader = new LoaderClass();
-    PlansListCollapse.init('ViewType.DAILY');
-    PlansListCollapse.init('ViewType.WEEKLY');
+	PlansListCollapse.init('ViewType.DAILY');
+	PlansListCollapse.init('ViewType.WEEKLY');
 });
 
 var ViewType = Object.freeze({

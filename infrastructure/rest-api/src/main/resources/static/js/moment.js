@@ -1,18 +1,22 @@
-function MomentClass() {
+import {Tagging} from "./tagging.js";
+
+export function MomentClass() {
+    let tagging;
+
     this.edit = function(id, viewType) {
         loadMomentById(id,  new Date(), viewType);
     };
 
     this.new = function(datePickerId, viewType) {
-        var dateVal = $('#' + datePickerId).data('date');
+        const dateVal = $('#' + datePickerId).data('date');
         loadMomentById(-1, new Date(dateVal), viewType);
     };
 
     this.save = function() {
-        var momentModal = $('#momentModal');
-        var form = momentModal.find('form');
-        var viewType = form.find('#viewType').val();
-        var data = form.serialize();
+        const momentModal = $('#momentModal');
+        const form = momentModal.find('form');
+        const viewType = form.find('#viewType').val();
+        const data = form.serialize();
         $.post(form.attr('action'), data).done(function () {
             momentModal.modal('hide');
             switch (viewType) {
@@ -24,21 +28,20 @@ function MomentClass() {
 
     function loadMomentById(id, defaultDate, viewType) {
         $.get('./moment/' + id + '/edit.html', function (data) {
-            var form = $('#momentModal');
+            const form = $('#momentModal');
             form.html(data);
             updateDate(form, defaultDate);
             form.modal({backdrop: 'static'});
             form.find('#viewType').val(viewType);
+            tagging = new Tagging(form, 'momentTagSuggest');
         });
     }
 
     function updateDate(form, defaultDate) {
-        var dueDate = form.find('#momentDateRaw').val();
-        var date = dueDate !== '' ? new Date(dueDate) : defaultDate;
+        const dueDate = form.find('#momentDateRaw').val();
+        const date = dueDate !== '' ? new Date(dueDate) : defaultDate;
         form.find('#momentDate').datetimepicker({
             format: 'MM/DD/YYYY'
         }).data("DateTimePicker").date(date);
     }
 }
-
-var Moment = new MomentClass();

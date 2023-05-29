@@ -1,17 +1,17 @@
-function UserSettingsClass() {
-    var _weekly = $('#view-options-weekly');
-    var _daily = $('#view-options-daily');
-    var _weeklyCheckboxes = _weekly.find('input');
-    var _dailyCheckboxes = _daily.find('input');
+export function UserSettingsClass() {
+    const _weekly = $('#view-options-weekly');
+    const _daily = $('#view-options-daily');
+    const _weeklyCheckboxes = _weekly.find('input');
+    const _dailyCheckboxes = _daily.find('input');
 
-    var _syncMode = false;
-    var _syncHref = './updateUserSettings.html';
-    var _checkedStates = {
+    const _syncHref = './updateUserSettings.html';
+    const _checkedStates = {
         SHOW_OUTDATED: false,
         SHOW_DONE: false,
         SHOW_CANCELED: false
     };
-    var _selectedTab;
+    let _syncMode = false;
+    let _selectedTab;
 
     init();
 

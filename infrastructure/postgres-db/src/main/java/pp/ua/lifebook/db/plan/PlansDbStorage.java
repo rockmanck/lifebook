@@ -1,16 +1,17 @@
 package pp.ua.lifebook.db.plan;
 
 import org.jooq.DSLContext;
-import org.json.JSONArray;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import pp.ua.lifebook.db.sqlbuilder.DynamicSqlBuilder;
+import pp.ua.lifebook.db.tag.DbTagUtil;
 import pp.ua.lifebook.plan.Category;
 import pp.ua.lifebook.plan.Plan;
 import pp.ua.lifebook.plan.PlanStatus;
 import pp.ua.lifebook.plan.RepeatType;
 import pp.ua.lifebook.plan.port.PlansStoragePort;
 import pp.ua.lifebook.tag.Tag;
+import pp.ua.lifebook.tag.port.TagRepositoryPort;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.parameters.ViewOption;
 import pp.ua.lifebook.utils.DateUtils;
@@ -22,12 +23,12 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static pp.ua.lifebook.storage.db.scheme.Tables.PLANS;
 import static pp.ua.lifebook.storage.db.scheme.Tables.TAG;
@@ -37,10 +38,16 @@ public class PlansDbStorage implements PlansStoragePort {
     private final DynamicSqlBuilder sqlBuilder = new DynamicSqlBuilder();
     private final JdbcTemplate jdbc;
     private final DSLContext dslContext;
+    private final TagRepositoryPort tagRepositoryPort;
 
-    public PlansDbStorage(DataSource dataSource, DSLContext dslContext) {
+    public PlansDbStorage(
+        DataSource dataSource,
+        DSLContext dslContext,
+        TagRepositoryPort tagRepositoryPort
+    ) {
         this.jdbc = new JdbcTemplate(dataSource);
         this.dslContext = dslContext;
+        this.tagRepositoryPort = tagRepositoryPort;
     }
 
     @Override
@@ -139,21 +146,8 @@ public class PlansDbStorage implements PlansStoragePort {
         plan.setRepeated(RepeatType.byCode(rs.getString("repeated")));
         plan.setOutdated(rs.getBoolean("outdated"));
         Array rsArray = rs.getArray("tags");
-        plan.setTags(toTags(rsArray, userId));
+        plan.setTags(DbTagUtil.toTags(rsArray, userId));
         return plan;
-    }
-
-    private List<Tag> toTags(Array array, int userId) throws SQLException {
-        if (array == null) {
-            return List.of();
-        }
-
-        return Stream.of((String[]) array.getArray())
-            .map(e -> {
-                JSONArray values = new JSONArray(e);
-                return new Tag(values.getInt(0), userId, values.getString(1));
-            })
-            .toList();
     }
 
     private Category category(ResultSet rs) throws SQLException {
@@ -169,7 +163,7 @@ public class PlansDbStorage implements PlansStoragePort {
     }
 
     private void saveTags(Set<Tag> tags, Integer userId, Integer planId) {
-        Set<Tag> updatedTags = createNewTags(tags, userId);
+        Collection<Tag> updatedTags = tagRepositoryPort.create(tags, userId);
 
         // firstly remove to make sure re-added tags during edit will be saved
         updatedTags.stream()

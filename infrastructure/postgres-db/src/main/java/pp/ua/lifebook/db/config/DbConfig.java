@@ -43,13 +43,21 @@ public class DbConfig {
     }
 
     @Bean
-    public PlansStoragePort plansJdbc(DataSource dataSource, DSLContext dslContext) {
-        return new PlansDbStorage(dataSource, dslContext);
+    public PlansStoragePort plansJdbc(
+        DataSource dataSource,
+        DSLContext dslContext,
+        TagRepositoryPort tagRepositoryPort
+    ) {
+        return new PlansDbStorage(dataSource, dslContext, tagRepositoryPort);
     }
 
     @Bean
-    public MomentStorage momentStorage(DataSource dataSource) {
-        return new MomentDbStorage(dataSource);
+    public MomentStorage momentStorage(
+        DataSource dataSource,
+        DSLContext dslContext,
+        TagRepositoryPort tagRepositoryPort
+    ) {
+        return new MomentDbStorage(dataSource, dslContext, tagRepositoryPort);
     }
 
     @Bean

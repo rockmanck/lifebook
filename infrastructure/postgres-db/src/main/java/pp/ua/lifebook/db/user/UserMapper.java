@@ -5,16 +5,20 @@ import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.parameters.Language;
 
 class UserMapper {
-    static User from(UsersRecord record) {
+    private UserMapper() {
+        throw new UnsupportedOperationException("It is not allowed to create instance of this class");
+    }
+
+    static User from(UsersRecord user) {
         return User.builder()
-            .setId(record.getId())
-            .setLogin(record.getLogin())
-            .setPassword(record.getPassword())
-            .setEmail(record.getEmail())
-            .setAdmin(record.getIsAdmin() != null ? record.getIsAdmin() : false)
-            .setFirstName(record.getFirstName())
-            .setLastName(record.getLastName())
-            .setLanguage(Language.byCode(record.getLanguage()))
+            .setId(user.getId())
+            .setLogin(user.getLogin())
+            .setPassword(user.getPassword())
+            .setEmail(user.getEmail())
+            .setAdmin(user.getIsAdmin() != null ? user.getIsAdmin() : false)
+            .setFirstName(user.getFirstName())
+            .setLastName(user.getLastName())
+            .setLanguage(user.getLanguage() != null ? Language.byCode(user.getLanguage()) : Language.EN)
             .createUser();
     }
 }

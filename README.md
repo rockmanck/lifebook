@@ -94,6 +94,7 @@ Make sure application.war located in ~/app folder.
 * Generate certificate
     * run `sudo openssl req -new -newkey rsa:2048 -nodes -out <filename.csr> -keyout <private.key> -subj "/C=ua/ST=<state>/L=<city>/O=<org name>/CN=<domain>/emailAddress=<email>"` in target folder
     * copy .csr content, paste into SSL provider and generate .crt file
+    * (depends on SSL provider) validate domain ownership by uploading txt file to specific root (temp disable apache proxy configs in /etc/apache2/sites-available/000-default.conf)
     * upload .crt file to VM
 * Create params file
 ```shell

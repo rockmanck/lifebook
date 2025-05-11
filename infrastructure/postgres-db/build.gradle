@@ -36,6 +36,16 @@ dependencies {
 
     testImplementation "org.junit.jupiter:junit-jupiter:${junit5_version}"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:${junit5_version}"
+
+    // Testcontainers for integration testing
+    testImplementation libs.testcontainers
+    testImplementation "org.testcontainers:postgresql:${testcontainersVersion}"
+
+    // AssertJ for fluent assertions
+    testImplementation libs.assertJ
+
+    // Include db-migrations for Flyway migrations
+    testImplementation project(':db-migrations')
 }
 
 ext['jooq.version'] = "${jooq_version}"

@@ -4,15 +4,19 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang3.StringUtils;
 import org.jooq.DSLContext;
-import pp.ua.lifebook.storage.db.scheme.Tables;
 import pp.ua.lifebook.storage.db.scheme.tables.records.UsersRecord;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.UsersStorage;
 import pp.ua.lifebook.user.parameters.DefaultTab;
+import pp.ua.lifebook.user.parameters.UserSettings;
 import pp.ua.lifebook.user.parameters.ViewOption;
 
 import javax.sql.DataSource;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
+
+import static pp.ua.lifebook.storage.db.scheme.Tables.USERS;
+import static pp.ua.lifebook.storage.db.scheme.Tables.USER_SETTINGS;
 
 public class UsersDbStorage implements UsersStorage {
     private final UsersJdbc usersJdbc;
@@ -75,7 +79,33 @@ public class UsersDbStorage implements UsersStorage {
      */
     @Override
     public void addUser(User user) {
-        // TODO add new user to db
+        if (user.getId() != null) throw new UserDuplicate();
+
+        final int userId = dslContext.insertInto(
+                        USERS,
+                        USERS.LOGIN,
+                        USERS.PASSWORD,
+                        USERS.FIRST_NAME,
+                        USERS.LAST_NAME,
+                        USERS.EMAIL
+                )
+                .values(user.getLogin(), user.getPassword(), user.getFirstName(), user.getLastName(), user.getEmail())
+                .returningResult(USERS.ID)
+                .fetchOne()
+                .getValue(USERS.ID);
+
+        final UserSettings userSettings = user.getUserSettings();
+        dslContext.insertInto(
+                        USER_SETTINGS,
+                        USER_SETTINGS.USER_ID,
+                        USER_SETTINGS.DEFAULT_TAB,
+                        USER_SETTINGS.VIEW_OPTIONS
+                ).values(
+                        userId,
+                        userSettings.getDefaultTab().name(),
+                        getViewOptionsAsString(userSettings.getViewOptions())
+                )
+                .execute();
 
         putToCache(UserKey.forUser(user), user);
     }
@@ -83,8 +113,8 @@ public class UsersDbStorage implements UsersStorage {
     @Override
     public User findByLogin(String login) {
         UsersRecord user = dslContext.select()
-            .from(Tables.USERS)
-            .where(Tables.USERS.LOGIN.eq(login))
+            .from(USERS)
+            .where(USERS.LOGIN.eq(login))
             .fetchOne()
             .into(UsersRecord.class);
         return user != null ? UserMapper.from(user) : null;
@@ -116,6 +146,13 @@ public class UsersDbStorage implements UsersStorage {
 
     private boolean isPresentInCache(UserKey key) {
         return authorizationCache.getIfPresent(key) != null;
+    }
+
+    private static String getViewOptionsAsString(Set<ViewOption> options) {
+        if (options == null || options.isEmpty()) {
+            return "";
+        }
+        return options.toString();
     }
 
     public static class EmptyLogin extends RuntimeException {}

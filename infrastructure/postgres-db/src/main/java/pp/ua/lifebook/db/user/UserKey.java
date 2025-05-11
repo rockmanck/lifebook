@@ -2,6 +2,8 @@ package pp.ua.lifebook.db.user;
 
 import pp.ua.lifebook.user.User;
 
+import java.util.Objects;
+
 final class UserKey {
     final String login;
     final String password;
@@ -27,8 +29,6 @@ final class UserKey {
     }
 
     @Override public int hashCode() {
-        int result = login.hashCode();
-        result = 31 * result + password.hashCode();
-        return result;
+        return Objects.hash(login, password);
     }
 }

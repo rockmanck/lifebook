@@ -32,7 +32,7 @@ public class UsersDbStorage implements UsersStorage {
     }
 
     /**
-     * Updates view option in {@code user} and saves them into database.
+     * Updates a view option in {@code user} and saves them into a database.
      * @param options {@link ViewOption} values joined by ','
      * @param defaultTab
      */
@@ -52,7 +52,7 @@ public class UsersDbStorage implements UsersStorage {
      */
     @Override
     public boolean isAuthorized(String login, String password) {
-        if (!isValidLogin(login)) throw new EmptyLogin();
+        if (isNotValidLogin(login)) throw new EmptyLogin();
         final User user = authorizationCache.getIfPresent(new UserKey(login, password));
         return user != null;
     }
@@ -64,7 +64,7 @@ public class UsersDbStorage implements UsersStorage {
      */
     @Override
     public User getUser(String login, String password) {
-        if (!isValidLogin(login)) throw new EmptyLogin();
+        if (isNotValidLogin(login)) throw new EmptyLogin();
 
         final User user = getFromCacheOrLoadFromDb(login, password);
 
@@ -74,8 +74,7 @@ public class UsersDbStorage implements UsersStorage {
     }
 
     /**
-     * Creates new user record in database
-     * @param user
+     * Creates new user record in a database
      */
     @Override
     public void addUser(User user) {
@@ -120,8 +119,8 @@ public class UsersDbStorage implements UsersStorage {
         return user != null ? UserMapper.from(user) : null;
     }
 
-    private boolean isValidLogin(String login) {
-        return !StringUtils.isEmpty(login);
+    private boolean isNotValidLogin(String login) {
+        return StringUtils.isEmpty(login);
     }
 
     private void putToCache(UserKey key, User value) {

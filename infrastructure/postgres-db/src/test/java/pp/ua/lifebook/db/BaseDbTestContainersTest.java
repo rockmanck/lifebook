@@ -10,6 +10,9 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import pp.ua.lifebook.db.user.UsersDbStorage;
+import pp.ua.lifebook.user.User;
+import pp.ua.lifebook.user.parameters.DefaultTab;
+import pp.ua.lifebook.user.parameters.UserSettings;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -48,6 +51,8 @@ public class BaseDbTestContainersTest {
                 .load()
                 .migrate();
         usersDbStorage = new UsersDbStorage(dslContext.dsl().parsingDataSource(), dslContext);
+
+        createFirstUserInDb();
     }
 
     @AfterAll
@@ -55,5 +60,21 @@ public class BaseDbTestContainersTest {
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }
+    }
+
+    private static void createFirstUserInDb() {
+        final var user = User.builder()
+                .setLogin("First User")
+                .setPassword("123")
+                .setUserSettings(getUserSettings())
+                .createUser();
+
+        usersDbStorage.addUser(user);
+    }
+
+    protected static UserSettings getUserSettings() {
+        final var settings = new UserSettings();
+        settings.setDefaultTab(DefaultTab.DAILY);
+        return settings;
     }
 }

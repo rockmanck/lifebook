@@ -22,16 +22,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.*;
 
 import static pp.ua.lifebook.storage.db.scheme.Tables.PLANS;
-import static pp.ua.lifebook.storage.db.scheme.Tables.TAG;
 import static pp.ua.lifebook.storage.db.scheme.Tables.TAG_PLAN_RELATION;
 
 public class PlansDbStorage implements PlansStoragePort {
@@ -165,7 +158,7 @@ public class PlansDbStorage implements PlansStoragePort {
     private void saveTags(Set<Tag> tags, Integer userId, Integer planId) {
         Collection<Tag> updatedTags = tagRepositoryPort.create(tags, userId);
 
-        // firstly remove to make sure re-added tags during edit will be saved
+        // first remove to make sure re-added tags during the edit will be saved
         updatedTags.stream()
             .filter(Tag::removed)
             .forEach(tag -> dslContext.delete(TAG_PLAN_RELATION)
@@ -178,21 +171,5 @@ public class PlansDbStorage implements PlansStoragePort {
                 .values(planId, tag.id())
                 .onConflictDoNothing()
                 .execute());
-    }
-
-    private Set<Tag> createNewTags(Set<Tag> tags, Integer userId) {
-        return tags.stream()
-            .map(t -> {
-                if (t.id() == null && !t.removed()) {
-                    Integer tagId = dslContext.insertInto(TAG, TAG.NAME, TAG.USER_ID)
-                        .values(t.name(), userId)
-                        .returningResult(TAG.ID)
-                        .fetchOne()
-                        .getValue(TAG.ID);
-                    return new Tag(tagId, userId, t.name());
-                } else {
-                    return t;
-                }
-            }).collect(Collectors.toSet());
     }
 }

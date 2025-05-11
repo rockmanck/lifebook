@@ -6,6 +6,7 @@ import pp.ua.lifebook.tag.port.TagRepositoryPort;
 import java.util.List;
 
 public class TagService {
+    private static final int TOP_POPULAR_TAGS = 20;
     private final TagRepositoryPort tagRepositoryPort;
 
     public TagService(TagRepositoryPort tagRepositoryPort) {
@@ -14,7 +15,7 @@ public class TagService {
 
     public List<Tag> search(int userId, String term) {
         if (StringUtils.isEmpty(term) || StringUtils.isEmpty(term.trim())) {
-            return List.of();
+            return tagRepositoryPort.mostPopular(userId, TOP_POPULAR_TAGS);
         }
         List<Tag> result = tagRepositoryPort.search(userId, term.toLowerCase());
         return appendNewTagSuggestion(result, userId, term);

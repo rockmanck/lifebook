@@ -8,4 +8,5 @@ import java.util.List;
 public interface TagRepositoryPort {
     List<Tag> search(int userId, String term);
     Collection<Tag> create(Collection<Tag> tags, int userId);
+    List<Tag> mostPopular(int userId, int limit);
 }

@@ -3,15 +3,21 @@ export class Tagging {
 
     constructor(form, suggestInputId) {
         const self = this;
-        form.find(`#${suggestInputId}`).autocomplete({
+        const tagInput = form.find(`#${suggestInputId}`);
+        tagInput.autocomplete({
             source: "./tags/suggest",
-            minLength: 2,
+            minLength: 0,
             select: function(event, ui) {
                 self.#addTag(form, ui.item);
             },
             close: function (event, ui) {
                 document.getElementById(suggestInputId).value = '';
             }
+        });
+
+        // Add focus event to show all suggestions when the input field gets focus
+        tagInput.on('focus', function() {
+            $(this).autocomplete("search", "");
         });
 
         this.#tagIndex = -1;

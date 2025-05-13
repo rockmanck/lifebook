@@ -148,6 +148,7 @@ public class Plan {
         private Category category;
         private User user;
         private boolean isOutdated = false;
+        private List<Tag> tags;
 
         private PlanBuilder() {
             // hide public constructor
@@ -198,8 +199,15 @@ public class Plan {
             return this;
         }
 
+        public PlanBuilder setTags(List<Tag> tags) {
+            this.tags = tags;
+            return this;
+        }
+
         public Plan createPlan() {
-            return new Plan(id, title, dueDate, repeated, comments, status, category, user, isOutdated);
+            final Plan plan = new Plan(id, title, dueDate, repeated, comments, status, category, user, isOutdated);
+            plan.setTags(tags);
+            return plan;
         }
     }
 }

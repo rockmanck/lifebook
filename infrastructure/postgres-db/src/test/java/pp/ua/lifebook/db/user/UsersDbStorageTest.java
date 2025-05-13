@@ -1,14 +1,11 @@
 package pp.ua.lifebook.db.user;
 
-import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pp.ua.lifebook.db.BaseDbTestContainersTest;
 import pp.ua.lifebook.user.User;
 import pp.ua.lifebook.user.UsersStorage;
-import pp.ua.lifebook.user.parameters.DefaultTab;
-import pp.ua.lifebook.user.parameters.UserSettings;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -77,16 +74,11 @@ class UsersDbStorageTest extends BaseDbTestContainersTest {
         final User foundUser = usersDbStorage.findByLogin("test");
 
         // Then
+        var expecteUserId = 2;
         assertThat(foundUser)
                 .isNotNull()
                 .extracting(User::getLogin, User::getPassword, User::getId)
-                .containsExactly("test", "", userId);
-    }
-
-    private static @NotNull UserSettings getUserSettings() {
-        final var settings = new UserSettings();
-        settings.setDefaultTab(DefaultTab.DAILY);
-        return settings;
+                .containsExactly("test", "", expecteUserId);
     }
 
     private UsersStorage usersManager() {

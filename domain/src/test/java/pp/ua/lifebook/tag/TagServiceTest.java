@@ -21,14 +21,24 @@ class TagServiceTest {
     private final RepositorySpy spy = new RepositorySpy();
     private final TagService sut = new TagService(spy);
 
-    @DisplayName("When term is null or empty Then return empty list")
+    @DisplayName("When term is null or empty Then return most popular tags")
     @ParameterizedTest(name = "#{index} - term = [{0}]")
     @NullSource
     @ValueSource(strings = {"", " "})
     void emptyTerm(String term) {
+        // Given
+        spy.expectedMostPopularTags = List.of(
+                aTag(userId, "popular"),
+                aTag(userId, "popular2"),
+                aTag(userId, "popular3")
+        );
+
+        // When
         List<Tag> result = sut.search(userId, term);
-        assertThat(result).isEmpty();
-        assertThat(spy.repositoryInvoked).isFalse();
+
+        // Then
+        assertThat(spy.repositoryInvoked).isTrue();
+        assertThat(result).isEqualTo(spy.expectedMostPopularTags);
     }
 
     @Test
@@ -57,6 +67,14 @@ class TagServiceTest {
     }
 
     private static class RepositorySpy implements TagRepositoryPort {
+        List<Tag> expectedMostPopularTags = List.of();
+
+        @Override
+        public List<Tag> mostPopular(int userId, int limit) {
+            repositoryInvoked = true;
+            return expectedMostPopularTags;
+        }
+
         private boolean repositoryInvoked = false;
         private List<Tag> stub = List.of();
 

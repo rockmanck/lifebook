@@ -8,7 +8,7 @@ PostgreSQL and Apache2 servers are installed on VM.
 ### How to deploy
 * SSH to server
 * Pull new version to `/home/<user>/lifebook` via `git pull`
-* Build `./gradlew build`
+* Build `./gradlew build -x app-quarkus:build --rerun-tasks`
 * `sudo systemctl stop lifebook`
 * Copy .war file to `/home/<user>/app`
 * `sudo systemctl start lifebook`

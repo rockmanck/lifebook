@@ -48,7 +48,6 @@ jobs:
           generate-branches-badge: true
           jacoco-csv-file: >
             application/build/reports/jacoco/test/jacocoTestReport.csv
-            app-quarkus/build/jacoco-report/jacoco.csv
             domain/build/reports/jacoco/test/jacocoTestReport.csv
             infrastructure/postgres-db/build/reports/jacoco/test/jacocoTestReport.csv
       - name: Log coverage percentage

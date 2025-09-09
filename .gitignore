@@ -9,12 +9,16 @@ hs_err_pid*
 build/
 !gradle-wrapper.jar
 *.log
+**/bin/*
 
 ### IDEA ###
 .idea/
 out/
 *.iml
 classes
+
+### vscode ###
+.vscode/
 
 ### OSX ###
 *.DS_Store
